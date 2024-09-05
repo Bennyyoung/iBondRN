@@ -1,13 +1,21 @@
-// Need to use the React-specific entry point to import createApi
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import { getBaseUrl } from '@/redux/service/baseUrl';
+import { RootState } from '@/redux/store';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-// Define a service using a base URL and expected endpoints
-export const authApi = createApi({
-  reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({baseUrl: ''}),
-  endpoints: builder => ({}),
+const baseQuery = fetchBaseQuery({
+  baseUrl: getBaseUrl('baseurl'),
+  prepareHeaders: (headers, { getState }) => {
+    const accessToken = (getState() as RootState).user.token;
+    if (accessToken) {
+      headers.set('Authorization', `Bearer ${accessToken}`);
+    }
+    return headers;
+  },
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
-export const {} = authApi;
+export const api = createApi({
+  baseQuery,
+  endpoints: () => ({}),
+  reducerPath: 'iBondMobile',
+  tagTypes: ['iBondMobile'],
+});
