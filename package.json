@@ -17,7 +17,8 @@
     "clean-a": "watchman watch-del-all && cd android && chmod +x gradlew && ./gradlew clean && cd ..",
     "assemble": "cd android && ./gradlew assembleRelease && cd ..",
     "bundle:android": "npx react-native bundle --dev false --platform android  --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res",
-    "preassemble": "cd android && ./gradlew clean"
+    "preassemble": "cd android && ./gradlew clean",
+    "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install && cd .."
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.6.4",
