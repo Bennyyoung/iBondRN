@@ -1,13 +1,14 @@
-import {combineReducers} from 'redux';
-import authReducer from './features/auth/authSlice';
-import {authApi} from './features/rtkQuery/authApi';
+import { combineReducers } from '@reduxjs/toolkit';
+import authSlice from './features/auth/slices';
+import { api } from './features/rtkQuery/authApi';
 
 const rootReducer = combineReducers({
   // Add your regular slice reducers
-  [authReducer.name]: authReducer,
+  [authSlice.name]: authSlice,
+  user: authSlice,
 
   // Add RTK Query reducers
-  [authApi.reducerPath]: authApi.reducer,
+  [api.reducerPath]: api.reducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
