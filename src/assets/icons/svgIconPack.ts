@@ -10,6 +10,6 @@ const svgIconPack = {
   googleIcon,
 };
 
-export {svgIconPack};
+export { svgIconPack };
 
 export type SvgIconPackType = keyof typeof svgIconPack;

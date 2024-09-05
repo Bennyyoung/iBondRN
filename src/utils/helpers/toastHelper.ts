@@ -1,5 +1,5 @@
-import {showMessage} from 'react-native-flash-message';
-import {Colors} from '../../constants/colors.constants';
+import { showMessage } from 'react-native-flash-message';
+import { Colors } from '../../constants/colors.constants';
 
 export const showErrorToast = (message: string, options = {}) => {
   showMessage({

@@ -1,9 +1,9 @@
-import React, {FC} from 'react';
-import {Image, ImageProps} from 'react-native';
+import React, { FC } from 'react';
+import { Image, ImageProps } from 'react-native';
 
-import {Theme, useTheme} from '@/constants/theme';
+import { Theme, useTheme } from '@/constants/theme';
 
-import {imageIconPack, ImageIconPackType} from './imageIconPack';
+import { imageIconPack, ImageIconPackType } from './imageIconPack';
 
 export type ImageIconProps = {
   name: ImageIconPackType;
@@ -15,7 +15,7 @@ export type ImageIconProps = {
 };
 
 const ImageIcon: FC<ImageIconProps> = props => {
-  const {name, source, style, imageProps, size = 'sm', color} = props;
+  const { name, source, style, imageProps, size = 'sm', color } = props;
 
   const theme = useTheme();
 
@@ -40,4 +40,4 @@ const ImageIcon: FC<ImageIconProps> = props => {
   );
 };
 
-export {ImageIcon};
+export { ImageIcon };

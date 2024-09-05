@@ -3,6 +3,6 @@ const imageIconPack = {
   eyeOpen: require('@/assets/images/eye-opened.png'),
 };
 
-export {imageIconPack};
+export { imageIconPack };
 
 export type ImageIconPackType = keyof typeof imageIconPack;

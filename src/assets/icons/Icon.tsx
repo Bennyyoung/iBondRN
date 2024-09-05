@@ -1,17 +1,17 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 
-import Box, {BoxProps} from '@/components/Box';
+import Box, { BoxProps } from '@/components/Box';
 
-import {ImageIcon, ImageIconProps} from './ImageIcon';
+import { ImageIcon, ImageIconProps } from './ImageIcon';
 
 export type IconProps = ImageIconProps & {
   containerProps?: BoxProps;
 };
 
-const Icon: FC<IconProps> = ({containerProps, ...rest}) => (
+const Icon: FC<IconProps> = ({ containerProps, ...rest }) => (
   <Box {...containerProps}>
     <ImageIcon size="sm" {...rest} />
   </Box>
 );
 
-export {Icon};
+export { Icon };

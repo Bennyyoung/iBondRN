@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import ExclamationIcon from "@/assets/svg/exclamation.svg";
-import { Box, Text } from "@/components/";
+import ExclamationIcon from '@/assets/svg/exclamation.svg';
+import { Box, Text } from '@/components/';
 
-import SrfValue from "../../utils/srfValue";
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface ErrorMessageProps {
   text: string;
@@ -12,7 +12,7 @@ interface ErrorMessageProps {
 function ErrorMessage({ text }: ErrorMessageProps) {
   return (
     <Box alignItems="center" flexDirection="row">
-      <ExclamationIcon height={SrfValue(14)} width={SrfValue(14)} />
+      <ExclamationIcon height={RFValue(14)} width={RFValue(14)} />
       <Text color="error" marginLeft="xs" variant="regular14">
         {text}
       </Text>

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 function useRefreshByUser(refetch: () => Promise<unknown>) {
   const [isRefetchingByUser, setIsRefetchingByUser] = useState(false);

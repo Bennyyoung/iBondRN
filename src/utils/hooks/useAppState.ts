@@ -1,5 +1,5 @@
-import {useEffect} from 'react';
-import {AppState, AppStateStatus} from 'react-native';
+import { useEffect } from 'react';
+import { AppState, AppStateStatus } from 'react-native';
 
 function useAppState(onChange: (status: AppStateStatus) => void) {
   useEffect(() => {
