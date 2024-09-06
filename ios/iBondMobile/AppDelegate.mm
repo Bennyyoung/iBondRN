@@ -1,6 +1,7 @@
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
+#import "RNSplashScreen.h"
 
 @implementation AppDelegate
 
@@ -26,6 +27,13 @@
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+
+- (void)customizeRootView:(UIView *)rootView {
+  [super customizeRootView:rootView];
+  
+  // Initialize the splash screen
+  [RNSplashScreen show];
 }
 
 @end
