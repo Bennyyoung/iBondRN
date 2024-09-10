@@ -1,16 +1,23 @@
 /* eslint-disable react-native/no-inline-styles */
-import Box from '@/components/Box';
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import {
+  Animated,
+  Dimensions,
+  ViewToken,
+  FlatList,
+  StatusBar,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Box from '@/components/Box';
 import slides from './files/slides';
 import OnboardingItem from './components/OnboardingItem';
-import { FlatList, Animated, Dimensions, ViewToken } from 'react-native';
 import Paginator from './components/Paginator';
+import { CustomButton } from '@/components/CustomButton';
 import { ImageBackground } from '@/components/ImageBackground';
 import background from '@/assets/images/bg-image.png';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CustomButton } from '@/components/CustomButton';
+import { useNavigation } from '@react-navigation/native';
 
-const { height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const viewedOnboarding = async () => {
   try {
@@ -20,17 +27,18 @@ const viewedOnboarding = async () => {
 
 const Onboarding = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
-  const slidesRef = useRef(null);
+  const slidesRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [completeOnboarding, setCompleteOnboarding] = useState(false);
+  const navigation = useNavigation();
 
   const viewableItemsChanged = useCallback(
-    ({ viewableItems }: { viewableItems: ViewToken[] | null }) => {
+    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
       if (viewableItems && viewableItems.length > 0) {
         setCurrentIndex(viewableItems[0].index!);
       }
     },
-    [setCurrentIndex],
+    [],
   );
 
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
@@ -44,50 +52,57 @@ const Onboarding = () => {
   }, [currentIndex, completeOnboarding]);
 
   return (
-    <Box alignItems="center" flex={1} justifyContent="center">
+    <Box flex={1}>
+      <StatusBar translucent backgroundColor="transparent" />
       <ImageBackground
-        height={height}
-        resizeMode="cover"
         source={background}
-        style={{
-          alignItems: 'center',
-          flex: 1,
-          backgroundColor: '#6500E0',
-          justifyContent: 'center',
-        }}>
-        <Box flex={3}>
-          <FlatList
-            bounces={false}
-            data={slides}
-            horizontal
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => <OnboardingItem item={item} />}
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-              {
-                useNativeDriver: false,
-              },
-            )}
-            scrollEventThrottle={32}
-            ref={slidesRef}
-            onViewableItemsChanged={viewableItemsChanged}
-            viewabilityConfig={viewConfig}
-          />
-        </Box>
-        <Box alignItems="center" justifyContent="center" paddingHorizontal="md">
-          <Paginator data={slides} scrollX={scrollX} />
-          <CustomButton
-            backgroundColor="white"
-            borderRadius="smm"
-            containerProps={{ width: '100%' }}
-            label="Get Started"
-            labelProps={{ color: 'primary' }}
-            mb="sm"
-            onPress={async () => await viewedOnboarding()}
-            paddingVertical="sm"
-          />
+        style={{ flex: 1, width: '100%', height: '100%' }}
+        resizeMode="cover">
+        <Box
+          flex={1}
+          justifyContent="space-between"
+          style={{
+            paddingTop: StatusBar.currentHeight,
+          }}>
+          <Box flex={3} width={width}>
+            <FlatList
+              data={slides}
+              renderItem={({ item }) => <OnboardingItem item={item} />}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              pagingEnabled
+              bounces={false}
+              keyExtractor={item => item.id}
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                { useNativeDriver: false },
+              )}
+              scrollEventThrottle={32}
+              onViewableItemsChanged={viewableItemsChanged}
+              viewabilityConfig={viewConfig}
+              ref={slidesRef}
+            />
+          </Box>
+          <Box
+            alignItems="center"
+            justifyContent="flex-end"
+            paddingHorizontal="md"
+            width="100%"
+            paddingBottom="md">
+            <Paginator data={slides} scrollX={scrollX} />
+            <CustomButton
+              label="Get Started"
+              onPress={() => {
+                viewedOnboarding();
+                navigation.navigate('Login');
+              }}
+              backgroundColor="white"
+              labelProps={{ color: 'primary' }}
+              borderRadius="smm"
+              paddingVertical="sm"
+              containerProps={{ width: '100%' }}
+            />
+          </Box>
         </Box>
       </ImageBackground>
     </Box>

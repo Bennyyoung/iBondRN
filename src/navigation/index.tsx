@@ -82,7 +82,7 @@ function UnauthenticatedStack() {
         <Stack.Screen component={Onboarding} name="Onboarding" />
       )}
       <Stack.Screen component={AuthLanding} name="AuthLanding" />
-      <Stack.Screen component={Login} name="UserSignIn" />
+      <Stack.Screen component={Login} name="Login" />
     </Stack.Navigator>
   );
 }

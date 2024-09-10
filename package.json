@@ -35,6 +35,7 @@
     "@shopify/restyle": "^2.4.4",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "i18next": "^23.14.0",
+    "lucide-react-native": "^0.439.0",
     "nativewind": "^2.0.11",
     "numeral": "^2.0.6",
     "react": "18.3.1",

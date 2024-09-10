@@ -33,10 +33,10 @@ const Paginator: React.FC<PaginatorProps> = ({ data, scrollX }) => {
         return (
           <Animated.View
             style={{
-              borderRadius: 5,
+              borderRadius: RFValue(5),
               backgroundColor: '#FFFFFF',
-              marginHorizontal: 8,
-              height: 6,
+              marginHorizontal: RFValue(8),
+              height: RFValue(6),
               opacity,
               width: dotWidth,
             }}
