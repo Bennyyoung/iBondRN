@@ -1,5 +1,5 @@
 import { createText } from '@shopify/restyle';
-
+import React, { FC } from 'react';
 import { Theme } from '@/constants/theme';
 
 /**
@@ -10,8 +10,32 @@ import { Theme } from '@/constants/theme';
  * Fully themeable.
  * @see https://github.com/Shopify/restyle#text
  */
-const Text = createText<Theme>();
+const RestyleText = createText<Theme>();
 
-export type TextProps = React.ComponentProps<typeof Text>;
+export type RestyleTextProps = React.ComponentProps<typeof RestyleText>;
+
+export type TextProps = RestyleTextProps & {
+  fontVariant?: keyof Theme['fontSizes'];
+};
+
+const Text: FC<TextProps> = props => {
+  const {
+    children,
+    fontVariant = 'p',
+    variant = 'body',
+    color = 'black',
+    ...rest
+  } = props;
+
+  return (
+    <RestyleText
+      allowFontScaling={false}
+      variant={variant}
+      {...rest}
+      color={color}>
+      {children}
+    </RestyleText>
+  );
+};
 
 export default Text;
