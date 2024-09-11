@@ -27,6 +27,7 @@ export type SelectInputProps = {
   unselectedTextColor?: PaletteType;
   iconName?: SvgIconPackType;
   iconSize?: keyof Theme['iconSizes'];
+  showHeader: boolean;
 };
 
 const SelectInput: React.FC<SelectInputProps> = ({
@@ -41,6 +42,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
   unselectedTextColor = 'textColor',
   iconName,
   iconSize,
+  showHeader,
 }) => {
   const [, setShowDropdown] = useState(false);
   const [selected, setSelected] = useState(selectedValue);
@@ -90,6 +92,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
       unselectedTextColor: unselectedTextColor,
       dismissBottomSheet: dismissBottomSheet,
       placeholder: placeholder,
+      showHeader,
     });
   };
 

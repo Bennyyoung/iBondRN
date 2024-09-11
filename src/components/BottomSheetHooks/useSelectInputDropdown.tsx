@@ -13,6 +13,7 @@ interface SelectInputDropdownProps {
   unselectedTextColor: PaletteType;
   dismissBottomSheet?: () => void;
   placeholder?: string;
+  showHeader: boolean;
 }
 
 const useTextInputDropdown = () => {
@@ -29,6 +30,7 @@ const useTextInputDropdown = () => {
       ),
       _snapPoints: props.list.length < 3 ? ['30%', '30%'] : ['70%', '70%'],
       _title: props.placeholder ? props.placeholder : 'Select Option',
+      _showHeader: props?.showHeader,
     });
   };
 

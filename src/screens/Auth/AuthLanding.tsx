@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import CustomInput from '@/components/CustomInput';
@@ -110,12 +110,13 @@ const SignUp: React.FC = () => {
                     { id: 'male', value: 'Male' },
                     { id: 'female', value: 'Female' },
                   ]}
-                  placeholder="Select gender"
+                  placeholder="Select Gender"
                   selectedValue={values.gender}
                   errorMessage={touched.gender && errors.gender}
                   modulePalette="primary"
                   iconName="chevron_downward"
                   iconSize="sml"
+                  showHeader={false}
                 />
               </Box>
               <Box flex={1} marginLeft="sm">
