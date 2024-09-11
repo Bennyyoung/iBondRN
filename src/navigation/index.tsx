@@ -64,6 +64,7 @@ function UnauthenticatedStack() {
       <ActivityIndicator
         animating
         size="large"
+        color="#6500E0"
         style={{
           alignSelf: 'center',
           flex: 1,
@@ -81,8 +82,8 @@ function UnauthenticatedStack() {
       {!viewedOnboarding && (
         <Stack.Screen component={Onboarding} name="Onboarding" />
       )}
-      <Stack.Screen component={AuthLanding} name="AuthLanding" />
       <Stack.Screen component={Login} name="Login" />
+      <Stack.Screen component={AuthLanding} name="AuthLanding" />
     </Stack.Navigator>
   );
 }

@@ -1,119 +1,171 @@
-import React, { useState } from 'react';
-import { StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { ImageBackground } from '@/components/ImageBackground';
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import CustomInput from '@/components/CustomInput';
 import background from '@/assets/images/bg-image.png';
+import { SvgIcon } from '@/assets/icons/SvgIcon';
+import { CustomButton } from '@/components/CustomButton';
+import { Formik, FormikHelpers } from 'formik';
+import * as Yup from 'yup';
+import MainWrapper from '@/components/MainWrapper';
 
-const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+interface LoginFormValues {
+  username: string;
+  password: string;
+}
 
-  const handleLogin = () => {
-    setPasswordError('Incorrect password');
+const validationSchema = Yup.object().shape({
+  username: Yup.string().required('Username or email is required'),
+  password: Yup.string().required('Password is required'),
+});
+
+const Login: React.FC = () => {
+  const handleLogin = (
+    values: LoginFormValues,
+    { setSubmitting, setFieldError }: FormikHelpers<LoginFormValues>,
+  ) => {
+    setTimeout(() => {
+      setFieldError('password', 'Incorrect password');
+      setSubmitting(false);
+    }, 1000);
   };
 
   return (
-    <Box flex={1}>
-      <StatusBar translucent backgroundColor="transparent" />
-      <ImageBackground
-        source={background}
-        style={styles.backgroundImage}
-        resizeMode="cover">
-        <Box flex={1} justifyContent="center" paddingHorizontal="lg">
-          <Box backgroundColor="white" borderRadius="md" padding="lg">
-            <Text fontSize={24} fontWeight="bold" mb="lg">
-              Log in to <Text color="primary">iBond</Text>
-            </Text>
+    <MainWrapper backgroundImage={background}>
+      <Formik
+        initialValues={{ username: '', password: '' }}
+        validationSchema={validationSchema}
+        onSubmit={handleLogin}>
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          isSubmitting,
+        }) => (
+          <>
+            <Box alignContent="center" justifyContent="center" mb="md">
+              <Text variant="medium22" textAlign="center">
+                Log in to{' '}
+                <Text variant="medium22" color="primary">
+                  iBond
+                </Text>
+              </Text>
+            </Box>
 
             <CustomInput
               label="Username or email"
-              value={username}
-              onChangeText={setUsername}
+              value={values.username}
+              onChangeText={handleChange('username')}
+              onBlur={handleBlur('username')}
+              error={touched.username && errors.username}
             />
-
             <CustomInput
               label="Password"
-              value={password}
-              onChangeText={text => {
-                setPassword(text);
-                setPasswordError('');
-              }}
+              value={values.password}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
               secureTextEntry
-              error={passwordError}
+              error={touched.password && errors.password}
             />
 
             <TouchableOpacity>
-              <Text color="primary" mb="md">
+              <Text
+                variant="medium12"
+                letterSpacing={0.3}
+                color="primary"
+                mb="md">
                 Forgotten Password?
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-              <Text color="white" fontWeight="bold">
-                Log In
+            <CustomButton
+              label="Log In"
+              onPress={handleSubmit}
+              backgroundColor="primary"
+              labelProps={{ color: 'white', variant: 'regular14' }}
+              borderRadius="smm"
+              paddingVertical="md"
+              containerProps={{
+                width: '100%',
+              }}
+              isLoading={isSubmitting}
+            />
+
+            <Box
+              alignItems="center"
+              flexDirection="row"
+              justifyContent="space-evenly"
+              paddingTop="md"
+              paddingBottom="xs"
+              style={{
+                width: '100%',
+              }}>
+              <SvgIcon name="authLine" size="xll" />
+              <Text
+                color="secondaryGrey"
+                textAlign="center"
+                variant="regular14"
+                my="md">
+                or sign in with
               </Text>
-            </TouchableOpacity>
+              <SvgIcon name="authLine" size="xll" />
+            </Box>
 
-            <Text textAlign="center" my="md">
-              or sign in with
-            </Text>
-
-            <View style={styles.socialButtons}>
-              <TouchableOpacity style={styles.googleButton}>
-                <Text>Google</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.appleButton}>
-                <Text color="white">Apple</Text>
-              </TouchableOpacity>
-            </View>
+            <Box flexDirection="row" justifyContent="space-between">
+              <CustomButton
+                label="Google"
+                iconName="googleIcon"
+                iconSize="sm"
+                onPress={() => {}}
+                backgroundColor="white"
+                labelProps={{ color: 'black', variant: 'medium14' }}
+                borderRadius="smm"
+                paddingVertical="md"
+                containerProps={{
+                  width: '43%',
+                }}
+                style={{
+                  borderWidth: 0.5,
+                  borderColor: 'grey',
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                }}
+              />
+              <CustomButton
+                label="Apple"
+                iconName="appleIcon"
+                iconSize="sm"
+                onPress={() => {}}
+                backgroundColor="black"
+                labelProps={{ color: 'white', variant: 'medium14' }}
+                borderRadius="smm"
+                paddingVertical="md"
+                containerProps={{
+                  width: '43%',
+                }}
+                style={{
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                }}
+              />
+            </Box>
 
             <Text textAlign="center" mt="lg">
-              New to iBond? <Text color="primary">Create an account</Text>
+              New to iBond?{' '}
+              <Text color="primary" variant="medium14">
+                Create an account
+              </Text>
             </Text>
-          </Box>
-        </Box>
-      </ImageBackground>
-    </Box>
+          </>
+        )}
+      </Formik>
+    </MainWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
-  loginButton: {
-    backgroundColor: '#6500E0',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  socialButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  googleButton: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginRight: 8,
-  },
-  appleButton: {
-    flex: 1,
-    backgroundColor: 'black',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginLeft: 8,
-  },
-});
 
 export default Login;

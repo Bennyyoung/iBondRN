@@ -13,7 +13,7 @@ export const palette = {
   cardSecondary: '#EFEFEF',
   darkPurple: '#7B46CC',
   error: '#E25825',
-  grey: '#C1C7CF',
+  grey: '#B6B8C4',
   lightGrey: 'rgba(245, 245, 245, 1)',
   negativeColor: '#E70011',
   primary: '#6500E0',
