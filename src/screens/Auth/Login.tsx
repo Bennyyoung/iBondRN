@@ -10,6 +10,8 @@ import { CustomButton } from '@/components/CustomButton';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import MainWrapper from '@/components/MainWrapper';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 interface LoginFormValues {
   username: string;
@@ -31,6 +33,8 @@ const Login: React.FC = () => {
       setSubmitting(false);
     }, 1000);
   };
+
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   return (
     <MainWrapper backgroundImage={background}>
@@ -73,7 +77,8 @@ const Login: React.FC = () => {
               error={touched.password && errors.password}
             />
 
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ForgotPassword')}>
               <Text
                 variant="medium12"
                 letterSpacing={0.3}
@@ -94,6 +99,7 @@ const Login: React.FC = () => {
                 width: '100%',
               }}
               isLoading={isSubmitting}
+              disabled={!(values.username && values.password)}
             />
 
             <Box
@@ -154,13 +160,15 @@ const Login: React.FC = () => {
                 }}
               />
             </Box>
-
-            <Text textAlign="center" mt="lg">
-              New to iBond?{' '}
-              <Text color="primary" variant="medium14">
-                Create an account
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AuthLanding')}>
+              <Text textAlign="center" mt="lg">
+                New to iBond?{' '}
+                <Text color="primary" variant="medium14">
+                  Create an account
+                </Text>
               </Text>
-            </Text>
+            </TouchableOpacity>
           </>
         )}
       </Formik>

@@ -19,6 +19,7 @@ import type { AppNavRoutes } from './types';
 import DashboardTab from './DashboardTab';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import ForgotPassword from '@/screens/Auth/ForgotPassword';
 
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
@@ -83,6 +84,7 @@ function UnauthenticatedStack() {
         <Stack.Screen component={Onboarding} name="Onboarding" />
       )}
       <Stack.Screen component={Login} name="Login" />
+      <Stack.Screen component={ForgotPassword} name="ForgotPassword" />
       <Stack.Screen component={AuthLanding} name="AuthLanding" />
     </Stack.Navigator>
   );

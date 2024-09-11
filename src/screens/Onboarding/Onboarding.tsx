@@ -16,6 +16,7 @@ import { CustomButton } from '@/components/CustomButton';
 import { ImageBackground } from '@/components/ImageBackground';
 import background from '@/assets/images/bg-image.png';
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const { width } = Dimensions.get('window');
 
@@ -30,7 +31,7 @@ const Onboarding = () => {
   const slidesRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [completeOnboarding, setCompleteOnboarding] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   const viewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {

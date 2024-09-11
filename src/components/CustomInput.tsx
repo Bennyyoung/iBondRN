@@ -5,14 +5,36 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Text from '@/components/Text';
 import TextInput from './TextInput';
 import { triggerShakeAnimation } from '@/utils/helpers/shakeAnimation';
+import Box from './Box';
+import { SvgIcon } from '@/assets/icons/SvgIcon';
+import { SvgIconPackType } from '@/assets/icons/svgIconPack';
+import { Theme } from '@/constants/theme';
 
 interface CustomInputProps {
   label: string;
   value: string;
   onChangeText: (text: string) => void;
   onBlur?: (e: any) => void;
+  onFocus?: (e: any) => void;
   secureTextEntry?: boolean;
   error?: string | boolean;
+  keyboardType?:
+    | 'default'
+    | 'numeric'
+    | 'email-address'
+    | 'ascii-capable'
+    | 'numbers-and-punctuation'
+    | 'url'
+    | 'number-pad'
+    | 'phone-pad'
+    | 'name-phone-pad'
+    | 'decimal-pad'
+    | 'twitter'
+    | 'web-search'
+    | 'visible-password';
+  containerProps?: object;
+  iconName?: SvgIconPackType;
+  iconSize?: keyof Theme['iconSizes'];
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -20,8 +42,13 @@ const CustomInput: React.FC<CustomInputProps> = ({
   value,
   onChangeText,
   onBlur,
+  onFocus,
   secureTextEntry = false,
   error,
+  keyboardType = 'default',
+  containerProps,
+  iconName,
+  iconSize,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -30,7 +57,13 @@ const CustomInput: React.FC<CustomInputProps> = ({
   ).current;
   const animValue = useRef(new Animated.Value(0)).current;
 
-  const handleFocus = () => setIsFocused(true);
+  const handleFocus = (e: any) => {
+    setIsFocused(true);
+    if (onFocus) {
+      onFocus(e); // Call the external onFocus if provided
+    }
+  };
+
   const handleBlur = (e: any) => {
     setIsFocused(false);
     if (onBlur) {
@@ -70,8 +103,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
   };
 
   return (
-    <Animated.View style={{ transform: [{ translateX: animValue }] }}>
-      <View style={styles.container}>
+    <Animated.View
+      style={[{ transform: [{ translateX: animValue }] }, containerProps]}>
+      <View style={[styles.container]}>
         <View
           style={[
             styles.inputContainer,
@@ -87,6 +121,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             onBlur={handleBlur}
             secureTextEntry={secureTextEntry && !isPasswordVisible}
             blurOnSubmit
+            keyboardType={keyboardType}
           />
           {secureTextEntry && (
             <TouchableOpacity
@@ -98,6 +133,12 @@ const CustomInput: React.FC<CustomInputProps> = ({
                 <Eye color="#888" size={RFValue(20)} />
               )}
             </TouchableOpacity>
+          )}
+
+          {iconName && iconSize && (
+            <Box>
+              <SvgIcon name={iconName} size={iconSize} />
+            </Box>
           )}
         </View>
         {error && typeof error === 'string' && (
@@ -113,7 +154,7 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(16),
   },
   inputContainer: {
-    height: RFValue(60),
+    height: RFValue(58),
     borderWidth: 1,
     borderColor: '#E0E0E0',
     borderRadius: RFValue(12),
@@ -127,9 +168,9 @@ const styles = StyleSheet.create({
     borderColor: '#FF3B30',
   },
   input: {
-    fontSize: RFValue(14),
+    fontSize: RFValue(16),
     color: '#151619',
-    paddingTop: RFValue(16),
+    paddingTop: RFValue(26),
     paddingBottom: RFValue(8),
   },
   eyeIcon: {

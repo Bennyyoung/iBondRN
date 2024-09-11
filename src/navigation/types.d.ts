@@ -2,6 +2,7 @@ export type AppNavRoutes = {
   // authentication navigation types
   Onboarding: undefined;
   Login: undefined;
+  ForgotPassword: undefined;
   UserSignUp: undefined;
   HomeScreen: undefined;
   ResetPasswordLanding: undefined;
