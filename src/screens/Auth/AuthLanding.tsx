@@ -33,19 +33,20 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignUp: React.FC = () => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
   const handleSignUp = (
     values: SignUpFormValues,
     { setSubmitting }: FormikHelpers<SignUpFormValues>,
   ) => {
     // Handle sign up logic here
     console.log(values);
+    navigation.navigate('EmailConfirmation');
     setSubmitting(false);
   };
 
-  const navigation = useNavigation<StackNavigationProp<any>>();
-
   return (
-    <MainWrapper backgroundImage={background}>
+    <MainWrapper backgroundImage={background} hasBackButton={true}>
       <Formik
         initialValues={{
           firstName: '',
