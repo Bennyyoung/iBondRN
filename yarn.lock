@@ -3499,7 +3499,7 @@ __metadata:
     react-native: 0.74.3
     react-native-dotenv: ^3.4.11
     react-native-flash-message: ^0.4.2
-    react-native-gesture-handler: 2.3.0
+    react-native-gesture-handler: latest
     react-native-orientation-locker: ^1.7.0
     react-native-pager-view: ^6.4.1
     react-native-reanimated: ^3.15.1
@@ -9240,19 +9240,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:2.3.0":
-  version: 2.3.0
-  resolution: "react-native-gesture-handler@npm:2.3.0"
+"react-native-gesture-handler@npm:latest":
+  version: 2.19.0
+  resolution: "react-native-gesture-handler@npm:2.19.0"
   dependencies:
     "@egjs/hammerjs": ^2.0.17
     hoist-non-react-statics: ^3.3.0
     invariant: ^2.2.4
-    lodash: ^4.17.21
     prop-types: ^15.7.2
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: cf9bda6c9865518932671049a71644f04d8ada812efeeada6588bb336889c17f3a4eb0e52a6407ddb88615c00fa14589d1cb96852f77fd8e88dbccb7349d9c9b
+  checksum: ce9b9fc6537debf962e6b8d84f1c4cf18fe00f39bd86498e84a203ebb26bf3543c2642ed247d974537840407b7ddb602939fd8c817c00a3416e87bddc8f2088f
   languageName: node
   linkType: hard
 
