@@ -12,6 +12,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native';
 import SelectInput from '@/components/SelectInput';
 import { DateInput } from '@/components/DateInput';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface SignUpFormValues {
   firstName: string;
@@ -68,13 +69,13 @@ const SignUp: React.FC = () => {
         }) => (
           <>
             <Box alignContent="center" justifyContent="center" mb="md">
-              <Text variant="medium22" textAlign="center" mb="sml">
+              <Text variant="medium18" textAlign="center" mb="sml">
                 Sign up to{' '}
-                <Text variant="medium22" color="primary">
+                <Text variant="medium18" color="primary">
                   iBond
                 </Text>
               </Text>
-              <Text variant="regular14" textAlign="center" color="black">
+              <Text variant="regular12" textAlign="center" color="black">
                 Let's get to know you. We'll send updates to the email address
                 you provide.
               </Text>
@@ -119,7 +120,7 @@ const SignUp: React.FC = () => {
                   showHeader={false}
                 />
               </Box>
-              <Box flex={1} marginLeft="sm">
+              <Box flex={1} marginLeft="xs">
                 <DateInput
                   label="Date of Birth"
                   getSelectedDate={date => {
@@ -150,6 +151,9 @@ const SignUp: React.FC = () => {
               onChangeText={handleChange('referralCode')}
               onBlur={handleBlur('referralCode')}
               error={touched.referralCode && errors.referralCode}
+              containerProps={{
+                marginBottom: RFValue(10),
+              }}
             />
 
             <CustomButton
@@ -158,10 +162,6 @@ const SignUp: React.FC = () => {
               backgroundColor="primary"
               labelProps={{ color: 'white', variant: 'regular14' }}
               borderRadius="smm"
-              paddingVertical="md"
-              containerProps={{
-                width: '100%',
-              }}
               isLoading={isSubmitting}
             />
 

@@ -1,5 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Animated, TouchableOpacity, View, StyleSheet } from 'react-native';
+import {
+  Animated,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Platform,
+} from 'react-native';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Text from '@/components/Text';
@@ -60,7 +66,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   const handleFocus = (e: any) => {
     setIsFocused(true);
     if (onFocus) {
-      onFocus(e); // Call the external onFocus if provided
+      onFocus(e);
     }
   };
 
@@ -87,14 +93,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
   const labelStyle = {
     position: 'absolute',
-    left: RFValue(16),
+    left: Platform.OS === 'ios' ? RFValue(6) : RFValue(8),
     top: animatedIsFocused.interpolate({
       inputRange: [0, 1],
       outputRange: [RFValue(16), RFValue(8)],
     }),
     fontSize: animatedIsFocused.interpolate({
       inputRange: [0, 1],
-      outputRange: [RFValue(16), RFValue(12)],
+      outputRange: [RFValue(14), RFValue(11)],
     }),
     color: animatedIsFocused.interpolate({
       inputRange: [0, 1],
@@ -105,7 +111,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   return (
     <Animated.View
       style={[{ transform: [{ translateX: animValue }] }, containerProps]}>
-      <View style={[styles.container]}>
+      <View style={styles.container}>
         <View
           style={[
             styles.inputContainer,
@@ -134,9 +140,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
               )}
             </TouchableOpacity>
           )}
-
           {iconName && iconSize && (
-            <Box>
+            <Box position="absolute" right={RFValue(16)}>
               <SvgIcon name={iconName} size={iconSize} />
             </Box>
           )}
@@ -151,14 +156,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: RFValue(16),
+    marginBottom: RFValue(8),
   },
   inputContainer: {
-    height: RFValue(58),
+    height: Platform.OS === 'ios' ? RFValue(48) : RFValue(56),
     borderWidth: 1,
     borderColor: '#E0E0E0',
     borderRadius: RFValue(12),
-    paddingHorizontal: RFValue(12),
+    paddingHorizontal: RFValue(6),
     justifyContent: 'center',
   },
   inputContainerFocused: {
@@ -168,14 +173,17 @@ const styles = StyleSheet.create({
     borderColor: '#FF3B30',
   },
   input: {
-    fontSize: RFValue(16),
+    fontSize: RFValue(14),
     color: '#151619',
-    paddingTop: RFValue(26),
-    paddingBottom: RFValue(8),
+    paddingTop: Platform.OS === 'ios' ? RFValue(24) : RFValue(26),
+    paddingBottom: Platform.OS === 'ios' ? RFValue(8) : RFValue(10),
+    height: '100%',
   },
   eyeIcon: {
     position: 'absolute',
     right: RFValue(16),
+    top: '50%',
+    transform: [{ translateY: -RFValue(10) }],
   },
   errorText: {
     color: '#FF3B30',

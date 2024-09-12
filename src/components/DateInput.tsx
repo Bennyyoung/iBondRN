@@ -97,14 +97,14 @@ export const DateInput: React.FC<DateInputProps> = ({
 
   const labelStyle = {
     position: 'absolute',
-    left: RFValue(2),
+    left: Platform.OS === 'ios' ? RFValue(0) : RFValue(2),
     top: animatedIsFocused.interpolate({
       inputRange: [0, 1],
       outputRange: [RFValue(16), RFValue(8)],
     }),
     fontSize: animatedIsFocused.interpolate({
       inputRange: [0, 1],
-      outputRange: [RFValue(16), RFValue(12)],
+      outputRange: [RFValue(14), RFValue(11)],
     }),
     color: animatedIsFocused.interpolate({
       inputRange: [0, 1],
@@ -126,21 +126,24 @@ export const DateInput: React.FC<DateInputProps> = ({
           <Box
             flexDirection="row"
             alignItems="center"
-            justifyContent="space-between">
-            <Box flex={1}>
+            justifyContent="space-between"
+            height="100%">
+            <Box flex={1} justifyContent="center">
               <Animated.Text style={labelStyle}>{label}</Animated.Text>
               <Text style={styles.dateText}>
                 {selectedDate ? moment(selectedDate).format('DD/MM/YYYY') : ''}
               </Text>
             </Box>
             {iconName && iconSize && (
-              <Box>
+              <Box marginLeft="xs">
                 <SvgIcon name={iconName} size={iconSize} />
               </Box>
             )}
           </Box>
         </TouchableOpacity>
-        {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+        {errorMessage && typeof errorMessage === 'string' && (
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        )}
       </View>
       {Platform.OS === 'android' && showCalendar && (
         <DateTimePicker
@@ -159,14 +162,14 @@ export const DateInput: React.FC<DateInputProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: RFValue(16),
+    marginBottom: RFValue(8),
   },
   inputContainer: {
-    height: RFValue(58),
+    height: Platform.OS === 'ios' ? RFValue(48) : RFValue(56),
     borderWidth: 1,
     borderColor: '#E0E0E0',
     borderRadius: RFValue(12),
-    paddingHorizontal: RFValue(12),
+    paddingHorizontal: RFValue(6),
     justifyContent: 'center',
   },
   inputContainerFocused: {
@@ -176,15 +179,11 @@ const styles = StyleSheet.create({
     borderColor: '#FF3B30',
   },
   dateText: {
-    fontSize: RFValue(16),
+    fontSize: RFValue(12),
     color: '#151619',
-    paddingTop: RFValue(26),
-    paddingBottom: RFValue(8),
-    // paddingHorizontal: RFValue(12),
-  },
-  calendarIcon: {
-    position: 'absolute',
-    right: RFValue(16),
+    left: Platform.OS === 'ios' ? RFValue(0) : RFValue(2),
+    paddingTop: Platform.OS === 'ios' ? RFValue(24) : RFValue(26),
+    paddingBottom: Platform.OS === 'ios' ? RFValue(26) : RFValue(10),
   },
   errorText: {
     color: '#FF3B30',

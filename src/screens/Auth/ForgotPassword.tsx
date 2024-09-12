@@ -51,13 +51,13 @@ const ForgotPassword: React.FC = () => {
         }) => (
           <>
             <Box alignContent="center" justifyContent="center" mb="md">
-              <Text variant="medium22" textAlign="center" mb="md">
+              <Text variant="medium18" textAlign="center" mb="sm">
                 Forgot{' '}
-                <Text variant="medium22" color="primary">
+                <Text variant="medium18" color="primary">
                   Password?
                 </Text>
               </Text>
-              <Text variant="regular14" textAlign="center" color="black">
+              <Text variant="regular12" textAlign="center" color="black">
                 Enter your {useEmail ? 'email address' : 'phone number'} to
                 reset password
               </Text>
@@ -78,10 +78,6 @@ const ForgotPassword: React.FC = () => {
               backgroundColor="primary"
               labelProps={{ color: 'white', variant: 'regular14' }}
               borderRadius="smm"
-              paddingVertical="md"
-              containerProps={{
-                width: '100%',
-              }}
               style={{
                 marginTop: RFValue(5),
                 marginBottom: RFValue(70),

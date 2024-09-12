@@ -100,8 +100,6 @@ const Onboarding = () => {
               backgroundColor="white"
               labelProps={{ color: 'primary' }}
               borderRadius="smm"
-              paddingVertical="sm"
-              containerProps={{ width: '100%' }}
             />
           </Box>
         </Box>

@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity } from 'react-native';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import CustomInput from '@/components/CustomInput';
@@ -53,9 +53,9 @@ const Login: React.FC = () => {
         }) => (
           <>
             <Box alignContent="center" justifyContent="center" mb="md">
-              <Text variant="medium22" textAlign="center">
+              <Text variant="medium18" textAlign="center">
                 Log in to{' '}
-                <Text variant="medium22" color="primary">
+                <Text variant="medium18" color="primary">
                   iBond
                 </Text>
               </Text>
@@ -94,10 +94,6 @@ const Login: React.FC = () => {
               backgroundColor="primary"
               labelProps={{ color: 'white', variant: 'regular14' }}
               borderRadius="smm"
-              paddingVertical="md"
-              containerProps={{
-                width: '100%',
-              }}
               isLoading={isSubmitting}
               disabled={!(values.username && values.password)}
             />
@@ -111,7 +107,10 @@ const Login: React.FC = () => {
               style={{
                 width: '100%',
               }}>
-              <SvgIcon name="authLine" size="xll" />
+              <SvgIcon
+                name="authLine"
+                size={Platform.OS === 'android' ? 'default' : 'xl'}
+              />
               <Text
                 color="secondaryGrey"
                 textAlign="center"
@@ -119,46 +118,47 @@ const Login: React.FC = () => {
                 my="md">
                 or sign in with
               </Text>
-              <SvgIcon name="authLine" size="xll" />
+              <SvgIcon
+                name="authLine"
+                size={Platform.OS === 'android' ? 'default' : 'xl'}
+              />
             </Box>
 
             <Box flexDirection="row" justifyContent="space-between">
-              <CustomButton
-                label="Google"
-                iconName="googleIcon"
-                iconSize="sm"
-                onPress={() => {}}
-                backgroundColor="white"
-                labelProps={{ color: 'black', variant: 'medium14' }}
-                borderRadius="smm"
-                paddingVertical="md"
-                containerProps={{
-                  width: '43%',
-                }}
-                style={{
-                  borderWidth: 0.5,
-                  borderColor: 'grey',
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                }}
-              />
-              <CustomButton
-                label="Apple"
-                iconName="appleIcon"
-                iconSize="sm"
-                onPress={() => {}}
-                backgroundColor="black"
-                labelProps={{ color: 'white', variant: 'medium14' }}
-                borderRadius="smm"
-                paddingVertical="md"
-                containerProps={{
-                  width: '43%',
-                }}
-                style={{
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                }}
-              />
+              <Box width="48%">
+                <CustomButton
+                  label="Google"
+                  iconName="googleIcon"
+                  iconSize="sm"
+                  onPress={() => {}}
+                  backgroundColor="white"
+                  labelProps={{ color: 'black', variant: 'medium14' }}
+                  borderRadius="smm"
+                  paddingVertical="xs"
+                  style={{
+                    borderWidth: 0.5,
+                    borderColor: 'grey',
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                  }}
+                />
+              </Box>
+              <Box width="48%">
+                <CustomButton
+                  label="Apple"
+                  iconName="appleIcon"
+                  iconSize="sm"
+                  onPress={() => {}}
+                  backgroundColor="black"
+                  labelProps={{ color: 'white', variant: 'medium14' }}
+                  borderRadius="smm"
+                  paddingVertical="xs"
+                  style={{
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                  }}
+                />
+              </Box>
             </Box>
             <TouchableOpacity
               onPress={() => navigation.navigate('AuthLanding')}>

@@ -1,6 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import { VariantProps } from '@shopify/restyle';
 import React, { FC } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Platform } from 'react-native';
 import { BaseButton, BaseButtonProps } from './BaseButton';
 import { PaletteType, Theme, useTheme } from '@/constants/theme';
 import Text, { TextProps } from './Text';
@@ -42,6 +43,8 @@ const CustomButton: FC<CustomButtonProps> = props => {
         alignItems="center"
         flexDirection="row"
         justifyContent="center"
+        width="100%"
+        minHeight={Platform.OS === 'ios' ? 40 : 42}
         {...containerProps}>
         {iconName && iconSize && (
           <Box mr="xs">
@@ -49,18 +52,22 @@ const CustomButton: FC<CustomButtonProps> = props => {
           </Box>
         )}
         {typeof label === 'string' ? (
-          <Text variant={labelVariant} {...labelProps}>
+          <Text
+            variant={labelVariant}
+            {...labelProps}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={{ flexShrink: 1 }}>
             {label}
           </Text>
         ) : (
-          <Text variant={labelVariant} {...labelProps} />
+          label
         )}
-
-        {isLoading ? (
+        {isLoading && (
           <Box marginLeft="sm">
             <ActivityIndicator color={activityIndicatorColor} />
           </Box>
-        ) : null}
+        )}
       </Box>
     </BaseButton>
   );
