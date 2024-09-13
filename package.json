@@ -21,8 +21,9 @@
     "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install && cd .."
   },
   "dependencies": {
-    "@gorhom/bottom-sheet": "^4.6.4",
+    "@gorhom/bottom-sheet": "4.6.1",
     "@react-native-async-storage/async-storage": "^2.0.0",
+    "@react-native-community/datetimepicker": "^8.2.0",
     "@react-native-community/netinfo": "^11.3.2",
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/core": "^6.4.17",
@@ -34,7 +35,11 @@
     "@reduxjs/toolkit": "^2.2.7",
     "@shopify/restyle": "^2.4.4",
     "babel-plugin-transform-remove-console": "^6.9.4",
+    "formik": "^2.4.6",
     "i18next": "^23.14.0",
+    "lodash": "^4.17.21",
+    "lucide-react-native": "^0.439.0",
+    "moment": "^2.30.1",
     "nativewind": "^2.0.11",
     "numeral": "^2.0.6",
     "react": "18.3.1",
@@ -43,7 +48,8 @@
     "react-native": "0.74.3",
     "react-native-dotenv": "^3.4.11",
     "react-native-flash-message": "^0.4.2",
-    "react-native-gesture-handler": "latest",
+    "react-native-gesture-handler": "2.3.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-orientation-locker": "^1.7.0",
     "react-native-pager-view": "^6.4.1",
     "react-native-reanimated": "^3.15.1",
@@ -57,7 +63,8 @@
     "react-native-vector-icons": "^10.1.0",
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -68,6 +75,7 @@
     "@react-native/eslint-config": "0.74.85",
     "@react-native/metro-config": "0.74.85",
     "@react-native/typescript-config": "0.74.85",
+    "@types/lodash": "^4.17.7",
     "@types/numeral": "^2.0.5",
     "@types/react": "^18.2.6",
     "@types/react-native-vector-icons": "^6.4.18",

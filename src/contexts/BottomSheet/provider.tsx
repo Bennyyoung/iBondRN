@@ -42,12 +42,12 @@ const Header = ({
     flexDirection="row"
     justifyContent="center"
     alignItems="center"
-    marginTop="md"
+    marginTop="xs"
     paddingHorizontal="md"
     paddingVertical="sm"
     position="relative">
     <Box position="absolute" left={0} right={0} alignItems="center">
-      <Text variant="medium16" color="black">
+      <Text variant="regular16" color="black">
         {title}
       </Text>
     </Box>
@@ -76,6 +76,7 @@ const BottomSheetProvider = ({ children }: BottomSheetProviderProps) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   const [snapPoints, setSnapPoints] = useState(['0%', '50%', '90%']);
+  const [showHeader, setShowHeader] = useState<boolean>(false);
 
   const [title, setTitle] = useState<ReactNode | null>(null);
   const [content, setContent] = useState<ReactNode | null>(null);
@@ -95,7 +96,12 @@ const BottomSheetProvider = ({ children }: BottomSheetProviderProps) => {
   const [onDismiss] = useState(() => () => {});
 
   createBottomSheet = (props: BottomSheetProps) => {
-    const { _snapPoints: SnapPoints, _content: Content, _title: Title } = props;
+    const {
+      _snapPoints: SnapPoints,
+      _content: Content,
+      _title: Title,
+      _showHeader: ShowHeader,
+    } = props;
 
     if (Title) {
       setTitle(typeof Title === 'function' ? <Title /> : Title);
@@ -103,6 +109,7 @@ const BottomSheetProvider = ({ children }: BottomSheetProviderProps) => {
 
     setContent(typeof Content === 'function' ? <Content /> : Content);
     setSnapPoints(SnapPoints);
+    setShowHeader(ShowHeader);
     setIsVisible(true);
   };
 
@@ -148,7 +155,7 @@ const BottomSheetProvider = ({ children }: BottomSheetProviderProps) => {
           ref={bottomSheetRef}
           snapPoints={snapPoints}>
           <Box flex={1}>
-            <Header title={title} onClose={closeBottomSheet} />
+            {showHeader && <Header title={title} onClose={closeBottomSheet} />}
             <Box mt="md" />
             <Box flex={1}>
               <TouchableWithoutFeedback

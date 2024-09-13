@@ -1,6 +1,7 @@
 import { createTheme, useTheme as useRestyleTheme } from '@shopify/restyle';
 
 import { RFValue } from 'react-native-responsive-fontsize';
+import { PaddingSizesObjectType } from '../types';
 
 export const palette = {
   agricultureGreen: 'rgba(70, 158, 142, 1)',
@@ -11,11 +12,12 @@ export const palette = {
   blue: '#3878B8',
   cardSecondary: '#EFEFEF',
   darkPurple: '#7B46CC',
-  error: '#E25825',
-  grey: '#C1C7CF',
+  error: '#FF3B30',
+  errorColor: '#FF3B30',
+  grey: '#B6B8C4',
   lightGrey: 'rgba(245, 245, 245, 1)',
   negativeColor: '#E70011',
-  primary: 'rgba(0, 136, 204, 1)',
+  primary: '#6500E0',
   primaryGreen: '#2EAF7D',
   primaryGrey: '#FCFCFF',
   primaryPurple: '#7B46CD',
@@ -25,10 +27,12 @@ export const palette = {
   secondary: '#878681',
   secondaryGrey: '#A6A6AA',
   success: '#00A067',
+  textColorTint: '#000000',
   transparent: 'transparent',
   warning: '#D1A000',
   white: '#FBFBFB',
   whiteColor: '#ffffff',
+  textColor: '#101818',
   yellow: '#F2C948',
 };
 
@@ -57,6 +61,52 @@ const theme = createTheme({
   colors: {
     ...palette,
     blockBg: palette.grey,
+  },
+  buttonSizes: {
+    lg: {
+      paddingHorizontal: 'xl',
+      paddingVertical: 'lg',
+    },
+    md: {
+      paddingHorizontal: 'lg',
+      paddingVertical: 'md',
+    },
+    none: {
+      paddingHorizontal: 'none',
+      paddingVertical: 'none',
+    },
+    sm: {
+      paddingHorizontal: 'md',
+      paddingVertical: 'sm',
+    },
+    xl: {
+      paddingHorizontal: 'xxl',
+      paddingVertical: 'xl',
+    },
+    xs: {
+      paddingHorizontal: 'sm',
+      paddingVertical: 'xs',
+    },
+  } as PaddingSizesObjectType,
+
+  buttonVariants: {
+    defaults: {
+      borderRadius: 'sm',
+    },
+    filled: {
+      backgroundColor: 'primary',
+    },
+    ghost: {
+      backgroundColor: 'paleGrey50',
+    },
+    none: {},
+    outlined: {
+      borderColor: 'paleGrey',
+      borderWidth: 1,
+    },
+    transparent: {
+      backgroundColor: 'transparent',
+    },
   },
   iconSizes: {
     default: {},
@@ -324,6 +374,10 @@ const theme = createTheme({
       fontWeight: '600',
       lineHeight: RFValue(21),
     },
+  },
+  zIndices: {
+    modal: 100,
+    overlay: 10,
   },
 });
 

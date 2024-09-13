@@ -19,6 +19,7 @@ import type { AppNavRoutes } from './types';
 import DashboardTab from './DashboardTab';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import ForgotPassword from '@/screens/Auth/ForgotPassword';
 
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
@@ -64,6 +65,7 @@ function UnauthenticatedStack() {
       <ActivityIndicator
         animating
         size="large"
+        color="#6500E0"
         style={{
           alignSelf: 'center',
           flex: 1,
@@ -81,8 +83,9 @@ function UnauthenticatedStack() {
       {!viewedOnboarding && (
         <Stack.Screen component={Onboarding} name="Onboarding" />
       )}
+      <Stack.Screen component={Login} name="Login" />
+      <Stack.Screen component={ForgotPassword} name="ForgotPassword" />
       <Stack.Screen component={AuthLanding} name="AuthLanding" />
-      <Stack.Screen component={Login} name="UserSignIn" />
     </Stack.Navigator>
   );
 }
