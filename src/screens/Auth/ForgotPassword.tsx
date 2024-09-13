@@ -35,7 +35,7 @@ const ForgotPassword: React.FC = () => {
   };
 
   return (
-    <MainWrapper backgroundImage={background}>
+    <MainWrapper backgroundImage={background} hasBackButton={true}>
       <Formik
         initialValues={{ emailOrPhone: '' }}
         validationSchema={validationSchema}

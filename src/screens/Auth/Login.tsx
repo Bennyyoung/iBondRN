@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Platform, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import CustomInput from '@/components/CustomInput';
@@ -107,10 +107,7 @@ const Login: React.FC = () => {
               style={{
                 width: '100%',
               }}>
-              <SvgIcon
-                name="authLine"
-                size={Platform.OS === 'android' ? 'default' : 'xl'}
-              />
+              <SvgIcon name="authLine" size="xl" />
               <Text
                 color="secondaryGrey"
                 textAlign="center"
@@ -118,10 +115,7 @@ const Login: React.FC = () => {
                 my="md">
                 or sign in with
               </Text>
-              <SvgIcon
-                name="authLine"
-                size={Platform.OS === 'android' ? 'default' : 'xl'}
-              />
+              <SvgIcon name="authLine" size="xl" />
             </Box>
 
             <Box flexDirection="row" justifyContent="space-between">

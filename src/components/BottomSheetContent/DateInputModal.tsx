@@ -56,30 +56,30 @@ const DateInputModal: React.FC<DateInputModalProps> = ({
         justifyContent="space-around"
         marginBottom="sm"
         marginTop="sm">
-        <CustomButton
-          alignItems="center"
-          backgroundColor="primary"
-          borderRadius="sm"
-          justifyContent="center"
-          label="CONFIRM"
-          labelProps={{ color: 'whiteColor' }}
-          labelVariant="medium14"
-          onPress={handleConfirm}
-          paddingHorizontal="lg"
-          paddingVertical="md"
-        />
-        <CustomButton
-          alignItems="center"
-          backgroundColor="grey"
-          borderRadius="sm"
-          justifyContent="center"
-          label="CANCEL"
-          labelProps={{ color: 'primary' }}
-          labelVariant="medium14"
-          onPress={handleCancel}
-          paddingHorizontal="lg"
-          paddingVertical="md"
-        />
+        <Box width="45%">
+          <CustomButton
+            alignItems="center"
+            backgroundColor="primary"
+            borderRadius="sm"
+            justifyContent="center"
+            label="CONFIRM"
+            labelProps={{ color: 'whiteColor' }}
+            labelVariant="regular12"
+            onPress={handleConfirm}
+          />
+        </Box>
+        <Box width="45%">
+          <CustomButton
+            alignItems="center"
+            backgroundColor="grey"
+            borderRadius="sm"
+            justifyContent="center"
+            label="CANCEL"
+            labelProps={{ color: 'primary' }}
+            labelVariant="regular12"
+            onPress={handleCancel}
+          />
+        </Box>
       </Box>
     </Box>
   );

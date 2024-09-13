@@ -19,8 +19,9 @@ const useDateInputModal = () => {
       _content: () => (
         <DateInputModal {...props} dismissBottomSheet={dismissBottomSheet} />
       ),
-      _snapPoints: ['50%', '50%'],
+      _snapPoints: ['45%', '45%'],
       _title: 'Select Date',
+      _showHeader: false,
     });
   };
 
