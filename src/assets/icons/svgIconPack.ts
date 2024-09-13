@@ -5,6 +5,9 @@ import googleIcon from '@/assets/svg/googleLogo.svg';
 import onboarding_background from '@/assets/svg/bg-image.svg';
 import chevron_downward from '@/assets/svg/dropdown.svg';
 import calender from '@/assets/svg/calender.svg';
+import error_close from '@/assets/svg/error_close.svg';
+import check_mark from '@/assets/svg/check_mark.svg';
+import eyeoff_error from '@/assets/svg/eyeoff_error.svg';
 
 const svgIconPack = {
   appleIcon,
@@ -14,6 +17,9 @@ const svgIconPack = {
   onboarding_background,
   chevron_downward,
   calender,
+  check_mark,
+  error_close,
+  eyeoff_error,
 };
 
 export { svgIconPack };

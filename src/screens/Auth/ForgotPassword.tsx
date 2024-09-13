@@ -9,6 +9,8 @@ import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import MainWrapper from '@/components/MainWrapper';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 interface ForgotPasswordFormValues {
   emailOrPhone: string;
@@ -20,6 +22,7 @@ const validationSchema = Yup.object().shape({
 
 const ForgotPassword: React.FC = () => {
   const [useEmail, setUseEmail] = useState(true);
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   const handleResetPassword = (
     values: ForgotPasswordFormValues,
@@ -27,7 +30,12 @@ const ForgotPassword: React.FC = () => {
   ) => {
     // Handle password reset logic here
     console.log(values);
-    setSubmitting(false);
+    // If successful, navigate to the next screen
+    // navigation.navigate('NextScreen');
+    setTimeout(() => {
+      navigation.navigate('ForgotPasswordConfirmation');
+      setSubmitting(false);
+    }, 1500);
   };
 
   const toggleInputType = () => {

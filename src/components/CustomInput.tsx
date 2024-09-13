@@ -134,9 +134,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
               style={styles.eyeIcon}
               onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
               {isPasswordVisible ? (
-                <EyeOff color="#888" size={RFValue(20)} />
+                <EyeOff color={error ? '#FF3B30' : '#888'} size={RFValue(20)} />
               ) : (
-                <Eye color="#888" size={RFValue(20)} />
+                <Eye color={error ? '#FF3B30' : '#888'} size={RFValue(20)} />
               )}
             </TouchableOpacity>
           )}

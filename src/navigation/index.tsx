@@ -21,6 +21,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import ForgotPassword from '@/screens/Auth/ForgotPassword';
 import EmailConfirmation from '@/screens/Auth/EmailConfirmation';
+import UsernameSelection from '@/screens/Auth/UsernameSelection';
+import PasswordCreation from '@/screens/Auth/PasswordCreation';
+import ForgotPasswordConfirmation from '@/screens/Auth/ForgotPasswordConfirmation';
+import ChangePassword from '@/screens/Auth/ChangePassword';
 
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
@@ -87,6 +91,13 @@ function UnauthenticatedStack() {
       <Stack.Screen component={Login} name="Login" />
       <Stack.Screen component={ForgotPassword} name="ForgotPassword" />
       <Stack.Screen component={EmailConfirmation} name="EmailConfirmation" />
+      <Stack.Screen component={UsernameSelection} name="UsernameSelection" />
+      <Stack.Screen component={PasswordCreation} name="PasswordCreation" />
+      <Stack.Screen
+        component={ForgotPasswordConfirmation}
+        name="ForgotPasswordConfirmation"
+      />
+      <Stack.Screen component={ChangePassword} name="ChangePassword" />
       <Stack.Screen component={AuthLanding} name="AuthLanding" />
     </Stack.Navigator>
   );
