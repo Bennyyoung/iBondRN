@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Animated } from 'react-native';
+import { View, TextInput, StyleSheet, Animated, Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Text from '@/components/Text';
 import { triggerShakeAnimation } from '@/utils/helpers/shakeAnimation';
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(8),
   },
   otpInput: {
-    width: RFValue(46),
-    height: RFValue(48),
+    width: Platform.OS === 'ios' ? RFValue(40) : RFValue(46),
+    height: Platform.OS === 'ios' ? RFValue(43) : RFValue(48),
     borderWidth: 1,
     borderColor: '#CFB0F5',
     borderRadius: RFValue(12),

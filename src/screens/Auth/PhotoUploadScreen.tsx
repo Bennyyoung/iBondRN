@@ -213,7 +213,7 @@ const PhotoUploadScreen = () => {
           backgroundColor="primary"
           labelProps={{ color: 'white', variant: 'regular14' }}
           borderRadius="smm"
-          height={RFValue(52)}
+          height={Platform.OS === 'ios' ? RFValue(42) : RFValue(52)}
         />
       </Box>
     </SafeAreaView>
