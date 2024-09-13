@@ -7,13 +7,14 @@ import MainWrapper from '@/components/MainWrapper';
 import background from '@/assets/images/bg-image.png';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamsList } from '@/navigation/types';
 
 const ChangePassword: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const navigation = useNavigation<StackNavigationProp<any>>();
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
@@ -39,7 +40,13 @@ const ChangePassword: React.FC = () => {
     if (password && !error) {
       // Navigate to the next screen or complete the sign-up process
       console.log('Password created successfully');
-      navigation.navigate('NextScreen');
+      navigation.navigate('SuccessScreen', {
+        iconName: 'success',
+        title: 'Password changed successfully',
+        message: 'You can now login with your new password',
+        nextScreen: 'Login',
+        buttonText: 'Continue to Log In',
+      });
     }
   };
 

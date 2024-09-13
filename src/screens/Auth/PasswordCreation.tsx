@@ -29,7 +29,7 @@ const PasswordCreation: React.FC = () => {
     if (password && !error) {
       // Navigate to the next screen or complete the sign-up process
       console.log('Password created successfully');
-      navigation.navigate('NextScreen');
+      navigation.navigate('PostSignUpScreen');
     }
   };
 
