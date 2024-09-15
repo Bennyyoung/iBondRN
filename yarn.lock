@@ -3531,7 +3531,7 @@ __metadata:
     react-native: 0.74.3
     react-native-dotenv: ^3.4.11
     react-native-flash-message: ^0.4.2
-    react-native-gesture-handler: 2.3.0
+    react-native-gesture-handler: ^2.9.0
     react-native-keyboard-aware-scroll-view: ^0.9.5
     react-native-orientation-locker: ^1.7.0
     react-native-pager-view: ^6.4.1
@@ -9338,7 +9338,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:latest":
+"react-native-gesture-handler@npm:^2.9.0":
   version: 2.19.0
   resolution: "react-native-gesture-handler@npm:2.19.0"
   dependencies:

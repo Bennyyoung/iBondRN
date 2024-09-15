@@ -48,7 +48,7 @@
     "react-native": "0.74.3",
     "react-native-dotenv": "^3.4.11",
     "react-native-flash-message": "^0.4.2",
-    "react-native-gesture-handler": "2.3.0",
+    "react-native-gesture-handler": "^2.9.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-orientation-locker": "^1.7.0",
     "react-native-pager-view": "^6.4.1",

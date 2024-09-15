@@ -27,6 +27,7 @@ export type AppNavRoutes = {
 
   // Home Dashboard types
   DashboardTab: undefined;
+  Events: undefined;
   // Security Question types
   SecurityScreen: undefined;
 

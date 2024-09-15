@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useRef } from 'react';
+import React, { ReactElement, useRef } from 'react';
 import { DimensionValue, TextInput, View } from 'react-native';
 
-import { SvgIcon } from '@/assets/icons';
+import { SvgIcon, SvgIconProps } from '@/assets/icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { palette } from '@/constants/theme';
 
@@ -14,6 +14,8 @@ type SelectInputSearchbarProps = {
   backgroundColor?: string;
   paddingHorizontal?: DimensionValue;
   height?: DimensionValue;
+  borderRadius: number
+  svgIcon:  ReactElement<SvgIconProps>
 };
 
 export const SearchBar: React.FC<SelectInputSearchbarProps> = ({
@@ -23,6 +25,8 @@ export const SearchBar: React.FC<SelectInputSearchbarProps> = ({
   paddingHorizontal,
   marginTop,
   height,
+  borderRadius,
+  svgIcon=<SvgIcon name="appleIcon" size="sml" />
 }) => {
   const textInputRef = useRef(null);
 
@@ -30,7 +34,7 @@ export const SearchBar: React.FC<SelectInputSearchbarProps> = ({
     <View
       style={{
         backgroundColor: backgroundColor || '#f7f7f7',
-        borderRadius: RFValue(10),
+        borderRadius: borderRadius || RFValue(10),
         paddingHorizontal: paddingHorizontal || RFValue(10),
         height: height || RFValue(50),
         alignItems: 'center',
@@ -39,7 +43,7 @@ export const SearchBar: React.FC<SelectInputSearchbarProps> = ({
         flexDirection: 'row',
         marginTop: marginTop || RFValue(10),
       }}>
-      <SvgIcon name="appleIcon" size="sml" />
+        {svgIcon}
       <TextInput
         autoCorrect={false}
         onChangeText={getSearchInput}

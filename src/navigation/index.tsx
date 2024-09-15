@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import ForgotPassword from '@/screens/Auth/ForgotPassword';
 import EmailConfirmation from '@/screens/Auth/EmailConfirmation';
+import Events from '@/screens/Events/Events'
 
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
@@ -81,13 +82,14 @@ function UnauthenticatedStack() {
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerShown: false,
       }}>
-      {!viewedOnboarding && (
+      {/* {!viewedOnboarding && (
         <Stack.Screen component={Onboarding} name="Onboarding" />
       )}
       <Stack.Screen component={Login} name="Login" />
       <Stack.Screen component={ForgotPassword} name="ForgotPassword" />
       <Stack.Screen component={EmailConfirmation} name="EmailConfirmation" />
-      <Stack.Screen component={AuthLanding} name="AuthLanding" />
+      <Stack.Screen component={AuthLanding} name="AuthLanding" /> */}
+      <Stack.Screen component={Events} name="Events" />
     </Stack.Navigator>
   );
 }
