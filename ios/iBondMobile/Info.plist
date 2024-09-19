@@ -34,6 +34,14 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow iBondElite access your camera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To enable you select a profile picture for yourself and your friends.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Allow iBondElite access to save photos to your photo library.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Allow iBondElite access your contacts</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

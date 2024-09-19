@@ -4,7 +4,18 @@ export type AppNavRoutes = {
   Login: undefined;
   ForgotPassword: undefined;
   EmailConfirmation: undefined;
-  UserSignUp: undefined;
+  PasswordCreation: undefined;
+  UsernameSelection: undefined;
+  ForgotPasswordConfirmation: undefined;
+  SuccessScreen: {
+    title: string;
+    message: string;
+    buttonText: string;
+    nextScreen: string;
+    iconName?: SvgIconPackType;
+  };
+  PostSignUpScreen: undefined;
+  PhotoUploadScreen: undefined;
   HomeScreen: undefined;
   ResetPasswordLanding: undefined;
   ResetPassword: undefined;

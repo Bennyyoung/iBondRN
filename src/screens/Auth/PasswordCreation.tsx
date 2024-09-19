@@ -2,65 +2,67 @@ import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
+import CustomInput from '@/components/CustomInput';
 import { CustomButton } from '@/components/CustomButton';
 import MainWrapper from '@/components/MainWrapper';
 import background from '@/assets/images/bg-image.png';
-import OTPInput from '@/components/InputOtp';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const EmailConfirmation: React.FC = () => {
-  const [code, setCode] = useState('');
+const PasswordCreation: React.FC = () => {
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigation = useNavigation<StackNavigationProp<any>>();
 
-  const handleConfirmation = () => {
-    if (code.length !== 6) {
-      setError('Please enter a 6-digit code.');
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+    if (text.length < 8) {
+      setError(
+        'Password is too short. It should be at least 8 characters combination of letters, numbers, and special symbols',
+      );
     } else {
-      // Handle confirmation logic here
-      console.log('Confirmation code:', code);
-      setIsSubmitting(true);
-      // If successful, navigate to the next screen
-      // navigation.navigate('NextScreen');
-      setTimeout(() => {
-        navigation.navigate('UsernameSelection');
-        setIsSubmitting(false);
-      }, 3000);
+      setError('');
     }
   };
 
-  const handleResend = () => {
-    // Handle resend logic here
-    console.log('Resending code');
+  const handleContinue = () => {
+    if (password && !error) {
+      // Navigate to the next screen or complete the sign-up process
+      console.log('Password created successfully');
+      navigation.navigate('PostSignUpScreen');
+    }
   };
 
   return (
     <MainWrapper backgroundImage={background} hasBackButton={true}>
       <Box alignContent="center" justifyContent="center" mb="md">
-        <Text variant="medium18" textAlign="center" mb="sml">
+        <Text variant="medium18" textAlign="center">
           Sign up to{' '}
           <Text variant="medium18" color="primary">
             iBond
           </Text>
         </Text>
-        <Text variant="regular12" textAlign="center" color="black" mb="lg">
-          To confirm your email address, enter the code sent to sh****l.com
+        <Text variant="regular14" textAlign="center" color="black" mt="xs">
+          Create a secure password.
         </Text>
       </Box>
 
-      <OTPInput onCodeComplete={setCode} error={error} />
+      <CustomInput
+        label="Password"
+        value={password}
+        onChangeText={handlePasswordChange}
+        secureTextEntry
+        error={error}
+      />
 
       <CustomButton
         label="Continue"
-        onPress={handleConfirmation}
+        onPress={handleContinue}
         backgroundColor="primary"
         labelProps={{ color: 'white', variant: 'regular14' }}
         borderRadius="smm"
-        marginTop="sm"
-        isLoading={isSubmitting}
-        disabled={isSubmitting}
+        marginTop="md"
+        disabled={!password || !!error}
       />
 
       <Text
@@ -78,13 +80,16 @@ const EmailConfirmation: React.FC = () => {
         </Text>
       </Text>
 
-      <TouchableOpacity onPress={handleResend}>
-        <Text textAlign="center" mt="md" color="primary" variant="medium14">
-          Didn't receive code? Resend
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text textAlign="center" mt="lg">
+          Already have an account?{' '}
+          <Text color="primary" variant="medium14">
+            Log In
+          </Text>
         </Text>
       </TouchableOpacity>
     </MainWrapper>
   );
 };
 
-export default EmailConfirmation;
+export default PasswordCreation;

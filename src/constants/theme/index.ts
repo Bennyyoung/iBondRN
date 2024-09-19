@@ -25,7 +25,7 @@ export const palette = {
   purple: 'rgba(35, 0, 83, 1)',
   red: 'rgba(227, 30, 36, 1)',
   secondary: '#878681',
-  secondaryGrey: '#A6A6AA',
+  secondaryGrey: '#62636C',
   success: '#00A067',
   textColorTint: '#000000',
   transparent: 'transparent',

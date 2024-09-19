@@ -9,7 +9,7 @@ import OTPInput from '@/components/InputOtp';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
-const EmailConfirmation: React.FC = () => {
+const ForgotPasswordConfirmation: React.FC = () => {
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,7 +25,7 @@ const EmailConfirmation: React.FC = () => {
       // If successful, navigate to the next screen
       // navigation.navigate('NextScreen');
       setTimeout(() => {
-        navigation.navigate('UsernameSelection');
+        navigation.navigate('ChangePassword');
         setIsSubmitting(false);
       }, 3000);
     }
@@ -40,9 +40,9 @@ const EmailConfirmation: React.FC = () => {
     <MainWrapper backgroundImage={background} hasBackButton={true}>
       <Box alignContent="center" justifyContent="center" mb="md">
         <Text variant="medium18" textAlign="center" mb="sml">
-          Sign up to{' '}
+          Confirm{' '}
           <Text variant="medium18" color="primary">
-            iBond
+            Account
           </Text>
         </Text>
         <Text variant="regular12" textAlign="center" color="black" mb="lg">
@@ -59,32 +59,21 @@ const EmailConfirmation: React.FC = () => {
         labelProps={{ color: 'white', variant: 'regular14' }}
         borderRadius="smm"
         marginTop="sm"
+        marginBottom="xl"
         isLoading={isSubmitting}
         disabled={isSubmitting}
       />
 
-      <Text
-        textAlign="center"
-        mt="lg"
-        variant="regular12"
-        color="secondaryGrey">
-        By tapping "Continue", you accept our{' '}
-        <Text color="primary" variant="medium12">
-          Terms of Use
-        </Text>{' '}
-        and{' '}
-        <Text color="primary" variant="medium12">
-          Privacy Policy
-        </Text>
-      </Text>
-
       <TouchableOpacity onPress={handleResend}>
-        <Text textAlign="center" mt="md" color="primary" variant="medium14">
-          Didn't receive code? Resend
+        <Text textAlign="center" mt="xl">
+          Didn't receive code?{' '}
+          <Text color="primary" variant="medium14">
+            Resend
+          </Text>
         </Text>
       </TouchableOpacity>
     </MainWrapper>
   );
 };
 
-export default EmailConfirmation;
+export default ForgotPasswordConfirmation;

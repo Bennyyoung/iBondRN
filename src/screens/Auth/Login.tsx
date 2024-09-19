@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Platform } from 'react-native';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import CustomInput from '@/components/CustomInput';
@@ -119,7 +119,7 @@ const Login: React.FC = () => {
             </Box>
 
             <Box flexDirection="row" justifyContent="space-between">
-              <Box width="48%">
+              <Box width={Platform.OS === 'ios' ? '48%' : '100%'}>
                 <CustomButton
                   label="Google"
                   iconName="googleIcon"
@@ -137,22 +137,24 @@ const Login: React.FC = () => {
                   }}
                 />
               </Box>
-              <Box width="48%">
-                <CustomButton
-                  label="Apple"
-                  iconName="appleIcon"
-                  iconSize="sm"
-                  onPress={() => {}}
-                  backgroundColor="black"
-                  labelProps={{ color: 'white', variant: 'medium14' }}
-                  borderRadius="smm"
-                  paddingVertical="xs"
-                  style={{
-                    alignContent: 'center',
-                    justifyContent: 'center',
-                  }}
-                />
-              </Box>
+              {Platform.OS === 'ios' && (
+                <Box width="48%">
+                  <CustomButton
+                    label="Apple"
+                    iconName="appleIcon"
+                    iconSize="sm"
+                    onPress={() => {}}
+                    backgroundColor="black"
+                    labelProps={{ color: 'white', variant: 'medium14' }}
+                    borderRadius="smm"
+                    paddingVertical="xs"
+                    style={{
+                      alignContent: 'center',
+                      justifyContent: 'center',
+                    }}
+                  />
+                </Box>
+              )}
             </Box>
             <TouchableOpacity
               onPress={() => navigation.navigate('AuthLanding')}>

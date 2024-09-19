@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Animated } from 'react-native';
+import { View, TextInput, StyleSheet, Animated, Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Text from '@/components/Text';
 import { triggerShakeAnimation } from '@/utils/helpers/shakeAnimation';
@@ -21,18 +21,31 @@ const OTPInput: React.FC<OTPInputProps> = ({ onCodeComplete, error }) => {
   }, [animValue, error]);
 
   const handleOtpChange = (value: string, index: number) => {
+    if (!/^\d*$/.test(value)) {
+      return;
+    }
+
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
 
-    if (value !== '' && index < 5) {
-      inputRefs.current[index + 1]?.focus();
-    } else if (value === '' && index > 0) {
+    if (value !== '') {
+      if (index < 5) {
+        inputRefs.current[index + 1]?.focus();
+      } else {
+        inputRefs.current[index]?.blur();
+        if (newOtp.every(digit => digit !== '')) {
+          onCodeComplete(newOtp.join(''));
+        }
+      }
+    } else if (index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
+  };
 
-    if (newOtp.every(digit => digit !== '')) {
-      onCodeComplete(newOtp.join(''));
+  const handleKeyPress = (e: any, index: number) => {
+    if (e.nativeEvent.key === 'Backspace' && index > 0 && otp[index] === '') {
+      inputRefs.current[index - 1]?.focus();
     }
   };
 
@@ -46,8 +59,15 @@ const OTPInput: React.FC<OTPInputProps> = ({ onCodeComplete, error }) => {
             style={[styles.otpInput, error && styles.otpInputError]}
             value={digit}
             onChangeText={value => handleOtpChange(value, index)}
+            onKeyPress={e => handleKeyPress(e, index)}
             keyboardType="number-pad"
             maxLength={1}
+            selectTextOnFocus
+            onFocus={() => {
+              if (index > 0 && otp[index - 1] === '') {
+                inputRefs.current[otp.findIndex(d => d === '')]?.focus();
+              }
+            }}
           />
         ))}
       </View>
@@ -65,8 +85,8 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(8),
   },
   otpInput: {
-    width: RFValue(46),
-    height: RFValue(48),
+    width: Platform.OS === 'ios' ? RFValue(40) : RFValue(46),
+    height: Platform.OS === 'ios' ? RFValue(43) : RFValue(48),
     borderWidth: 1,
     borderColor: '#CFB0F5',
     borderRadius: RFValue(12),
