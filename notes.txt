@@ -1,0 +1,6 @@
+Adeyemo for map to work on ios, please do
+
+cd ios
+pod install
+
+In AndroidManifest.xml remember to uncomment line 39-41 when I finally get the React Native Map

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { View, StyleSheet, FlatList, ScrollView, VirtualizedList } from 'react-native';
+import { View, StyleSheet, FlatList, ScrollView, VirtualizedList, Dimensions } from 'react-native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import Box from '@/components/Box';
 import TitleBar from '@/components/TitleBar/TitleBar';
@@ -17,17 +17,11 @@ import SportIcon from '@/assets/svg/sport.svg';
 import SocialIcon from '@/assets/svg/social.svg';
 import CorporateIcon from '@/assets/svg/corporate.svg';
 import Card from '@/components/Card'; // Assuming Card.tsx is in the same folder
-// import EventListtwo from '@/components/EventListtwo'; // Import EventList component
-import UpcomingEventsScreen from '@/components/UpcommingEventsScreen';
-import UpcommingEventsScreen from '@/components/UpcommingEventsScreen';
-import FeaturedSection from '@/components/FeaturedSection';
-import FeaturedEventScreen from '@/components/FeaturedEventScreen';
 import SubTitle from '@/components/SubTitle/SubTitle';
-import OngoingIcon from '@/assets/svg/ongoing.svg'
-import TodayIcon from '@/assets/svg/today.svg'
-import VirtualIcon from '@/assets/svg/virtual.svg'
-import GoogleMeet from '@/assets/svg/googleMeet.svg'
-import Clock from "@/assets/svg/clock.svg"
+import eventDetails from '@/utils/eventDetails';
+import TopEventsForYou from '@/components/TopEventsForYou/TopEventsForYou';
+
+const { width: screenWidth, height } = Dimensions.get('window')
 
 const eventsNavigation = [
   {
@@ -75,84 +69,10 @@ const eventsNavigation = [
 
 ];
 
-const eventDetails = [
-  {
-    id: 1,
-    eventTitle: 'How to manage a remote work lifestyle',
-    eventStatus: `Ongoing`,
-    statusColor: '#FF3B30',
-    eventType: 'Virtual',
-    eventPlatform: 'Google Meet',
-    platformIcon: <VirtualIcon />,
-    statusIcon: <OngoingIcon />,
-    meetingIcon: <GoogleMeet />
-  },
-  {
-    id: 2,
-    eventTitle: 'How to manage time effectively',
-    eventStatus: 'Today',
-    statusColor: '#151619',
-    eventType: 'Virtual',
-    eventPlatform: 'Zoom',
-    platformIcon: <VirtualIcon />,
-    statusIcon: <TodayIcon />,
-    meetingIcon: <GoogleMeet />
-  },
-  {
-    id: 3,
-    eventTitle: 'How to manage time effectively',
-    eventStatus: 'Today',
-    statusColor: '#151619',
-    eventType: 'Virtual',
-    eventPlatform: 'Zoom',
-    platformIcon: <VirtualIcon />,
-    statusIcon: <TodayIcon />,
-    meetingIcon: <GoogleMeet />
-  },
-  {
-    id: 4,
-    eventTitle: 'How to manage time effectively',
-    eventStatus: 'Tomorrow',
-    statusColor: '#151619',
-    eventType: 'Virtual',
-    eventPlatform: 'Zoom',
-    platformIcon: <VirtualIcon />,
-    statusIcon: <TodayIcon />,
-    meetingIcon: <GoogleMeet />
-  },
-  {
-    id: 5,
-    eventTitle: 'How to manage a remote work lifestyle',
-    eventStatus: 'Wed, 11 Feb, 2025',
-    eventTime: '11:30 AM',
-    eventTimeIcon: <Clock />,
-    statusColor: '#151619',
-    eventType: 'Virtual',
-    eventPlatform: 'Zoom',
-    platformIcon: <VirtualIcon />,
-    statusIcon: <TodayIcon />,
-    meetingIcon: <GoogleMeet />
-  },
-  {
-    id: 6,
-    eventTitle: 'How to manage a remote work lifestyle',
-    eventStatus: 'Wed, 11 Feb, 2025',
-    eventTime: '11:30 AM',
-    eventTimeIcon: <Clock />,
-    statusColor: '#151619',
-    eventType: 'Virtual',
-    eventPlatform: 'Zoom',
-    platformIcon: <VirtualIcon />,
-    statusIcon: <TodayIcon />,
-    meetingIcon: <GoogleMeet />
-  },
-];
-
 const getItem = (data: any, index: number) => data[index];
 const getItemCount = (data: any) => data.length;
 
 const Events: React.FC = () => {
-  const flatListRef = useRef<FlatList>(null);
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: '#fff' }}>
@@ -218,7 +138,7 @@ const Events: React.FC = () => {
         getItemCount={getItemCount}
       />
 
-      <Box style={{ marginHorizontal: RFValue(20) }}>
+      <Box style={{ marginHorizontal: 16 }}>
         {
           eventDetails.map(eventDetail => {
             if (eventDetail.eventStatus === 'Today') {
@@ -227,56 +147,13 @@ const Events: React.FC = () => {
             if (eventDetail.eventStatus === 'Ongoing') {
               return null
             }
-            return <Card data={eventDetail} />
+            return <Card key={eventDetail.id} data={eventDetail} />
           })
         }
       </Box>
 
       {/* Top Events */}
-      <SubTitle title={'Top Events'} subtitle='Show more' />
-
-      <VirtualizedList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={eventDetails}
-        keyExtractor={(item) => item.id.toString()}
-        initialNumToRender={4}
-        renderItem={({ item }) => {
-          if (item.eventStatus === 'Today') {
-            return (
-              <Card data={item} />
-            )
-          }
-          if (item.eventStatus === 'Tomorrow') {
-            return (
-              <Card data={item} />
-            )
-          }
-          return null
-        }}
-        // showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.flatListContainer}
-        getItem={getItem}
-        getItemCount={getItemCount}
-      />
-
-      <Box style={{ marginHorizontal: RFValue(20) }}>
-        {
-          eventDetails.map(eventDetail => {
-            if (eventDetail.eventStatus === 'Today') {
-              return null
-            }
-            if (eventDetail.eventStatus === 'Ongoing') {
-              return null
-            }
-            if (eventDetail.eventStatus === 'Tomorrow') {
-              return null
-            }
-            return <Card data={eventDetail} />
-          })
-        }
-      </Box>
-
+      <TopEventsForYou />
 
     </ScrollView>
   );
@@ -285,6 +162,9 @@ const Events: React.FC = () => {
 export default Events;
 
 const styles = StyleSheet.create({
+  image: {
+    borderRadius: 8
+  },
   title: {
     paddingVertical: RFValue(10),
     paddingRight: RFValue(16),
@@ -294,16 +174,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 16
   },
+  imageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 12,
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 30
+  },
   titleText: {
     color: '#6500E0',
-    fontSize: RFValue(14),
+    fontSize: RFValue(14, height),
     fontWeight: '600'
   },
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    padding: RFValue(16)
+    padding: 16
   },
   gridItem: {
     width: '22%',
@@ -313,24 +200,24 @@ const styles = StyleSheet.create({
   },
   iconCircle: {
     backgroundColor: '#F4EBFF',
-    padding: RFValue(14),
-    borderRadius: RFValue(1500),
+    padding: 14,
+    borderRadius: 1500,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: RFValue(10)
+    marginBottom: 10
   },
   iconLabel: {
     textAlign: 'center',
-    fontSize: RFValue(12)
+    fontSize: RFValue(12, height)
   },
   cardContainer: {
     marginRight: 16 // Adds spacing between cards
   },
   flatListContainer: {
-    paddingLeft: RFValue(16) // Add padding to align with other content
+    paddingLeft: 16 // Add padding to align with other content
   },
   eventListContainer: {
-    padding: RFValue(16)
+    padding: 16
   }
 });
 

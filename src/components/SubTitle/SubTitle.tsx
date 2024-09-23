@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity } from "react-native"
+import { Dimensions, StyleSheet, TouchableOpacity } from "react-native"
 import Box from "@/components/Box"
 import Text from "@/components/Text"
 import { RFValue } from "react-native-responsive-fontsize"
@@ -9,7 +9,9 @@ type SubTitle = {
     subtitle: string
 }
 
-const SubTitle = ({title, subtitle}: SubTitle) => {
+const { height } = Dimensions.get('window')
+
+const SubTitle = ({ title, subtitle }: SubTitle) => {
 
     return (
         <Box style={styles.container}>
@@ -26,17 +28,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 20,
-        marginVertical: 10
+        marginTop: 20,
+        marginBottom: 10
     },
     title: {
-        fontSize: RFValue(17),
+        fontSize: RFValue(17, height),
         letterSpacing: -0.43,
         fontWeight: '600'
     },
     subtitle: {
         color: '#999BAD',
         fontWeight: 400,
-        fontSize: RFValue(13),
+        fontSize: RFValue(13, height),
         lineHeight: 18,
         letterSpacing: -0.08
     }

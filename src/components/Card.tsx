@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import ImageIcon from '@/assets/svg/img-part.svg'; // Importing img-part.svg
 import Sud from '@/assets/svg/sud.svg'; // Importing sud.svg
 import { RFValue } from 'react-native-responsive-fontsize';
+import { useNavigation } from '@react-navigation/native';
 
 
 // Define the interface for the props
@@ -18,32 +19,23 @@ interface CardProps {
     platformIcon?: React.JSX.Element;
     meetingIcon?: React.JSX.Element;
     eventTimeIcon?: React.JSX.Element;
+    eventImage?: React.JSX.Element;
     eventTime?: string
   };
 }
 
+const { height } = Dimensions.get('window')
+
 // Card component that receives data as props
 const Card = ({ data }: CardProps) => {
-  const { id, eventStatus, eventTitle, statusColor, eventType, eventPlatform, statusIcon, platformIcon, meetingIcon, eventTimeIcon, eventTime } = data
-  // Determine which image to display based on the card id
-  const renderImage = () => {
-    switch (id) {
-      case 1:
-        return <ImageIcon style={styles.image} width={RFValue(284)} height={RFValue(182.5)} />;
-      case 2:
-        return <ImageIcon style={styles.image} width={RFValue(284)} height={RFValue(182.5)} />;
-      case 3:
-        return <ImageIcon style={styles.image} width={RFValue(284)} height={RFValue(182.5)} />;
-      default:
-        return <ImageIcon style={styles.image} width={RFValue(284)} height={RFValue(182.5)} />;
-    }
-  };
+  const navigation = useNavigation()
+  const { id, eventStatus, eventTitle, statusColor, eventType, eventPlatform, statusIcon, platformIcon, meetingIcon, eventTimeIcon, eventTime, eventImage } = data
+  console.log('data', data.eventImage);
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('EventDetails', { event: data })}>
       <View style={styles.imageContainer}>
-        {/* Display the correct image based on the card id */}
-        {renderImage()}
+        {eventImage}
       </View>
 
       <View style={styles.content}>
@@ -60,7 +52,7 @@ const Card = ({ data }: CardProps) => {
           {
             (eventTime && eventTimeIcon) && (
               <>
-              <Text style={styles.dot}>•</Text>
+                <Text style={styles.dot}>•</Text>
                 {eventTimeIcon}
                 <Text style={[styles.status, { color: statusColor }]}>
                   {eventTime}
@@ -83,7 +75,7 @@ const Card = ({ data }: CardProps) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -101,16 +93,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     marginRight: 20,
-    width: RFValue(300),
-    height: RFValue(284.5),
+    width: 377,
   },
   imageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 12,
     backgroundColor: '#FFFFFF',
-    width: '100%',
-    // height: 150
+    marginHorizontal: 30
   },
   image: {
     width: '90%',
@@ -121,9 +111,9 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   status: {
-    fontSize: RFValue(11),
+    fontSize: RFValue(11, height),
     fontWeight: '400',
-    marginLeft: RFValue(5)
+    marginLeft: 5
   },
   statusContainer: {
     flexDirection: 'row',
@@ -131,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    fontSize: RFValue(13),
+    fontSize: RFValue(13, height),
     fontWeight: 'bold',
     marginBottom: 5,
     color: '#151619'
@@ -142,16 +132,16 @@ const styles = StyleSheet.create({
     marginTop: RFValue(5)
   },
   infoText: {
-    fontSize: RFValue(11),
-    lineHeight: RFValue(13),
-    letterSpacing: RFValue(0.06),
+    fontSize: RFValue(11, height),
+    lineHeight: 13,
+    letterSpacing: 0.06,
     fontWeight: '400',
     color: '#3D3F4B',
-    marginLeft: RFValue(5)
+    marginLeft: 5
 
   },
   dot: {
-    fontSize: 12,
+    fontSize: RFValue(12, height),
     marginHorizontal: 10,
     color: '#6A6A6A',
   },

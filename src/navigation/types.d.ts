@@ -38,7 +38,9 @@ export type AppNavRoutes = {
 
   // Home Dashboard types
   DashboardTab: undefined;
+  BottomTab: undefined;
   Events: undefined;
+  EventDetails: undefined;
   // Security Question types
   SecurityScreen: undefined;
 
@@ -65,6 +67,41 @@ export type AppNavRoutes = {
   PersonalDataSuccess: undefined;
 };
 
+// Events
+export type Event = {
+  id: number;
+  eventTitle: string;
+  eventPlatform: string;
+  eventType: string;
+  eventStatus: string;
+  statusColor: string;
+  statusIcon: string;
+  eventTime: string;
+  meetingIcon: React.JSX.Element;  // For the SVG component
+  platformIcon: React.JSX.Element; // For the SVG component
+  eventImage: React.JSX.Element; // For the SVG component
+  eventTimeIcon: React.JSX.Element,
+  organizer: {
+    organizerPicture: React.JSX.Element,
+    organizerName: string,
+    organizerUniversity: string,
+    isVerified: boolean
+  }
+}
+
+export type EventDetails = {
+  event: Event
+}
+
+export type RouteParams = EventDetails
+
+
+type EventDetailsScreenRouteProp = RouteProp<RouteParams, 'EventDetails'>;
+
+export type EventDetailsProps = {
+  route: EventDetailsScreenRouteProp;
+}
+
 // Dashboard Bottom tab routes
 type MyTabRoutes = {
   HomeDashboard: undefined;
@@ -75,9 +112,10 @@ type MyTabRoutes = {
 
 export type StackParamsList = AppNavRoutes;
 export type BottomStackParamsList = MyTabRoutes;
-declare global {
-  namespace ReactNavigation {
-    type RootParamList = StackParamsList;
-    type BottomTabParamList = BottomStackParamsList;
+export type RootStackParamsList =
+  declare global {
+    namespace ReactNavigation {
+      type RootParamList = StackParamsList;
+      type BottomTabParamList = BottomStackParamsList;
+    }
   }
-}
