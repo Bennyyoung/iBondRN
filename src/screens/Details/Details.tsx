@@ -12,9 +12,7 @@ const { height } = Dimensions.get('window')
 const profileDisplayIcons = [1, 2, 3, 4]
 
 const Details = ({ event }: EventDetails) => {
-    console.log('event', event);
-
-
+    
     return (
         <Box>
             <Box style={styles.detailsSection}>

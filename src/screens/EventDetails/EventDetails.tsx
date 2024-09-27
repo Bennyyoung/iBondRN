@@ -1,17 +1,19 @@
 import { BaseButton } from '@/components/BaseButton';
 import Box from '@/components/Box';
 import { CustomButton } from '@/components/CustomButton';
-import { EventDetails, EventDetailsProps, RouteParams } from '@/navigation/types';
+import { Event, EventDetails, EventDetailsProps, RouteParams } from '@/navigation/types';
 import { RouteProp } from '@react-navigation/core';
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions, Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Details from '../Details/Details';
-import Comments from '../Comments/Comments';
-import Attendees from '../Attendees/Attendees';
+import Comments from '../EventComments/EventComments';
+import Attendees from '../EventAttendees/EventAttendees';
 import TopEventsForYou from '@/components/TopEventsForYou/TopEventsForYou';
 import MoreLikeThis from '@/components/MoreLikeThis/MoreLikeThis';
 import Verified from "@/assets/svg/verify.svg"
+import Modal from '@/components/Modal/Modal';
+import PurpleTick from "@/assets/svg/purpleTick.svg"
 
 const { height } = Dimensions.get('window')
 
@@ -19,12 +21,26 @@ type Tabs = 'Details' | 'Comments' | 'Attendees'
 
 const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
   const { event } = route.params as EventDetails
+  console.log('event', event);
+
 
   const [activeTab, setActiveTab] = useState<Tabs>('Details')
   const [isAttending, setIsAttending] = useState(false)
+  const [eventType, setEventType] = useState('')
+  const [modalVisible, setModalVisible] = useState(false);
 
   const toggleAttending = () => {
-    setIsAttending(!isAttending)
+    setModalVisible(true)
+  }
+
+  const displayEventStatus = (event: Event) => {
+    if (event.eventType === 'Ongoing') {
+      setEventType('Join Event')
+      return 'Join Event'
+    }
+    setEventType('Attend')
+
+    return 'Attend'
   }
 
   const renderContent = (activeTab: Tabs) => {
@@ -57,7 +73,7 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
       {/* Event Date and Time */}
       <View style={styles.infoRow}>
         <Text style={styles.icon}>{event.statusIcon}</Text>
-        <Text style={styles.infoText}>{event.eventStatus}</Text>
+        <Text>{event.eventStatus}</Text>
         {
           (event.eventTime && event.eventTimeIcon) && (
             <>
@@ -74,7 +90,7 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
       {/* Event Type */}
       <View style={styles.infoRow}>
         <Text style={styles.icon}>{event.platformIcon}</Text>
-        <Text style={styles.infoText}>{event.eventType}</Text>
+        <Text>{event.eventType}</Text>
       </View>
 
       {/* Action Buttons */}
@@ -84,7 +100,7 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
         </TouchableOpacity> */}
         <Box width={'45%'}>
           <CustomButton
-            label={`${isAttending ? 'Cancel response' : 'Attend'}`}
+            label={() => displayEventStatus(event)}
             onPress={() => toggleAttending()}
             backgroundColor={`${isAttending ? 'white' : 'primary'}`}
             labelProps={{ color: `${isAttending ? 'primary' : 'white'}`, fontSize: RFValue(13, height), fontWeight: '400' }}
@@ -105,8 +121,6 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
               alignContent: 'center',
               justifyContent: 'center',
             }}
-          // isLoading={isSubmitting}
-          // disabled={!values.emailOrPhone}
           />
         </Box>
       </View>
@@ -160,9 +174,62 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
 
       <TopEventsForYou />
 
+      {/* Modal starts*/}
+      <Modal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      >
+        <Box style={styles.centeredView}>
+          <Box style={styles.modalView}>
+            <PurpleTick />
+            <Text style={styles.modalTitle}>Thank you for your response</Text>
+            <Text style={styles.modalSubTitle}>We’ll send you event updates and notify you when it starts.</Text>
+            <CustomButton
+              label={'Add to Calendar'}
+              onPress={() => { }}
+              backgroundColor='primary'
+              labelProps={{
+                color: 'white',
+                fontWeight: '400',
+                fontSize: RFValue(16, height)
+              }}
+              style={{
+                borderRadius: 12,
+                borderColor: '#E9EAED',
+                borderWidth: 0.5,
+                alignContent: 'center',
+                justifyContent: 'center',
+                paddingVertical: 16,
+                paddingHorizontal: 20,
+                marginBottom: 20
+              }}
+            />
+            <CustomButton
+              label="Okay"
+              onPress={() => { }}
+              labelProps={{ color: 'black', fontSize: RFValue(16, height), fontWeight: '400' }}
+              borderRadius="smm"
+              style={{
+                backgroundColor: '#FFFFFF',
+                borderRadius: 12,
+                borderColor: '#E9EAED',
+                borderWidth: 0.5,
+                alignContent: 'center',
+                paddingVertical: 16,
+                paddingHorizontal: 20,
+                justifyContent: 'center',
+              }}
+            />
+          </Box>
+        </Box>
+      </Modal>
+      {/* Modal ends */}
+
     </ScrollView>
   );
 };
+
+export default EventDetailScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -197,6 +264,42 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 16,
     marginRight: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    color: '#151619',
+    fontSize: RFValue(24, height),
+    fontWeight: '400',
+    letterSpacing: -0.26,
+    lineHeight: 26,
+    marginTop: 10
+  },
+  modalSubTitle: {
+    color: '#62636C',
+    fontSize: RFValue(16, height),
+    fontWeight: '400',
+    textAlign: 'center',
+    marginVertical: 20
   },
   dot: {
     fontSize: RFValue(12, height),
@@ -336,4 +439,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventDetailScreen;

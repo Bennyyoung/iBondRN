@@ -30,7 +30,6 @@ const { height } = Dimensions.get('window')
 const Card = ({ data }: CardProps) => {
   const navigation = useNavigation()
   const { id, eventStatus, eventTitle, statusColor, eventType, eventPlatform, statusIcon, platformIcon, meetingIcon, eventTimeIcon, eventTime, eventImage } = data
-  console.log('data', data.eventImage);
 
   return (
     <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('EventDetails', { event: data })}>

@@ -65,6 +65,9 @@ export type AppNavRoutes = {
   ChangePasswordSuccess: undefined;
   PersonalDataScreen: undefined;
   PersonalDataSuccess: undefined;
+  CreateEvents: undefined;
+  MyEvents: undefined;
+  BrowseEvents: undefined;
 };
 
 // Events

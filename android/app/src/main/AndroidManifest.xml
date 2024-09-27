@@ -19,6 +19,7 @@
     android:windowSoftInputMode="adjustPan"
     android:allowBackup="false"
     android:exported="true"
+    android:supportsRtl="true"
     android:launchMode="singleInstance" android:taskAffinity=""
     android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
     android:theme="@style/AppTheme">

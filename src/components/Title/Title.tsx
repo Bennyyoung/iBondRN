@@ -6,7 +6,7 @@ import { RFValue } from "react-native-responsive-fontsize"
 import { SvgProps } from "react-native-svg"
 
 type TitleProps = {
-    icon: ReactElement<SvgProps>
+    icon?: ReactElement<SvgProps>
     children: ReactNode
 }
 

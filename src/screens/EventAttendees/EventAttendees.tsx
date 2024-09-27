@@ -7,7 +7,7 @@ import { RFValue } from "react-native-responsive-fontsize"
 
 const { height } = Dimensions.get('window')
 
-const Attendees = () => {
+const EventAttendees = () => {
 
     return (
         <>
@@ -33,4 +33,4 @@ const Attendees = () => {
     )
 }
 
-export default Attendees
+export default EventAttendees

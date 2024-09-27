@@ -20,6 +20,8 @@ import Card from '@/components/Card'; // Assuming Card.tsx is in the same folder
 import SubTitle from '@/components/SubTitle/SubTitle';
 import eventDetails from '@/utils/eventDetails';
 import TopEventsForYou from '@/components/TopEventsForYou/TopEventsForYou';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 const { width: screenWidth, height } = Dimensions.get('window')
 
@@ -72,17 +74,22 @@ const eventsNavigation = [
 const getItem = (data: any, index: number) => data[index];
 const getItemCount = (data: any) => data.length;
 
-const Events: React.FC = () => {
+const BrowseEvents: React.FC = () => {
+  const navigation = useNavigation()
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: '#fff' }}>
       {/* Title Bar with Plus Icon */}
       <TitleBar>
         <Box style={styles.title}>
-          <PlusIcon />
-          <Text style={styles.titleText}>
-            My Event
-          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('CreateEvents')}>
+            <PlusIcon />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('MyEvents')}>
+            <Text style={styles.titleText}>
+              My Event
+            </Text>
+          </TouchableOpacity>
         </Box>
       </TitleBar>
 
@@ -159,7 +166,7 @@ const Events: React.FC = () => {
   );
 };
 
-export default Events;
+export default BrowseEvents;
 
 const styles = StyleSheet.create({
   image: {

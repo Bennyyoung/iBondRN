@@ -3,7 +3,7 @@ import Comment from "@/components/Comment/Comment"
 import Text from "@/components/Text"
 import commentData from "@/utils/commentData"
 
-const Comments = () => {
+const EventComments = () => {
 
     return (
         <Box>
@@ -24,4 +24,4 @@ const Comments = () => {
     )
 }
 
-export default Comments
+export default EventComments

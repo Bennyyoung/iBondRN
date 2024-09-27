@@ -1,4 +1,3 @@
-import Events from "@/screens/Events/Events"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import HomeIcon from "@/assets/svg/home.svg"
 import ExploreIcon from '@/assets/svg/explore.svg'
@@ -6,6 +5,8 @@ import GiantPlusIcon from '@/assets/svg/giantPlus.svg'
 import ChatsIcon from "@/assets/svg/chats.svg"
 import ProfileIcon from "@/assets/svg/profile.svg"
 import { RFValue } from "react-native-responsive-fontsize"
+import CreateEvents from "@/screens/CreateEvents/CreateEvents"
+import BrowseEvents from "@/screens/BrowseEvents/BrowseEvents"
 
 const Tab = createBottomTabNavigator()
 
@@ -34,7 +35,7 @@ const BottomTab = () => {
         >
             <Tab.Screen
                 name="Home"
-                component={Events} // Temporal placeholder
+                component={BrowseEvents} // Temporal placeholder
                 options={{
                     headerShown: false,
                     title: 'Home',
@@ -49,7 +50,7 @@ const BottomTab = () => {
             />
             <Tab.Screen
                 name="Explore"
-                component={Events} // Temporal placeholder
+                component={BrowseEvents} // Temporal placeholder
                 options={{
                     headerShown: false,
                     title: 'Explore',
@@ -63,8 +64,8 @@ const BottomTab = () => {
                 }}
             />
             <Tab.Screen
-                name="Events"
-                component={Events} // Temporal placeholder
+                name="CreateEvents"
+                component={CreateEvents} // Temporal placeholder
                 options={{
                     headerShown: false,
                     title: '',
@@ -73,7 +74,7 @@ const BottomTab = () => {
             />
             <Tab.Screen
                 name="Chats"
-                component={Events} // Temporal placeholder
+                component={CreateEvents} // Temporal placeholder
                 options={{
                     headerShown: false,
                     title: 'Chats',
@@ -88,7 +89,7 @@ const BottomTab = () => {
             />
             <Tab.Screen
                 name="Profile"
-                component={Events} // Temporal placeholder
+                component={BrowseEvents} // Temporal placeholder
                 options={{
                     headerShown: false,
                     title: 'Profile',

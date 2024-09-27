@@ -31,6 +31,8 @@ import PostSignUpScreen from '@/screens/Auth/PostSignUp';
 import PhotoUploadScreen from '@/screens/Auth/PhotoUploadScreen';
 import BottomTab from '@/navigation/tabs/BottomTab';
 import EventDetails from '@/screens/EventDetails/EventDetails';
+import CreateEvents from '@/screens/CreateEvents/CreateEvents';
+import BrowseEvents from '@/screens/BrowseEvents/BrowseEvents';
 
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
@@ -100,7 +102,9 @@ function UnauthenticatedStack() {
       <Stack.Screen component={EmailConfirmation} name="EmailConfirmation" />
       <Stack.Screen component={AuthLanding} name="AuthLanding" /> */}
       <Stack.Screen component={BottomTab} name='BottomTab' />
-      <Stack.Screen component={EventDetails} name='EventDetails' />
+      <Stack.Screen component={BrowseEvents} name='BrowseEvents' />
+      <Stack.Screen component={CreateEvents} name='CreateEvents' />
+      {/* <Stack.Screen component={MyEvents} name='MyEvents' /> */}
       <Stack.Screen component={UsernameSelection} name="UsernameSelection" />
       <Stack.Screen component={PasswordCreation} name="PasswordCreation" />
       <Stack.Screen
