@@ -81,16 +81,32 @@ const BrowseEvents: React.FC = () => {
     <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: '#fff' }}>
       {/* Title Bar with Plus Icon */}
       <TitleBar>
-        <Box style={styles.title}>
+
+        {/* <Box style={styles.title}>
           <TouchableOpacity onPress={() => navigation.navigate('CreateEvents')}>
             <PlusIcon />
           </TouchableOpacity>
+        </Box>
+        <TouchableOpacity onPress={() => navigation.navigate('MyEvents')}>
+          <Text style={styles.titleText}>
+            My Event
+          </Text>
+        </TouchableOpacity> */}
+
+        <Box style={styles.title}>
           <TouchableOpacity onPress={() => navigation.navigate('MyEvents')}>
-            <Text style={styles.titleText}>
-              My Event
+            <Text style={styles.createEvent}>
+              {/* Create Event */}
             </Text>
           </TouchableOpacity>
         </Box>
+        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: 80 }} onPress={() => navigation.navigate('MyEvents')}>
+          <PlusIcon />
+
+          <Text style={styles.titleText}>
+            My Event
+          </Text>
+        </TouchableOpacity>
       </TitleBar>
 
       {/* Title with Calendar Icon */}
@@ -191,7 +207,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#6500E0',
     fontSize: RFValue(14, height),
-    fontWeight: '600'
+    fontWeight: '600',
   },
   gridContainer: {
     flexDirection: 'row',

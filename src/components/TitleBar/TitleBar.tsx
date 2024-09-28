@@ -6,7 +6,13 @@ import { PropsWithChildren } from "react"
 const TitleBar = ({ children }: PropsWithChildren) => {
 
     return (
-        <Box flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} paddingHorizontal={'sm'}>
+        <Box 
+            flexDirection={'row'} 
+            justifyContent={'space-between'} 
+            alignItems={'center'} 
+            paddingHorizontal={'sm'} 
+            // alignContent={'center'}
+            >
             <LeftArrowIcon />
             {children}
         </Box>
