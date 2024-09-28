@@ -14,6 +14,7 @@ import camera from '@/assets/svg/camera.svg';
 import library from '@/assets/svg/gallery.svg';
 import file from '@/assets/svg/folder-open.svg';
 import edit from '@/assets/svg/edit.svg';
+import location from '@/assets/svg/location.svg';
 
 const svgIconPack = {
   appleIcon,
@@ -32,6 +33,7 @@ const svgIconPack = {
   library,
   file,
   edit,
+  location
 };
 
 export { svgIconPack };

@@ -21,7 +21,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import ForgotPassword from '@/screens/Auth/ForgotPassword';
 import EmailConfirmation from '@/screens/Auth/EmailConfirmation';
-import Events from '@/screens/Events/Events'
 import UsernameSelection from '@/screens/Auth/UsernameSelection';
 import PasswordCreation from '@/screens/Auth/PasswordCreation';
 import ForgotPasswordConfirmation from '@/screens/Auth/ForgotPasswordConfirmation';
@@ -30,9 +29,10 @@ import SuccessScreen from '@/features/SuccessScreen';
 import PostSignUpScreen from '@/screens/Auth/PostSignUp';
 import PhotoUploadScreen from '@/screens/Auth/PhotoUploadScreen';
 import BottomTab from '@/navigation/tabs/BottomTab';
-import EventDetails from '@/screens/EventDetails/EventDetails';
+import EventDetails from '@/screens/EventDetailScreen/EventDetailScreen';
 import CreateEvents from '@/screens/CreateEvents/CreateEvents';
 import BrowseEvents from '@/screens/BrowseEvents/BrowseEvents';
+import EventDetailScreen from '@/screens/EventDetailScreen/EventDetailScreen';
 
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
@@ -104,7 +104,7 @@ function UnauthenticatedStack() {
       <Stack.Screen component={BottomTab} name='BottomTab' />
       <Stack.Screen component={BrowseEvents} name='BrowseEvents' />
       <Stack.Screen component={CreateEvents} name='CreateEvents' />
-      {/* <Stack.Screen component={MyEvents} name='MyEvents' /> */}
+      <Stack.Screen component={EventDetailScreen} name='EventDetailScreen' />
       <Stack.Screen component={UsernameSelection} name="UsernameSelection" />
       <Stack.Screen component={PasswordCreation} name="PasswordCreation" />
       <Stack.Screen

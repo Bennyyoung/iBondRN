@@ -2,24 +2,31 @@ import { Dimensions, StyleSheet, TouchableOpacity } from "react-native"
 import Box from "@/components/Box"
 import Text from "@/components/Text"
 import { RFValue } from "react-native-responsive-fontsize"
-RFValue
+import { SvgIcon, SvgIconPackType } from "@/assets/icons"
+import { Theme } from '@/constants/theme';
 
 type SubTitle = {
     title: string
     subtitle: string
+    iconName?: SvgIconPackType;
+    iconSize?: keyof Theme['iconSizes'];
+    onPress?: () => void
 }
 
 const { height } = Dimensions.get('window')
 
-const SubTitle = ({ title, subtitle }: SubTitle) => {
+const SubTitle = ({ title, subtitle, iconName, iconSize, onPress }: SubTitle) => {
 
     return (
-        <Box style={styles.container}>
+        <TouchableOpacity onPress={onPress} style={styles.container}>
             <Text style={styles.title}>{title}</Text>
             <TouchableOpacity>
-                <Text style={styles.subtitle}>{subtitle}</Text>
+                {
+                    iconName ? <SvgIcon name={iconName} size={iconSize} /> : <Text style={styles.subtitle}>{subtitle}</Text>
+                }
+
             </TouchableOpacity>
-        </Box>
+        </TouchableOpacity>
     )
 }
 
@@ -27,7 +34,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginHorizontal: 20,
+        // marginHorizontal: 20,
         marginTop: 20,
         marginBottom: 10
     },

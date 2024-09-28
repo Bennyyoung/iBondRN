@@ -6,25 +6,26 @@ import { RFValue } from "react-native-responsive-fontsize"
 import SmallProfileIcon from "@/assets/svg/smallProfileIcon.svg"
 import { Event, EventDetails, EventDetailsProps, RouteParams } from "@/navigation/types"
 import MapView, { Marker } from "react-native-maps"
+import users from "@/utils/users"
 
 const { height } = Dimensions.get('window')
 
-const profileDisplayIcons = [1, 2, 3, 4]
-
 const Details = ({ event }: EventDetails) => {
-    
+
     return (
         <Box>
             <Box style={styles.detailsSection}>
                 <Box style={styles.attendeesList}>
                     <Box style={styles.attendeesContainer}>
-                        {profileDisplayIcons.map((_, index) => (
-                            <Box key={index} style={styles.profileContainer}>
-                                <SmallProfileIcon width={40} height={40} style={styles.profileIcon} />
-                            </Box>
-                        ))}
+                        {
+                            users.slice(1, 5).map((user, index) => (
+                                <Box key={index} style={styles.profileContainer}>
+                                    {user.profileImage}
+                                </Box>
+                            ))
+                        }
                     </Box>
-                    <Text style={styles.attendeeText}>286 Attendees</Text>
+                    <Text style={styles.attendeeText}>{`${users.filter(user => user.isAttendee).length} Attendees`}</Text>
                 </Box>
 
                 {/* Event Details */}

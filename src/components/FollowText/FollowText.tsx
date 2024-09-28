@@ -5,10 +5,18 @@ import { RFValue } from "react-native-responsive-fontsize"
 const { height } = Dimensions.get('window')
 
 type FollowTextProps = {
-    followText: string
+    followText?: string
+    fontSize?: number
 }
 
-const FollowText = ({ followText }: FollowTextProps) => {
+const FollowText = ({ followText, fontSize = 12 }: FollowTextProps) => {
+    const styles = StyleSheet.create({
+        followText: {
+            color: '#6500E0',
+            fontWeight: '400',
+            fontSize: RFValue(fontSize, height),
+        },
+    })
 
     return (
         <TouchableOpacity>
@@ -19,10 +27,3 @@ const FollowText = ({ followText }: FollowTextProps) => {
 
 export default FollowText
 
-const styles = StyleSheet.create({
-    followText: {
-        color: '#6500E0',
-        fontWeight: '400',
-        fontSize: RFValue(12, height),
-    },
-})

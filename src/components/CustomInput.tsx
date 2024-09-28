@@ -41,6 +41,7 @@ interface CustomInputProps {
   containerProps?: object;
   iconName?: SvgIconPackType;
   iconSize?: keyof Theme['iconSizes'];
+  placeholder?: string
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -55,6 +56,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   containerProps,
   iconName,
   iconSize,
+  placeholder
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -128,6 +130,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             secureTextEntry={secureTextEntry && !isPasswordVisible}
             blurOnSubmit
             keyboardType={keyboardType}
+            placeholder={placeholder}
           />
           {secureTextEntry && (
             <TouchableOpacity
@@ -175,8 +178,9 @@ const styles = StyleSheet.create({
   input: {
     fontSize: RFValue(14),
     color: '#151619',
-    paddingTop: Platform.OS === 'ios' ? RFValue(24) : RFValue(26),
-    paddingBottom: Platform.OS === 'ios' ? RFValue(8) : RFValue(10),
+    // Is this needed Adeyemo
+    // paddingTop: Platform.OS === 'ios' ? RFValue(24) : RFValue(26),
+    // paddingBottom: Platform.OS === 'ios' ? RFValue(8) : RFValue(10),
     height: '100%',
   },
   eyeIcon: {

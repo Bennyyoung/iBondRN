@@ -66,7 +66,7 @@ export type AppNavRoutes = {
   PersonalDataScreen: undefined;
   PersonalDataSuccess: undefined;
   CreateEvents: undefined;
-  MyEvents: undefined;
+  EventDetailScreen: undefined;
   BrowseEvents: undefined;
 };
 

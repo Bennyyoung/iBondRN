@@ -32,7 +32,7 @@ const Card = ({ data }: CardProps) => {
   const { id, eventStatus, eventTitle, statusColor, eventType, eventPlatform, statusIcon, platformIcon, meetingIcon, eventTimeIcon, eventTime, eventImage } = data
 
   return (
-    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('EventDetails', { event: data })}>
+    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('EventDetailScreen', { event: data })}>
       <View style={styles.imageContainer}>
         {eventImage}
       </View>
