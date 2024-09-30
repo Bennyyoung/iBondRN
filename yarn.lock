@@ -3529,6 +3529,7 @@ __metadata:
     react-dom: ^18.3.1
     react-i18next: ^15.0.0
     react-native: 0.74.3
+    react-native-contacts: ^8.0.0
     react-native-dotenv: ^3.4.11
     react-native-flash-message: ^0.4.2
     react-native-gesture-handler: 2.3.0
@@ -9312,6 +9313,16 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
+  languageName: node
+  linkType: hard
+
+"react-native-contacts@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "react-native-contacts@npm:8.0.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: b68bc6159c9d01f6b2b8aa4d5b5fe614a652cf394bb2f9f6d52715bc7378b4a3af694a8f3cfa10d656e56aedc660be7704db2fa304ab210675da2ee770a6a41b
   languageName: node
   linkType: hard
 

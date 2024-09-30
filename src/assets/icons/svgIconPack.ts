@@ -14,6 +14,8 @@ import camera from '@/assets/svg/camera.svg';
 import library from '@/assets/svg/gallery.svg';
 import file from '@/assets/svg/folder-open.svg';
 import edit from '@/assets/svg/edit.svg';
+import contact_list from '@/assets/svg/contact_list.svg';
+import search from '@/assets/svg/search.svg';
 
 const svgIconPack = {
   appleIcon,
@@ -32,6 +34,8 @@ const svgIconPack = {
   library,
   file,
   edit,
+  contact_list,
+  search,
 };
 
 export { svgIconPack };

@@ -16,6 +16,8 @@ export type AppNavRoutes = {
   };
   PostSignUpScreen: undefined;
   PhotoUploadScreen: undefined;
+  FindFriendsFromContacts: undefined;
+  SearchInterests: undefined;
   HomeScreen: undefined;
   ResetPasswordLanding: undefined;
   ResetPassword: undefined;

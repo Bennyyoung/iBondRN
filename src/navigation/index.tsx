@@ -28,6 +28,8 @@ import ChangePassword from '@/screens/Auth/ChangePassword';
 import SuccessScreen from '@/features/SuccessScreen';
 import PostSignUpScreen from '@/screens/Auth/PostSignUp';
 import PhotoUploadScreen from '@/screens/Auth/PhotoUploadScreen';
+import FindFriendsFromContacts from '@/screens/Auth/FindFriendsFromContacts';
+import SearchInterests from '@/screens/Auth/SearchInterests';
 
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
@@ -105,6 +107,11 @@ function UnauthenticatedStack() {
       <Stack.Screen component={ChangePassword} name="ChangePassword" />
       <Stack.Screen component={PostSignUpScreen} name="PostSignUpScreen" />
       <Stack.Screen component={PhotoUploadScreen} name="PhotoUploadScreen" />
+      <Stack.Screen
+        component={FindFriendsFromContacts}
+        name="FindFriendsFromContacts"
+      />
+      <Stack.Screen component={SearchInterests} name="SearchInterests" />
       <Stack.Screen component={AuthLanding} name="AuthLanding" />
     </Stack.Navigator>
   );
