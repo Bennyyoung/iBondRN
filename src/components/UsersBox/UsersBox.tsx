@@ -7,7 +7,6 @@ const { height } = Dimensions.get('window')
 import { User } from "../types";
 
 const UsersBox = (users: User[]) => {
-console.log('users hi', users.users);
 
     return (
         <>

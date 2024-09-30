@@ -78,21 +78,9 @@ const BrowseEvents: React.FC = () => {
   const navigation = useNavigation()
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: '#fff' }}>
+    <ScrollView contentContainerStyle={styles.container}>
       {/* Title Bar with Plus Icon */}
       <TitleBar>
-
-        {/* <Box style={styles.title}>
-          <TouchableOpacity onPress={() => navigation.navigate('CreateEvents')}>
-            <PlusIcon />
-          </TouchableOpacity>
-        </Box>
-        <TouchableOpacity onPress={() => navigation.navigate('MyEvents')}>
-          <Text style={styles.titleText}>
-            My Event
-          </Text>
-        </TouchableOpacity> */}
-
         <Box style={styles.title}>
           <TouchableOpacity onPress={() => navigation.navigate('MyEvents')}>
             <Text style={styles.createEvent}>
@@ -134,7 +122,9 @@ const BrowseEvents: React.FC = () => {
       </Box>
 
       {/* Happening Soon */}
-      <SubTitle title={'Happening Soon'} subtitle='Show more' />
+      <View style={{ paddingHorizontal: 20 }}>
+        <SubTitle title={'Happening Soon'} subtitle='Show more' />
+      </View>
 
       <VirtualizedList
         horizontal
@@ -185,6 +175,10 @@ const BrowseEvents: React.FC = () => {
 export default BrowseEvents;
 
 const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: '#fff',
+  },
   image: {
     borderRadius: 8
   },

@@ -22,11 +22,9 @@ import users from '@/utils/users';
 import PurplePlusIcon from "@/assets/svg/purplePlusIcon.svg"
 import { User } from '@/components/types';
 import UsersBox from '@/components/UsersBox/UsersBox';
+import SegunOwoPrivateClub from "@/assets/svg/segunOwoPrivateClub.svg"
 
 // Import images from assets
-const publicIcon = require('@/assets/svg/globe.svg');
-const privateIcon = require('@/assets/svg/lock.svg');
-const friendsOnlyIcon = require('@/assets/svg/followers.svg');
 const customIcon = require('@/assets/svg/group.svg');
 
 const { height } = Dimensions.get('window');
@@ -34,21 +32,33 @@ const { height } = Dimensions.get('window');
 // Static options for dropdowns
 const categoryOptions = [
   {
-    id: 'conference',
-    value: 'Conference'
+    id: 'corporate',
+    value: 'Corporate'
   },
   {
-    id: 'workshop',
-    value: 'Workshop'
+    id: 'education',
+    value: 'Education'
   },
   {
-    id: 'meetup',
-    value: 'Meetup'
+    id: 'career',
+    value: 'Career'
   },
   {
-    id: 'webinar',
-    value: 'Webinar'
-  }
+    id: 'culture',
+    value: 'Culture'
+  },
+  {
+    id: 'entertainment',
+    value: 'Entertainment'
+  },
+  {
+    id: 'social',
+    value: 'Social'
+  },
+  {
+    id: 'sport',
+    value: 'Sport'
+  },
 ];
 
 const eventType = [
@@ -61,12 +71,62 @@ const eventType = [
     value: 'Virtual'
   },
 ];
+
 const privacyOptions = [
-  { label: 'Public', icon: publicIcon, description: 'This event is open to everyone. Anyone can join.' },
-  { label: 'Private', icon: privateIcon, description: 'This event is for invited guests only.' },
-  { label: 'Friends Only', icon: friendsOnlyIcon, description: 'Only your friends can see this event.' },
-  { label: 'Custom', icon: customIcon, description: 'You can select specific people to invite.' },
+  {
+    id: 'public',
+    value: 'Public',
+    iconName: 'globe',
+    label: 'Anyone on and off iBond Elite'
+  },
+  {
+    id: 'private',
+    value: 'Private',
+    iconName: 'lock',
+    label: 'Only people you invite can see and join event'
+  },
+  {
+    id: 'followers',
+    value: 'Followers Only',
+    iconName: 'followers',
+    label: "It'll be shown only to your followers"
+  },
+  {
+    id: 'group',
+    value: 'Group',
+    iconName: 'group',
+    label: 'Members of a group that you belong',
+    arrowRight: 'rightArrow'
+  },
 ];
+
+const groupOptions = [
+  {
+    id: 'segun owo',
+    value: 'Segun OWO Private club',
+    image: <SegunOwoPrivateClub style={{ marginRight: 20 }} />
+  },
+  {
+    id: 'finesse gub',
+    value: 'Finesse Hub',
+    image: <SegunOwoPrivateClub style={{ marginRight: 20 }} />
+  },
+  {
+    id: 'dpa mastermind community',
+    value: 'The DPA Priate Mastermind Community',
+    image: <SegunOwoPrivateClub style={{ marginRight: 20 }} />
+  },
+  {
+    id: 'ui/ux desingners',
+    value: 'UI/UX Designers & Developers',
+    image: <SegunOwoPrivateClub style={{ marginRight: 20 }} />
+  },
+  {
+    id: 'lautech',
+    value: 'LAUTECH Student UNION',
+    image: <SegunOwoPrivateClub style={{ marginRight: 20 }} />
+  },
+]
 
 const CreateEvents = () => {
   const navigation = useNavigation()
@@ -75,7 +135,6 @@ const CreateEvents = () => {
   const [count, setCount] = useState(0)
 
   const addHosts = (user: User) => {
-    console.log('user', user);
 
     setHosts(prevHosts => [...prevHosts, user]);
     setCount(prevCount => prevCount + 1)
@@ -84,8 +143,6 @@ const CreateEvents = () => {
   const toggleHosts = () => {
     setShowHosts(!showAllHosts)
   }
-
-  console.log('hosts length', hosts.length);
 
 
   // Validation schema for Formik
@@ -97,6 +154,7 @@ const CreateEvents = () => {
     eventType: Yup.string().required('Event type is required'),
     location: Yup.string().required('Location is required'),
     eventPrivacy: Yup.string().required('Event privacy is required'),
+    group: Yup.string().required('Event privacy is required'),
     otherDetails: Yup.string()
   });
 
@@ -123,6 +181,7 @@ const CreateEvents = () => {
 
       <Formik
         initialValues={{
+          eventPhoto: '',
           eventTitle: '',
           eventCategory: '',
           eventDate: '',
@@ -131,6 +190,7 @@ const CreateEvents = () => {
           eventType: '',
           location: '',
           eventPrivacy: '',
+          group: '',
           otherDetails: ''
         }}
         validationSchema={validationSchema}
@@ -138,11 +198,13 @@ const CreateEvents = () => {
       >
         {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched }) => (
           <View style={styles.formContainer}>
-            <ImageUpload />
+            <ImageUpload 
+              setFieldValue={setFieldValue}
+            />
 
             {/* Event Title */}
             <CustomInput
-              label={''}
+              // label={'Event Title'}
               onBlur={handleBlur('eventTitle')}
               value={values.eventTitle}
               onChangeText={handleChange('eventTitle')}
@@ -163,23 +225,21 @@ const CreateEvents = () => {
               modulePalette="primary"
               iconName="chevron_downward"
               iconSize="sml"
-              showHeader={false}
+              showHeader={true}
             />
 
             {/* Date */}
-            <SelectInput
+            <DateInput
               label={'Date'}
-              list={categoryOptions}
-              getSelectedValue={value => {
-                setFieldValue('date', value);
+              getSelectedDate={date => {
+                const formattedDate = date.toISOString().split('T')[0];
+                setFieldValue('eventDate', formattedDate);
               }}
-              placeholder="Date"
-              selectedValue={values.eventDate}
+              maximumDate={new Date()}
               errorMessage={touched.eventDate && errors.eventDate}
               modulePalette="primary"
               iconName="calender"
               iconSize="sml"
-              showHeader={false}
             />
 
             {/* Start Time and End Time */}
@@ -226,7 +286,7 @@ const CreateEvents = () => {
               modulePalette="primary"
               iconName="chevron_downward"
               iconSize="sml"
-              showHeader={false}
+              showHeader={true}
             />
 
             {/* Location */}
@@ -244,7 +304,7 @@ const CreateEvents = () => {
             {/* Event Privacy */}
             <SelectInput
               label={'Event Privacy'}
-              list={eventType}
+              list={privacyOptions}
               getSelectedValue={value => {
                 setFieldValue('eventPrivacy', value);
               }}
@@ -254,21 +314,34 @@ const CreateEvents = () => {
               modulePalette="primary"
               iconName="chevron_downward"
               iconSize="sml"
-              showHeader={false}
+              showHeader={true}
             />
 
-            {/* Other Details */}
-            <SelectInput
-              label={'Other Details'}
-              list={eventType}
+            {/* Group */}
+            {values.eventPrivacy === 'group' && <SelectInput
+              label={'Group'}
+              list={groupOptions}
               getSelectedValue={value => {
-                setFieldValue('otherDetails', value);
+                setFieldValue('group', value);
               }}
-              placeholder="Event Privacy"
-              selectedValue={values.otherDetails}
-              errorMessage={touched.otherDetails && errors.otherDetails}
+              placeholder="Group"
+              selectedValue={values.group}
+              errorMessage={touched.group && errors.group}
               modulePalette="primary"
-              showHeader={false}
+              iconName="chevron_downward"
+              iconSize="sml"
+              showHeader={true}
+            />
+            }
+
+            {/* Other Details */}
+            <CustomInput
+              label={''}
+              onBlur={handleBlur('otherDetails')}
+              value={values.otherDetails}
+              onChangeText={handleChange('otherDetails')}
+              placeholder='Other Details'
+              error={touched.otherDetails && errors.otherDetails}
             />
 
             {/* Hosts */}

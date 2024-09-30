@@ -12,6 +12,7 @@ export const palette = {
   blue: '#3878B8',
   cardSecondary: '#EFEFEF',
   darkPurple: '#7B46CC',
+  darkGrey: '#3D3F4B',
   error: '#FF3B30',
   errorColor: '#FF3B30',
   grey: '#B6B8C4',

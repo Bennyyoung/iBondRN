@@ -15,6 +15,11 @@ import library from '@/assets/svg/gallery.svg';
 import file from '@/assets/svg/folder-open.svg';
 import edit from '@/assets/svg/edit.svg';
 import location from '@/assets/svg/location.svg';
+import globe from '@/assets/svg/globe.svg';
+import lock from '@/assets/svg/lock.svg';
+import followers from '@/assets/svg/followers.svg';
+import group from '@/assets/svg/group.svg';
+import rightArrow from '@/assets/svg/rightArrow.svg';
 
 const svgIconPack = {
   appleIcon,
@@ -33,7 +38,12 @@ const svgIconPack = {
   library,
   file,
   edit,
-  location
+  location,
+  globe,
+  lock,
+  followers,
+  group,
+  rightArrow
 };
 
 export { svgIconPack };

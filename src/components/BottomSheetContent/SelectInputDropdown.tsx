@@ -96,15 +96,22 @@ const SelectInputDropdown = ({
               flexDirection="row"
               marginTop="md"
               paddingTop="md"
-              paddingVertical="sm">
-              {listElement?.iconName && (
+              paddingVertical="sm"
+            >
+
+              {/* Display the icons */}
+              {listElement?.iconName ? (
                 <IconVector
                   name={listElement.iconName}
-                  size="lg"
-                  style={{ marginRight: 15 }}
+                  size="xxl"
+                // style={{ marginRight: 15 }}
                 />
-              )}
+              ) : (
+                listElement?.image
+              )
+              }
               <Box>
+                {/* Display the title */}
                 <Text
                   color={
                     listElement.id === selected
@@ -116,6 +123,7 @@ const SelectInputDropdown = ({
                   variant={listElement.id === '' ? 'medium14' : 'regular14'}>
                   {listElement.value}
                 </Text>
+                {/* Display the Description */}
                 {listElement?.label && (
                   <Box mt="sm">
                     <Text
@@ -128,12 +136,21 @@ const SelectInputDropdown = ({
                         listElement.id === selected ? 'bold' : 'normal'
                       }
                       numberOfLines={1}
-                      variant="medium16">
+                      variant="bold12">
                       {listElement.label}
                     </Text>
                   </Box>
                 )}
               </Box>
+
+              {/* Display the right icon */}
+              {listElement?.arrowRight && (
+                <IconVector
+                  name={listElement.arrowRight}
+                  size="default"
+                  style={{ marginLeft: 45 }}
+                />
+              )}
             </Box>
           </TouchableOpacity>
         ))}
