@@ -12,6 +12,7 @@ import * as Yup from 'yup';
 import MainWrapper from '@/components/MainWrapper';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import useLoginUser from '@/utils/hooks/Auth/useLogin';
 
 interface LoginFormValues {
   username: string;
@@ -24,7 +25,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login: React.FC = () => {
-  const handleLogin = (
+  const { logInUser, isLoading, isSuccess } = useLoginUser();
+
+  const handleLogin = async (
     values: LoginFormValues,
     { setSubmitting, setFieldError }: FormikHelpers<LoginFormValues>,
   ) => {
@@ -32,6 +35,15 @@ const Login: React.FC = () => {
       setFieldError('password', 'Incorrect password');
       setSubmitting(false);
     }, 1000);
+
+    await logInUser({
+      emailOrUsername: values.username,
+      password: values.password,
+    });
+
+    if (isSuccess) {
+      // navigate into the main app
+    }
   };
 
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -49,7 +61,6 @@ const Login: React.FC = () => {
           values,
           errors,
           touched,
-          isSubmitting,
         }) => (
           <>
             <Box alignContent="center" justifyContent="center" mb="md">
@@ -94,8 +105,8 @@ const Login: React.FC = () => {
               backgroundColor="primary"
               labelProps={{ color: 'white', variant: 'regular14' }}
               borderRadius="smm"
-              isLoading={isSubmitting}
-              disabled={!(values.username && values.password)}
+              isLoading={isLoading}
+              disabled={!(values.username && values.password) || isLoading}
             />
 
             <Box
@@ -135,6 +146,8 @@ const Login: React.FC = () => {
                     alignContent: 'center',
                     justifyContent: 'center',
                   }}
+                  isLoading={isLoading}
+                  disabled={isLoading}
                 />
               </Box>
               {Platform.OS === 'ios' && (
@@ -152,6 +165,8 @@ const Login: React.FC = () => {
                       alignContent: 'center',
                       justifyContent: 'center',
                     }}
+                    isLoading={isLoading}
+                    disabled={isLoading}
                   />
                 </Box>
               )}
