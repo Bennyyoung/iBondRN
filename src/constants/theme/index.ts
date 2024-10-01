@@ -21,7 +21,7 @@ export const palette = {
   primary: '#6500E0',
   primaryGreen: '#2EAF7D',
   primaryGrey: '#FCFCFF',
-  primaryPurple: '#7B46CD',
+  primaryPurple: '#FBF7FF',
   primarySky: '#001D3D',
   purple: 'rgba(35, 0, 83, 1)',
   red: 'rgba(227, 30, 36, 1)',

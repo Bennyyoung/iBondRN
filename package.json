@@ -49,6 +49,7 @@
     "react-i18next": "^15.0.0",
     "react-native": "0.74.3",
     "react-native-calendars": "^1.1307.0",
+    "react-native-contacts": "^8.0.0",
     "react-native-date-picker": "^5.0.7",
     "react-native-dotenv": "^3.4.11",
     "react-native-flash-message": "^0.4.2",

@@ -195,7 +195,11 @@ const PhotoUploadScreen = () => {
           ) : (
             <TouchableOpacity onPress={() => handleAddPhoto()}>
               <Box alignSelf="center" justifyContent="center" mb="xxl" mt="xl">
-                <IconVector name="upload_avatar" size="xxxl" />
+                <IconVector
+                  name="upload_avatar"
+                  size="xxxl"
+                  color="primaryPurple"
+                />
               </Box>
             </TouchableOpacity>
           )}
@@ -209,7 +213,7 @@ const PhotoUploadScreen = () => {
         paddingHorizontal="md">
         <CustomButton
           label="Add a Photo"
-          onPress={handleAddPhoto}
+          onPress={() => navigation.navigate('FindFriendsFromContacts')}
           backgroundColor="primary"
           labelProps={{ color: 'white', variant: 'regular14' }}
           borderRadius="smm"
