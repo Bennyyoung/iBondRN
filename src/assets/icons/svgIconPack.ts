@@ -20,6 +20,9 @@ import lock from '@/assets/svg/lock.svg';
 import followers from '@/assets/svg/followers.svg';
 import group from '@/assets/svg/group.svg';
 import rightArrow from '@/assets/svg/rightArrow.svg';
+import clock from '@/assets/svg/clock.svg';
+import chevron_upward from '@/assets/svg/chevron_upward.svg';
+import gallery_add from '@/assets/svg/gallery_add.svg';
 
 const svgIconPack = {
   appleIcon,
@@ -28,6 +31,7 @@ const svgIconPack = {
   googleIcon,
   onboarding_background,
   chevron_downward,
+  chevron_upward,
   calender,
   check_mark,
   error_close,
@@ -43,7 +47,9 @@ const svgIconPack = {
   lock,
   followers,
   group,
-  rightArrow
+  rightArrow,
+  clock,
+  gallery_add
 };
 
 export { svgIconPack };

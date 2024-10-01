@@ -7,6 +7,7 @@ import Text from "../Text"
 import { FormikErrors } from "formik"
 import { useState } from "react"
 import { launchImageLibrary } from "react-native-image-picker"
+import { SvgIcon } from "@/assets/icons"
 
 const { height } = Dimensions.get('window')
 
@@ -55,7 +56,14 @@ const ImageUpload = ({ setFieldValue }: ImageUploadProps) => {
             <TouchableOpacity style={styles.roundedBox} onPress={handleImageUpload}>
                 {
                     imageUri ? (
-                        <Image source={{ uri: imageUri }} style={styles.imagePreview} />
+                        <>
+                            <Image source={{ uri: imageUri }} style={styles.imagePreview} />
+
+                            <Box style={styles.changePhotoContainer}>
+                                <SvgIcon name="gallery_add" size="sml" />
+                                <Text style={styles.changePhotoText}>Change photo</Text>
+                            </Box>
+                        </>
                     ) : (
                         <>
                             <ImageUploadIcon />
@@ -88,6 +96,18 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 8,
+    },
+    changePhotoContainer: {
+        zIndex: 1,
+        position: 'absolute',
+        alignItems: 'center'
+    },
+    changePhotoText: {
+        color: '#FFFFFF',
+        fontWeight: '400',
+        fontSize: RFValue(11, height),
+        lineHeight: 13,
+        letterSpacing: 0.06
     },
     addPhoto: {
         color: '#6500E0',

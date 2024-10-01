@@ -87,7 +87,8 @@ const SelectInputDropdown = ({
               if (dismissBottomSheet) {
                 dismissBottomSheet();
               }
-            }}>
+            }}
+          >
             <Box
               alignItems="center"
               backgroundColor={listElement.id === '' ? 'grey' : 'transparent'}
