@@ -27,6 +27,7 @@ import useTextInputDropdown from '@/components/BottomSheetHooks/useSelectInputDr
 import SelectedArray from '@/components/SelectedArray/SelectedArray';
 import { IconVector } from '@/assets/icons/IconVector';
 import Text from '@/components/Text';
+import useCreateEvent from '@/utils/hooks/CreateEvent/useEvent';
 
 // Import images from assets
 const customIcon = require('@/assets/svg/group.svg');
@@ -156,6 +157,8 @@ interface FormValues {
 }
 
 const CreateEvents = () => {
+  const { createAnEvent, isLoading, isSuccess } = useCreateEvent()
+
   const navigation = useNavigation()
   const [hosts, setHosts] = useState<User[]>([])
   const [showAllHosts, setShowHosts] = useState(false)
@@ -168,12 +171,9 @@ const CreateEvents = () => {
     label: user.university
   }))
 
-
   const toggleHosts = () => {
     setShowHosts(!showAllHosts)
   }
-
-
 
   // Validation schema for Formik
   const validationSchema = Yup.object().shape({
@@ -204,22 +204,22 @@ const CreateEvents = () => {
       category: values.eventCategory,
       hostName: hostName,
       eventUrl: "string",
-      "imageUrl": "string",
-      "attendees": [
+      imageUrl: "string",
+      attendees: [
         0
       ],
-      "channel": "string",
+      channel: "string",
       otherDetails: values.otherDetails,
       groupName: values.group,
-      "createdBy": "string"
+      createdBy: "string"
     }
   }
 
   // Form submission handler
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     const data = handleTransform(values)
-
-
+    await createAnEvent(data)
+    
   };
 
   return (
@@ -251,7 +251,7 @@ const CreateEvents = () => {
           eventPrivacy: '',
           group: '',
           eventHost: [] as EventHost[],
-          eventChanel:'',
+          eventChanel: '',
           otherDetails: ''
         }}
         validationSchema={validationSchema}
