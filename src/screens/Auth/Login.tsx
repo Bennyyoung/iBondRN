@@ -25,28 +25,23 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login: React.FC = () => {
-  const { logInUser, isLoading, isSuccess } = useLoginUser();
+  const { logInUser, isLoading } = useLoginUser();
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   const handleLogin = async (
     values: LoginFormValues,
-    { setSubmitting, setFieldError }: FormikHelpers<LoginFormValues>,
+    { setSubmitting }: FormikHelpers<LoginFormValues>,
   ) => {
-    setTimeout(() => {
-      setFieldError('password', 'Incorrect password');
-      setSubmitting(false);
-    }, 1000);
-
-    await logInUser({
-      emailOrUsername: values.username,
+    const userData = await logInUser({
+      email: values.username,
       password: values.password,
     });
 
-    if (isSuccess) {
-      // navigate into the main app
+    if (userData) {
+      navigation.replace('HomeScreen');
     }
+    setSubmitting(false);
   };
-
-  const navigation = useNavigation<StackNavigationProp<any>>();
 
   return (
     <MainWrapper backgroundImage={background}>
@@ -61,6 +56,7 @@ const Login: React.FC = () => {
           values,
           errors,
           touched,
+          isSubmitting,
         }) => (
           <>
             <Box alignContent="center" justifyContent="center" mb="md">
@@ -105,8 +101,12 @@ const Login: React.FC = () => {
               backgroundColor="primary"
               labelProps={{ color: 'white', variant: 'regular14' }}
               borderRadius="smm"
-              isLoading={isLoading}
-              disabled={!(values.username && values.password) || isLoading}
+              isLoading={isLoading || isSubmitting} // Disable if submitting
+              disabled={
+                !(values.username && values.password) ||
+                isLoading ||
+                isSubmitting
+              }
             />
 
             <Box
@@ -146,8 +146,8 @@ const Login: React.FC = () => {
                     alignContent: 'center',
                     justifyContent: 'center',
                   }}
-                  isLoading={isLoading}
-                  disabled={isLoading}
+                  isLoading={isLoading || isSubmitting}
+                  disabled={isLoading || isSubmitting}
                 />
               </Box>
               {Platform.OS === 'ios' && (
@@ -165,8 +165,8 @@ const Login: React.FC = () => {
                       alignContent: 'center',
                       justifyContent: 'center',
                     }}
-                    isLoading={isLoading}
-                    disabled={isLoading}
+                    isLoading={isLoading || isSubmitting}
+                    disabled={isLoading || isSubmitting}
                   />
                 </Box>
               )}

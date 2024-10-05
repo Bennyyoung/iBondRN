@@ -16,50 +16,110 @@ import { ChevronLeft } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import CustomInput from '@/components/CustomInput';
+import { useDispatch } from 'react-redux';
+import { updateRegistrationData } from '@/redux/features/auth/slices';
+import { showErrorToast } from '@/utils/helpers/toastHelper';
+import useFetchInstitutions from '@/utils/hooks/Utility/useInstitutions';
+import useFetchFacultiesAndDepartments from '@/utils/hooks/Utility/useFacultiesAndDepartments';
 
 const PostSignUpScreen = () => {
   const [userType, setUserType] = useState<string | number>('');
   const [school, setSchool] = useState<string | number>('');
-  const [closestSchool, setClosestSchool] = useState<string | number>('');
-  const [location, setLocation] = useState('');
-  const [error, setError] = useState('');
   const [faculty, setFaculty] = useState<string | number>('');
   const [department, setDepartment] = useState<string | number>('');
   const [classYear, setClassYear] = useState<string | number>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [location, setLocation] = useState('');
+  const [error, setError] = useState('');
+
+  const navigation = useNavigation<StackNavigationProp<any>>();
+  const dispatch = useDispatch();
+
+  const { data: institutions, isLoading: isLoadingInstitutions } =
+    useFetchInstitutions();
+  const { data: facultiesAndDepartments, isLoading: isLoadingFaculties } =
+    useFetchFacultiesAndDepartments();
+
+  const schoolOptions =
+    institutions?.map(inst => ({
+      id: inst.id,
+      value: inst.name,
+    })) || [];
+
+  const facultyOptions = facultiesAndDepartments
+    ? Object.keys(facultiesAndDepartments.Faculties).map(faclty => ({
+        id: faclty,
+        value: faclty,
+      }))
+    : [];
+
+  const departmentOptions =
+    faculty && facultiesAndDepartments
+      ? (facultiesAndDepartments.Faculties[faculty] || []).map(dept => ({
+          id: dept,
+          value: dept,
+        }))
+      : [];
 
   const handleLocation = (text: string) => {
     setLocation(text);
-    if (text.length < 8) {
-      setError('Location is required.');
-    } else {
-      setError('');
-    }
+    setError('');
   };
 
   const handleContinue = () => {
-    // Handle continuation logic here
-    console.log({ userType, school, faculty, department, classYear });
     setIsSubmitting(true);
-    // If successful, navigate to the next screen
+
+    if (
+      userType === 'student' &&
+      (!school || !faculty || !department || !classYear)
+    ) {
+      showErrorToast('Please fill out all fields for students.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (userType === 'non-student' && !location) {
+      showErrorToast('Please fill out your location.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (userType === 'non-student' && location) {
+      if (location.length < 8) {
+        setError('Provide a valid address.');
+        return;
+      }
+      setIsSubmitting(false);
+    }
+
+    dispatch(
+      updateRegistrationData({
+        student: userType === 'student' ? true : false,
+        studentDto: {
+          school: school as string,
+          faculty: faculty as string,
+          department: department as string,
+          level: classYear as string,
+        },
+        location,
+        closeSchool: userType === 'non-student' ? (school as string) : '',
+      }),
+    );
+
     setTimeout(() => {
       navigation.navigate('PhotoUploadScreen');
       setIsSubmitting(false);
     }, 3000);
   };
 
-  const navigation = useNavigation<StackNavigationProp<any>>();
-
   useEffect(() => {
-    if (userType && userType === 'student') {
+    if (userType === 'student') {
       setLocation('');
-      setClosestSchool('');
-    }
-    if (userType && userType === 'non-student') {
-      setFaculty('');
+    } else if (userType === 'non-student') {
       setSchool('');
-      setClassYear('');
+      setFaculty('');
       setDepartment('');
+      setClassYear('');
     }
   }, [userType]);
 
@@ -68,9 +128,7 @@ const PostSignUpScreen = () => {
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       <ScrollView>
         <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}
+          onPress={() => navigation.goBack()}
           style={{
             position: 'relative',
             top: RFValue(10),
@@ -79,6 +137,7 @@ const PostSignUpScreen = () => {
           }}>
           <ChevronLeft color="black" size={RFValue(30)} />
         </TouchableOpacity>
+
         <Box flex={1} padding="md" backgroundColor="white" position="relative">
           <Text variant="medium22" textAlign="left" mb="sm">
             Almost There!
@@ -103,21 +162,73 @@ const PostSignUpScreen = () => {
           />
 
           {userType === 'student' && (
-            <SelectInput
-              label="School"
-              getSelectedValue={setSchool}
-              list={[
-                { id: 'abia', value: 'Abia State University' },
-                { id: 'abubakar', value: 'Abubakar Tafawa Balewa University' },
-                { id: 'adamawa', value: 'Adamawa State University' },
-              ]}
-              placeholder="School"
-              selectedValue={school}
-              modulePalette="primary"
-              iconName="chevron_downward"
-              iconSize="sml"
-              showHeader
-            />
+            <>
+              <SelectInput
+                label="School"
+                getSelectedValue={setSchool}
+                list={schoolOptions}
+                placeholder="Select School"
+                selectedValue={school}
+                modulePalette="primary"
+                iconName="chevron_downward"
+                iconSize="sml"
+                searchable
+                showHeader
+                useSelectedValue
+                isLoading={isLoadingInstitutions}
+              />
+
+              {school && (
+                <SelectInput
+                  label="Faculty"
+                  getSelectedValue={setFaculty}
+                  list={facultyOptions}
+                  placeholder="Select Faculty"
+                  selectedValue={faculty}
+                  modulePalette="primary"
+                  iconName="chevron_downward"
+                  iconSize="sml"
+                  searchable
+                  showHeader
+                  isLoading={isLoadingFaculties}
+                />
+              )}
+
+              {faculty && (
+                <SelectInput
+                  label="Department"
+                  getSelectedValue={setDepartment}
+                  list={departmentOptions}
+                  placeholder="Select Department"
+                  selectedValue={department}
+                  modulePalette="primary"
+                  iconName="chevron_downward"
+                  iconSize="sml"
+                  searchable
+                  showHeader
+                />
+              )}
+
+              {department && (
+                <SelectInput
+                  label="Class"
+                  getSelectedValue={setClassYear}
+                  list={[
+                    { id: '100', value: '100 Level' },
+                    { id: '200', value: '200 Level' },
+                    { id: '300', value: '300 Level' },
+                    { id: '400', value: '400 Level' },
+                    { id: '500', value: '500 Level' },
+                  ]}
+                  placeholder="Select Class"
+                  selectedValue={classYear}
+                  modulePalette="primary"
+                  iconName="chevron_downward"
+                  iconSize="sml"
+                  showHeader
+                />
+              )}
+            </>
           )}
 
           {userType === 'non-student' && (
@@ -128,86 +239,25 @@ const PostSignUpScreen = () => {
                 onChangeText={handleLocation}
                 error={error}
               />
+
               <SelectInput
                 label="Closest School (optional)"
-                getSelectedValue={v => {
-                  setClosestSchool(v);
-                }}
-                list={[
-                  { id: 'abia', value: 'Abia State University' },
-                  {
-                    id: 'abubakar',
-                    value: 'Abubakar Tafawa Balewa University',
-                  },
-                  { id: 'adamawa', value: 'Adamawa State University' },
-                ]}
-                placeholder="School"
-                selectedValue={closestSchool}
+                getSelectedValue={setSchool}
+                list={schoolOptions}
+                placeholder="Select Closest School"
+                selectedValue={school}
                 modulePalette="primary"
                 iconName="chevron_downward"
                 iconSize="sml"
+                searchable
+                useSelectedValue
                 showHeader
               />
             </>
           )}
-
-          {school && (
-            <SelectInput
-              label="Faculty"
-              getSelectedValue={setFaculty}
-              list={[
-                { id: 'agriculture', value: 'Agriculture' },
-                { id: 'art', value: 'Art' },
-                { id: 'basic_science', value: 'Basic Science' },
-              ]}
-              placeholder="Faculty"
-              selectedValue={faculty}
-              modulePalette="primary"
-              iconName="chevron_downward"
-              iconSize="sml"
-              showHeader
-            />
-          )}
-
-          {faculty && (
-            <SelectInput
-              label="Department"
-              getSelectedValue={setDepartment}
-              list={[
-                { id: 'dept1', value: 'Department 1' },
-                { id: 'dept2', value: 'Department 2' },
-                { id: 'dept3', value: 'Department 3' },
-              ]}
-              placeholder="Department"
-              selectedValue={department}
-              modulePalette="primary"
-              iconName="chevron_downward"
-              iconSize="sml"
-              showHeader
-            />
-          )}
-
-          {department && (
-            <SelectInput
-              label="Class"
-              getSelectedValue={setClassYear}
-              list={[
-                { id: '100', value: '100 Level' },
-                { id: '200', value: '200 Level' },
-                { id: '300', value: '300 Level' },
-                { id: '400', value: '400 Level' },
-                { id: '500', value: '500 Level' },
-              ]}
-              placeholder="Class"
-              selectedValue={classYear}
-              modulePalette="primary"
-              iconName="chevron_downward"
-              iconSize="sml"
-              showHeader
-            />
-          )}
         </Box>
       </ScrollView>
+
       <Box
         position="absolute"
         bottom={Platform.OS === 'ios' ? RFValue(20) : RFValue(10)}

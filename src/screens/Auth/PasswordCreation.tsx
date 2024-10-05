@@ -8,27 +8,32 @@ import MainWrapper from '@/components/MainWrapper';
 import background from '@/assets/images/bg-image.png';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useDispatch } from 'react-redux';
+import { updateRegistrationData } from '@/redux/features/auth/slices';
+import { validatePassword } from '@/utils/helpers/validatePassword';
 
 const PasswordCreation: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const dispatch = useDispatch();
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
-    if (text.length < 8) {
-      setError(
-        'Password is too short. It should be at least 8 characters combination of letters, numbers, and special symbols',
-      );
-    } else {
-      setError('');
-    }
+    setError('');
   };
 
   const handleContinue = () => {
+    if (password && !validatePassword(password)) {
+      setError(
+        'Password must be at least 8 characters long, include letters, numbers, and special symbols',
+      );
+      return;
+    }
+
     if (password && !error) {
-      // Navigate to the next screen or complete the sign-up process
-      console.log('Password created successfully');
+      dispatch(updateRegistrationData({ password }));
+
       navigation.navigate('PostSignUpScreen');
     }
   };

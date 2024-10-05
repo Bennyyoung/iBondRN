@@ -1,90 +1,132 @@
-import { createSlice } from '@reduxjs/toolkit';
-
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { iBondMobileApi } from './service';
-import { AuthResponse } from './services.types';
+import { AuthResponse, RegisterRequest } from './services.types';
 import { RootState } from '@/redux/store';
 
-export interface LoginInitialState {
-  status: 'login' | 'login-success' | 'login-error' | 'idle';
-  token: AuthResponse['token'] | null;
+export interface InitialState {
+  status:
+    | 'login'
+    | 'login-success'
+    | 'login-error'
+    | 'register'
+    | 'register-success'
+    | 'register-error'
+    | 'idle';
+  token: string | null;
   isAuthenticated: boolean;
-  username: string;
-  email: string;
-  job: string;
+  userData: Omit<AuthResponse['data'], 'status' | 'message'> | null;
+  registrationData: Partial<RegisterRequest>;
 }
 
-const initState: LoginInitialState = {
-  email: '',
+const initState: InitialState = {
   isAuthenticated: false,
-  job: '',
   status: 'idle',
   token: null,
-  username: '',
+  userData: null,
+  registrationData: {},
 };
 
 export const userSlice = createSlice({
+  name: 'userAuth',
+  initialState: initState,
+
+  reducers: {
+    // Actions for handling registration data collection
+    updateRegistrationData: (
+      state,
+      action: PayloadAction<Partial<RegisterRequest>>,
+    ) => {
+      console.log(action.payload, 'payload', state.registrationData);
+      state.registrationData = {
+        ...state.registrationData,
+        ...action.payload,
+      };
+    },
+    clearRegistrationData: state => {
+      state.registrationData = {};
+    },
+    logout: state => {
+      state.isAuthenticated = false;
+      state.userData = null;
+      state.token = null;
+      state.status = 'idle';
+      state.registrationData = {};
+    },
+    setUserData: (state, { payload }) => {
+      state.userData = payload;
+      state.isAuthenticated = true;
+      state.status = 'login-success';
+      state.token = payload.token;
+    },
+  },
+
   extraReducers: builder => {
+    // Handle login process
     builder.addMatcher(iBondMobileApi.endpoints.login.matchPending, state => {
       state.status = 'login';
     });
+
     builder.addMatcher(
       iBondMobileApi.endpoints.login.matchFulfilled,
       (state, { payload }) => {
-        const { token } = payload;
-        if (token === null || token === undefined) {
+        const userData = payload.data;
+        if (userData.token) {
+          state.status = 'login-success';
+          state.isAuthenticated = true;
+          state.userData = userData;
+          state.token = userData.token;
+        } else {
           state.status = 'login-error';
           state.isAuthenticated = false;
-          state.token = null;
-          return;
         }
-        state.status = 'login-success';
-        state.isAuthenticated = true;
-        state.token = token;
       },
     );
+
     builder.addMatcher(iBondMobileApi.endpoints.login.matchRejected, state => {
       state.status = 'login-error';
       state.isAuthenticated = false;
     });
-  },
-  initialState: initState,
-  name: 'userAuth',
 
-  reducers: {
-    login: state => {
-      state.status = 'login';
-    },
-    loginError: state => {
-      state.status = 'login-error';
-      state.isAuthenticated = false;
-    },
-    loginSuccess: state => {
-      state.status = 'login-success';
-      state.isAuthenticated = true;
-    },
-    logout: state => {
-      state.isAuthenticated = false;
-      state.email = '';
-      state.job = '';
-      state.status = 'idle';
-    },
-    setUserData: (state, { payload }) => {
-      const { email, username, job } = payload;
-      if (username) {
-        state.username = username;
-      }
-      if (email) {
-        state.email = email;
-      }
-      if (job) {
-        state.job = job;
-      }
-    },
+    // Handle registration process
+    builder.addMatcher(
+      iBondMobileApi.endpoints.register.matchPending,
+      state => {
+        state.status = 'register';
+      },
+    );
+
+    builder.addMatcher(
+      iBondMobileApi.endpoints.register.matchFulfilled,
+      (state, { payload }) => {
+        const userData = payload.data;
+        state.status = 'register-success';
+        state.isAuthenticated = true;
+        state.userData = userData;
+        state.token = userData.token;
+      },
+    );
+
+    builder.addMatcher(
+      iBondMobileApi.endpoints.register.matchRejected,
+      state => {
+        state.status = 'register-error';
+        state.isAuthenticated = false;
+      },
+    );
   },
 });
 
-export const { logout, login, loginSuccess, loginError, setUserData } =
-  userSlice.actions;
+export const {
+  logout,
+  setUserData,
+  updateRegistrationData,
+  clearRegistrationData,
+} = userSlice.actions;
+
 export const selectIsAuthenticated = (state: RootState) =>
   state.user.isAuthenticated;
+export const selectRegistrationData = (state: RootState) =>
+  state.user.registrationData;
+export const selectUserData = (state: RootState) => state.user.userData;
+
 export default userSlice.reducer;

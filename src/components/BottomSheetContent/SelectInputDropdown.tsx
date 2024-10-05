@@ -156,6 +156,7 @@ const SelectInputDropdown = ({
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <Box mb="xxl" />
     </Box>
   );
 };
