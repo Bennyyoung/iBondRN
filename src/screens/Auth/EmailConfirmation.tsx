@@ -1,3 +1,4 @@
+/* eslint-disable no-catch-shadow */
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import Box from '@/components/Box';
@@ -8,32 +9,53 @@ import background from '@/assets/images/bg-image.png';
 import OTPInput from '@/components/InputOtp';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { showErrorToast } from '@/utils/helpers/toastHelper';
+import useValidateOtp from '@/utils/hooks/Auth/useValidateOtp';
+import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const EmailConfirmation: React.FC = () => {
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const navigation = useNavigation<StackNavigationProp<any>>();
 
-  const handleConfirmation = () => {
+  const { validateOtpCode, isLoading } = useValidateOtp();
+  const { sendOtpRequest } = useSendOtp();
+  const { registrationData } = useSelector((state: RootState) => state.user);
+
+  const handleConfirmation = async () => {
     if (code.length !== 6) {
       setError('Please enter a 6-digit code.');
     } else {
-      // Handle confirmation logic here
-      console.log('Confirmation code:', code);
+      setError('');
       setIsSubmitting(true);
-      // If successful, navigate to the next screen
-      // navigation.navigate('NextScreen');
-      setTimeout(() => {
+      try {
+        const response = await validateOtpCode({
+          email: registrationData.email!,
+          otp: parseInt(code, 10),
+        });
+
+        if (response) {
+          navigation.navigate('UsernameSelection');
+        }
+        // Remove
         navigation.navigate('UsernameSelection');
+      } catch (error: any) {
+        showErrorToast(error?.message || 'Invalid OTP, please try again.');
+        setError('Invalid OTP, please try again.');
+      } finally {
         setIsSubmitting(false);
-      }, 3000);
+      }
     }
   };
 
-  const handleResend = () => {
-    // Handle resend logic here
-    console.log('Resending code');
+  const handleResend = async () => {
+    setIsResending(true);
+    await sendOtpRequest(registrationData.email!);
+    setIsResending(false);
   };
 
   return (
@@ -59,8 +81,8 @@ const EmailConfirmation: React.FC = () => {
         labelProps={{ color: 'white', variant: 'regular14' }}
         borderRadius="smm"
         marginTop="sm"
-        isLoading={isSubmitting}
-        disabled={isSubmitting}
+        isLoading={isLoading || isSubmitting}
+        disabled={isLoading || isSubmitting || isResending}
       />
 
       <Text
@@ -78,9 +100,13 @@ const EmailConfirmation: React.FC = () => {
         </Text>
       </Text>
 
-      <TouchableOpacity onPress={handleResend}>
-        <Text textAlign="center" mt="md" color="primary" variant="medium14">
-          Didn't receive code? Resend
+      <TouchableOpacity onPress={handleResend} disabled={isResending}>
+        <Text
+          textAlign="center"
+          mt="md"
+          color={isResending ? 'primaryGrey' : 'primary'}
+          variant="medium14">
+          {isResending ? 'Resending...' : "Didn't receive code? Resend"}
         </Text>
       </TouchableOpacity>
     </MainWrapper>

@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
   Animated,
   Platform,
   StyleSheet,
@@ -34,6 +35,8 @@ export type SelectInputProps = {
   iconName?: SvgIconPackType;
   iconSize?: keyof Theme['iconSizes'];
   showHeader: boolean;
+  useSelectedValue?: boolean;
+  isLoading?: boolean;
 };
 
 const SelectInput: React.FC<SelectInputProps> = ({
@@ -48,6 +51,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
   unselectedTextColor = 'textColor',
   iconName,
   iconSize,
+  isLoading = false,
+  useSelectedValue = false,
   showHeader,
 }) => {
   const [, setShowDropdown] = useState(false);
@@ -67,7 +72,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
       }
       setSelected(listElement.id);
       setShowDropdown(false);
-      getSelectedValue(listElement.id);
+      getSelectedValue(useSelectedValue ? listElement.value : listElement.id);
     },
     [getSelectedValue],
   );
@@ -141,9 +146,14 @@ const SelectInput: React.FC<SelectInputProps> = ({
                 {selected ? list.find(l => l.id === selected)?.value : ''}
               </Text>
             </Box>
-            {iconName && iconSize && (
+            {iconName && iconSize && !isLoading && (
               <Box marginLeft="xs">
                 <SvgIcon name={iconName} size={iconSize} />
+              </Box>
+            )}
+            {isLoading && (
+              <Box marginLeft="xs">
+                <ActivityIndicator size="small" color="#888" />
               </Box>
             )}
           </Box>

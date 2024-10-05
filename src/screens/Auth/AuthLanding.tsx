@@ -13,6 +13,9 @@ import { TouchableOpacity } from 'react-native';
 import SelectInput from '@/components/SelectInput';
 import { DateInput } from '@/components/DateInput';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { useDispatch } from 'react-redux';
+import { updateRegistrationData } from '@/redux/features/auth/slices';
+import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
 
 interface SignUpFormValues {
   firstName: string;
@@ -34,13 +37,30 @@ const validationSchema = Yup.object().shape({
 
 const SignUp: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const dispatch = useDispatch();
+  const { sendOtpRequest } = useSendOtp();
 
-  const handleSignUp = (
+  const handleSignUp = async (
     values: SignUpFormValues,
     { setSubmitting }: FormikHelpers<SignUpFormValues>,
   ) => {
-    // Handle sign up logic here
-    console.log(values);
+    dispatch(
+      updateRegistrationData({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        gender: values.gender.toLowerCase() === 'male' ? 'MALE' : 'FEMALE',
+        dob: values.dateOfBirth,
+        email: values.email,
+        referralCode: values.referralCode,
+      }),
+    );
+
+    const response = await sendOtpRequest(values.email);
+    if (response) {
+      navigation.navigate('EmailConfirmation');
+    }
+
+    // Remove
     navigation.navigate('EmailConfirmation');
     setSubmitting(false);
   };

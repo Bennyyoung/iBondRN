@@ -35,6 +35,7 @@ const baseQueryWithEncryption: BaseQueryFn<
 
   try {
     const result = await baseQuery(encryptedArgs, api, extraOptions);
+    // console.log(result, 'result here');
 
     if (result.error) {
       const { status, data } = result.error;

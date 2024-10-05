@@ -8,35 +8,49 @@ import MainWrapper from '@/components/MainWrapper';
 import background from '@/assets/images/bg-image.png';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import useValidateUsername from '@/utils/hooks/Auth/useValidateUsername';
+import { useDispatch } from 'react-redux';
+import { updateRegistrationData } from '@/redux/features/auth/slices';
 
 const UsernameSelection: React.FC = () => {
   const [username, setUsername] = useState('');
-  const [error, setError] = useState('');
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const navigation = useNavigation<StackNavigationProp<any>>();
-
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    validate,
+    isLoading,
+    error,
+    suggestions,
+    isUsernameValid,
+    setIsUsernameValid,
+  } = useValidateUsername();
+  const [buttonLabel, setButtonLabel] = useState('Validate');
+  const dispatch = useDispatch();
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   const handleUsernameChange = (text: string) => {
     setUsername(text);
-    setError('');
-    // Simulating username availability check
-    if (text === 'shegs') {
-      setError('The username is already taken');
-      setSuggestions(['Shigo231', 'Segun_official', 'Shegz']);
-    } else {
-      setSuggestions([]);
+    setButtonLabel('Validate');
+    setIsUsernameValid(false);
+  };
+
+  const handleValidate = async () => {
+    if (username.length > 4) {
+      await validate(username);
+      if (!error && !isLoading && isUsernameValid) {
+        setButtonLabel('Continue');
+      }
     }
   };
 
   const handleContinue = () => {
-    if (username && !error) {
+    if (isUsernameValid) {
       setIsSubmitting(true);
-      // Navigate to the next screen (password creation)
-      setTimeout(() => {
-        navigation.navigate('PasswordCreation');
-        setIsSubmitting(false);
-      }, 1000);
+      dispatch(updateRegistrationData({ username }));
+
+      navigation.navigate('PasswordCreation');
+      setIsSubmitting(false);
+    } else {
+      handleValidate();
     }
   };
 
@@ -58,28 +72,26 @@ const UsernameSelection: React.FC = () => {
         label="Username"
         value={username}
         onChangeText={handleUsernameChange}
-        error={error}
-        iconName={
-          error ? 'error_close' : username?.length > 4 ? 'check_mark' : ''
-        }
+        error={error || ''}
+        iconName={error ? 'error_close' : isUsernameValid ? 'check_mark' : ''}
         iconSize="sm"
       />
 
       {suggestions.length > 0 && (
         <Text variant="regular12" color="secondaryGrey" mt="xs">
-          Suggestion: {suggestions.join(', ')}
+          Suggestions: {suggestions.join(', ')}
         </Text>
       )}
 
       <CustomButton
-        label="Continue"
+        label={isUsernameValid ? 'Continue' : buttonLabel}
         onPress={handleContinue}
         backgroundColor="primary"
         labelProps={{ color: 'white', variant: 'regular14' }}
         borderRadius="smm"
         marginTop="md"
-        isLoading={isSubmitting}
-        disabled={!username || !!error || isSubmitting}
+        isLoading={isLoading || isSubmitting}
+        disabled={isLoading || isSubmitting || username.length <= 4}
       />
 
       <Text
