@@ -70,6 +70,14 @@ export type AppNavRoutes = {
   CreateEvents: undefined;
   EventDetailScreen: undefined;
   BrowseEvents: undefined;
+
+  // AccountSettings
+  AccountSettings: undefined;
+
+  ProfileScreen: undefined;
+
+  VerificationScreen: undefined;
+
 };
 
 // Events
@@ -94,6 +102,8 @@ export type Event = {
   }
 }
 
+
+
 export type EventDetails = {
   event: Event
 }
@@ -114,6 +124,8 @@ type MyTabRoutes = {
   HistoryLanding: undefined;
   SettingsLanding: undefined;
 };
+
+
 
 export type StackParamsList = AppNavRoutes;
 export type BottomStackParamsList = MyTabRoutes;

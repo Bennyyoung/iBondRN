@@ -1,3 +1,4 @@
+
 import React, { ReactElement, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, TextInput, View, TouchableOpacity, Button } from "react-native";
 import { Formik } from 'formik';
@@ -28,7 +29,8 @@ import SelectedArray from '@/components/SelectedArray/SelectedArray';
 import { IconVector } from '@/assets/icons/IconVector';
 import Text from '@/components/Text';
 import useCreateEvent from '@/utils/hooks/CreateEvent/useEvent';
-import moment from 'moment';
+import VerificationPayment from '@/components/VerificationPayment/VerificationPayment';
+import VerifyInfo from '@/components/VerifyInfo/VerifyInfo';
 
 // Import images from assets
 const customIcon = require('@/assets/svg/group.svg');
@@ -185,18 +187,10 @@ const CreateEvents = () => {
     eventType: Yup.string().required('Event type is required'),
     location: Yup.string().required('Location is required'),
     eventPrivacy: Yup.string().required('Event privacy is required'),
-    group: Yup.string(),
+    group: Yup.string().required('Event privacy is required'),
     eventHost: Yup.array().required(),
     otherDetails: Yup.string()
   });
-
-  const uploadImage = () => {
-    
-  }
-
-  const downloadImageUrl = () => {
-
-  }
 
   const handleTransform = (values: FormValues) => {
 
@@ -214,19 +208,20 @@ const CreateEvents = () => {
       hostName: hostName,
       eventUrl: "string",
       imageUrl: "string",
+      attendees: [
+        0
+      ],
       channel: "string",
       otherDetails: values.otherDetails,
-      groupName: values.group || null,
+      groupName: values.group,
       createdBy: "string"
     }
   }
 
   // Form submission handler
-  const handleCreateEvent = async (values: any) => {
+  const handleSubmit = async (values: any) => {
     const data = handleTransform(values)
-    console.log('data', data);
-    
-    // await createAnEvent(data)
+    await createAnEvent(data)
     
   };
 
@@ -235,13 +230,11 @@ const CreateEvents = () => {
       <TitleBar>
         <Box style={styles.title}>
           <Text style={styles.createEvent}>
-            Create Event
+            Settings
           </Text>
         </Box>
         <TouchableOpacity onPress={() => navigation.navigate('MyEvents')}>
-          <Text style={styles.clear}>
-            Clear
-          </Text>
+          
         </TouchableOpacity>
       </TitleBar>
 
@@ -263,131 +256,37 @@ const CreateEvents = () => {
           otherDetails: ''
         }}
         validationSchema={validationSchema}
-        onSubmit={handleCreateEvent}
+        onSubmit={handleSubmit}
       >
         {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched }) => {
 
+          console.log('values', values);
+
+
+
+
           return (
             <View style={styles.formContainer}>
-              <ImageUpload
+              {/* <ImageUpload
                 setFieldValue={setFieldValue}
-              />
+              /> */}
 
-              {/* Event Title */}
-              <CustomInput
-                label={'Event Title'}
-                onBlur={handleBlur('eventTitle')}
-                value={values.eventTitle}
-                onChangeText={handleChange('eventTitle')}
-                error={touched.eventTitle && errors.eventTitle}
-              />
 
-              {/* Category */}
-              <SelectInput
-                label={'Category'}
-                list={categoryOptions}
-                getSelectedValue={value => {
-                  setFieldValue('eventCategory', value);
-                }}
-                placeholder="Category"
-                selectedValue={values.eventCategory}
-                errorMessage={touched.eventCategory && errors.eventCategory}
-                modulePalette="primary"
-                iconName="chevron_downward"
-                iconSize="sml"
-                showHeader={true}
-              />
+              <VerificationPayment />
 
-              {/* Date */}
-              <DateInput
-                label={'Date'}
-                getSelectedDate={date => {
-                  const formattedDate = date.toISOString().split('T')[0];
-                  setFieldValue('eventDate', formattedDate);
-                }}
-                maximumDate={new Date()}
-                errorMessage={touched.eventDate && errors.eventDate}
-                modulePalette="primary"
-                iconName="calender"
-                iconSize="sml"
-              />
+             
+              <VerifyInfo />
 
-              {/* Start Time and End Time */}
-              <Box flexDirection="row" justifyContent="space-between">
-                <Box flex={1} marginRight="xs">
-                  {/* Start Time */}
-                  <TimeInput
-                    label={'Start Time'}
-                    getSelectedTime={time => {
-                      const formattedTime = moment(time).format('HH:mm'); // Format to HH:mm
-                      console.log('formattedTime', formattedTime);
-                      
-                      setFieldValue('startTime', formattedTime);
-                    }}
-                    errorMessage={touched.startTime && errors.startTime}
-                    modulePalette="primary"
-                    iconSize='sml'
-                    iconName='clock'
-                  />
-                </Box>
+            
+            <View style={styles.container}>
+            <Text style={styles.text}>
+                You’ll be required to provide a video, photo, and government-issued ID, 
+                and authorize us to process it. All information provided is subject to our 
+                <Text style={styles.privacyPolicy}> Privacy Policy</Text>.
+            </Text>
+            </View>
 
-                <Box flex={1} marginRight="xs">
-                  {/* End Time */}
-                  <TimeInput
-                    label={'End Time (optional)'}
-                    getSelectedTime={time => {
-                      const formattedTime = time.toISOString().split('T')[1].slice(0, 5); // Format to HH:mm
-                      setFieldValue('endTime', formattedTime);
-                    }}
-                    errorMessage={touched.endTime && errors.endTime}
-                    modulePalette="primary"
-                    iconSize='sml'
-                    iconName='clock'
-                  />
-                </Box>
-              </Box>
 
-              {/* Event Type */}
-              <SelectInput
-                label={'Event Type'}
-                list={eventType}
-                getSelectedValue={value => {
-                  setFieldValue('eventType', value);
-                }}
-                placeholder="Event Type"
-                selectedValue={values.eventType}
-                errorMessage={touched.eventType && errors.eventType}
-                modulePalette="primary"
-                iconName="chevron_downward"
-                iconSize="sml"
-                showHeader={true}
-              />
-
-              {/* Location */}
-              <CustomInput
-                label={'Location'}
-                onBlur={handleBlur('location')}
-                value={values.location}
-                onChangeText={handleChange('location')}
-              // iconName='location'
-              // iconSize="sml"
-              />
-
-              {/* Event Privacy */}
-              <SelectInput
-                label={'Event Privacy'}
-                list={privacyOptions}
-                getSelectedValue={value => {
-                  setFieldValue('eventPrivacy', value);
-                }}
-                placeholder="Event Privacy"
-                selectedValue={values.eventPrivacy}
-                errorMessage={touched.eventPrivacy && errors.eventPrivacy}
-                modulePalette="primary"
-                iconName="chevron_downward"
-                iconSize="sml"
-                showHeader={true}
-              />
 
               {/* Group */}
               {values.eventPrivacy === 'group' && <SelectInput
@@ -405,85 +304,17 @@ const CreateEvents = () => {
               />
               }
 
-              {/* Other Details */}
-              <CustomInput
-                label={''}
-                onBlur={handleBlur('otherDetails')}
-                value={values.otherDetails}
-                onChangeText={handleChange('otherDetails')}
-                placeholder='Other Details'
-                error={touched.otherDetails && errors.otherDetails}
-              />
-
-              {/* Hosts */}
-              <SubTitle
-                title='Hosts'
-                subtitle='Show more'
-                iconName={showAllHosts ? 'chevron_downward' : 'chevron_upward'}
-                iconSize='sml'
-                onPress={toggleHosts}
-              />
-
-              {
-                showAllHosts ? values.eventHost.map(el => (
-                  <Box
-                    alignItems="center"
-                    borderColor="grey"
-                    flexDirection="row"
-                    paddingTop="md"
-                    paddingVertical="sm"
-                    key={el.id}
-                  >
-                    {
-                      el.iconName ? (
-                        <IconVector
-                          name={el?.iconName}
-                          size="xxl"
-                        />
-                      ) : (
-                        el.image
-                      )
-                    }
-
-                    <Box>
-                      <Text numberOfLines={1}>{el.value}</Text>
-                      {
-                        el.label && (
-                          <Box mt="sm">
-                            <Text numberOfLines={1}>{el.label}</Text>
-                          </Box>
-                        )
-                      }
-                    </Box>
-
-                  </Box>
-                )) : null
-
-              }
-              <SelectedArray
-                getSelectedValue={value => {
-                  setFieldValue('eventHost', [...values.eventHost, value]);
-                }}
-                label="Add Host"
-                placeholder={'Add Host'}
-                list={userOptions}
-                searchable={true}
-                showHeader={true}
-              />
-
-
               {/* Submit Button */}
               <CustomButton
-                label={'Create Event'}
+                label={'Pay N3000'}
                 labelProps={{ color: 'whiteColor' }}
                 borderRadius="sm"
-                onPress={handleSubmit}
               />
             </View>
           )
         }}
       </Formik>
-    </ScrollView>
+    </ScrollView >
   );
 };
 
@@ -534,34 +365,29 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     fontWeight: 'bold',
+    marginTop: 50
   },
-  submitButton: {
-    backgroundColor: '#007bff',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  submitButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
+  
   optionText: {
     paddingVertical: 10,
   },
-  addOtherHostsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: 119,
-    marginBottom: 30
+  container: {
+    flex: 1,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 20,
+    marginBottom: 50
   },
-  addHostText: {
-    fontSize: RFValue(13, height),
-    fontWeight: '600',
-    color: '#6500E0',
-    lineHeight: 18,
-    // letterSpacing: -0.08
-  }
+  text: {
+    textAlign: 'center', 
+    fontSize: 15, 
+    fontWeight: '300',
+
+  },
+  privacyPolicy: {
+    color: 'purple', 
+    fontWeight: '400', 
+  },
 });
 
 export default CreateEvents;

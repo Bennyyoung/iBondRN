@@ -35,6 +35,8 @@ import BrowseEvents from '@/screens/BrowseEvents/BrowseEvents';
 import EventDetailScreen from '@/screens/EventDetailScreen/EventDetailScreen';
 import FindFriendsFromContacts from '@/screens/Auth/FindFriendsFromContacts';
 import SearchInterests from '@/screens/Auth/SearchInterests';
+import AccountSettings from '@/screens/AccountSettings/AccountSettings';
+import ProfileScreen from '@/screens/ProfileScreen/ProfileScreen';
 
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
@@ -106,6 +108,8 @@ function UnauthenticatedStack() {
       <Stack.Screen component={BottomTab} name='BottomTab' />
       <Stack.Screen component={BrowseEvents} name='BrowseEvents' />
       <Stack.Screen component={CreateEvents} name='CreateEvents' />
+      <Stack.Screen component={AccountSettings} name='AccountSettings' />
+      <Stack.Screen component={ProfileScreen} name='ProfileScreen' />
       <Stack.Screen component={EventDetailScreen} name='EventDetailScreen' />
       <Stack.Screen component={UsernameSelection} name="UsernameSelection" />
       <Stack.Screen component={PasswordCreation} name="PasswordCreation" />

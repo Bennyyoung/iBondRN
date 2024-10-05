@@ -25,6 +25,14 @@ import chevron_upward from '@/assets/svg/chevron_upward.svg';
 import gallery_add from '@/assets/svg/gallery_add.svg';
 import contact_list from '@/assets/svg/contact_list.svg';
 import search from '@/assets/svg/search.svg';
+import profile from "@/assets/svg/profile.svg"
+import security_lock from "@/assets/svg/security_lock.svg"
+import security from "@/assets/svg/security.svg"
+import notification from "@/assets/svg/notification.svg"
+import book from "@/assets/svg/book.svg"
+import database from "@/assets/svg/database.svg"
+import moon from "@/assets/svg/moon.svg"
+import info_circle from "@/assets/svg/info-circle.svg"
 
 const svgIconPack = {
   appleIcon,
@@ -54,6 +62,14 @@ const svgIconPack = {
   gallery_add,
   contact_list,
   search,
+  profile,
+  security_lock,
+  security,
+  notification,
+  book,
+  database,
+  moon,
+  info_circle
 };
 
 export { svgIconPack };

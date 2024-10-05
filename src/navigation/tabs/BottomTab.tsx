@@ -7,6 +7,7 @@ import ProfileIcon from "@/assets/svg/profile.svg"
 import { RFValue } from "react-native-responsive-fontsize"
 import CreateEvents from "@/screens/CreateEvents/CreateEvents"
 import BrowseEvents from "@/screens/BrowseEvents/BrowseEvents"
+import Settings from "@/screens/Settings/Settings"
 
 const Tab = createBottomTabNavigator()
 
@@ -89,7 +90,7 @@ const BottomTab = () => {
             />
             <Tab.Screen
                 name="Profile"
-                component={BrowseEvents} // Temporal placeholder
+                component={Settings} // Temporal placeholder
                 options={{
                     headerShown: false,
                     title: 'Profile',
