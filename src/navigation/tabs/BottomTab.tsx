@@ -5,8 +5,8 @@ import GiantPlusIcon from '@/assets/svg/giantPlus.svg'
 import ChatsIcon from "@/assets/svg/chats.svg"
 import ProfileIcon from "@/assets/svg/profile.svg"
 import { RFValue } from "react-native-responsive-fontsize"
-import CreateEvents from "@/screens/CreateEvents/CreateEvents"
-import BrowseEvents from "@/screens/BrowseEvents/BrowseEvents"
+import CreateEvents from "@/screens/Events/CreateEvents/CreateEvents"
+import BrowseEvents from "@/screens/Events/BrowseEvents/BrowseEvents"
 import Settings from "@/screens/Settings/Settings"
 
 const Tab = createBottomTabNavigator()

@@ -27,7 +27,7 @@ import useTextInputDropdown from '@/components/BottomSheetHooks/useSelectInputDr
 import SelectedArray from '@/components/SelectedArray/SelectedArray';
 import { IconVector } from '@/assets/icons/IconVector';
 import Text from '@/components/Text';
-import useCreateEvent from '@/utils/hooks/CreateEvent/useEvent';
+import useCreateEvent from '@/utils/hooks/Event/useCreateEvent';
 import moment from 'moment';
 import useImageUpload from '@/utils/hooks/UploadImage/useUploadImageMutation';
 
@@ -35,6 +35,22 @@ import useImageUpload from '@/utils/hooks/UploadImage/useUploadImageMutation';
 const customIcon = require('@/assets/svg/group.svg');
 
 const { height } = Dimensions.get('window');
+
+const initialValues = {
+  eventPhoto: null,
+  eventTitle: '',
+  eventCategory: '',
+  eventDate: '',
+  startTime: '',
+  endTime: '',
+  eventType: '',
+  location: '',
+  eventPrivacy: '',
+  group: '',
+  eventHost: [] as EventHost[],
+  eventChanel: '',
+  otherDetails: ''
+}
 
 // Static options for dropdowns
 const categoryOptions = [
@@ -160,6 +176,7 @@ interface FormValues {
 
 const CreateEvents = () => {
   const { createAnEvent, isLoading, isSuccess } = useCreateEvent()
+  const { uploadAnImage } = useImageUpload()
 
   const navigation = useNavigation()
   const [hosts, setHosts] = useState<User[]>([])
@@ -182,11 +199,19 @@ const CreateEvents = () => {
     eventTitle: Yup.string().required('Event title is required'),
     eventCategory: Yup.string().required('Event category is required'),
     eventPhoto: Yup.mixed()
-    .test(
-      'fileType',
-      'Unsupported file type',
-      (value) => value && ['image/jpeg', 'image/png', 'image/jpg'].includes(value.type)
-    ),
+      .test(
+        'fileType',
+        'Unsupported file type',
+        (value) => {
+          if (value && value.type) {
+            console.log('value', value);
+            // Check the MIME type directly
+            return ['image/jpeg', 'image/png', 'image/jpg'].includes(value.type);
+          }
+          return false;
+        }
+      ),
+
     eventDate: Yup.date().required('Event date is required'),
     startTime: Yup.string().required('Start time is required'),
     eventType: Yup.string().required('Event type is required'),
@@ -202,23 +227,9 @@ const CreateEvents = () => {
   }
 
   const handleTransform = (values: FormValues) => {
-    console.log('values.eventPhoto', values.eventPhoto);
 
     const hostName = values.eventHost.map((host: { value: any; }) => host.value)
 
-    const uploadImage = async () => {
-      const folderName = 'profile-picture'
-      const bucketName = 'cloud-storage'
-
-      const data = {
-        file: values.eventPhoto,
-        folderName,
-        bucketName
-      }
-
-      const { uploadAnImage } = useImageUpload()
-      const imageUrl = uploadAnImage(data)
-    }
 
     return {
       eventTitle: values.eventTitle,
@@ -241,7 +252,35 @@ const CreateEvents = () => {
 
   // Form submission handler
   const handleCreateEvent = async (values: any) => {
-    const data = handleTransform(values)
+    console.log('hi');
+
+    const uploadImage = async () => {
+
+      const folderName = 'profile-picture'
+      const bucketName = 'cloud-storage'
+
+      const formData = new FormData()
+      console.log('values', values);
+
+
+      formData.append('files', values.eventPhoto)
+      const imageData = {
+        files: formData,
+        folderName,
+        bucketName
+      }
+
+      const imageUrl = uploadAnImage({
+        formData,
+        folderName,
+        bucketName
+      })
+      console.log('imageUrl', imageUrl);
+    }
+
+    await uploadImage()
+
+    // const data = handleTransform(values)
     // console.log('data', data);
 
     // await createAnEvent(data)
@@ -252,25 +291,13 @@ const CreateEvents = () => {
     <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: '#fff' }}>
 
       <Formik
-        initialValues={{
-          eventPhoto: '',
-          eventTitle: '',
-          eventCategory: '',
-          eventDate: '',
-          startTime: '',
-          endTime: '',
-          eventType: '',
-          location: '',
-          eventPrivacy: '',
-          group: '',
-          eventHost: [] as EventHost[],
-          eventChanel: '',
-          otherDetails: ''
-        }}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleCreateEvent}
       >
         {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, resetForm }) => {
+          // console.log('eventPhoto', values.eventPhoto);
+
 
           return (
             <>
@@ -280,7 +307,7 @@ const CreateEvents = () => {
                     Create Event
                   </Text>
                 </Box>
-                <TouchableOpacity onPress={() => resetForm()}>
+                <TouchableOpacity onPress={() => resetForm({ values: initialValues })}>
                   <Text style={styles.clear}>
                     Clear
                   </Text>
@@ -290,6 +317,8 @@ const CreateEvents = () => {
               <View style={styles.formContainer}>
                 <ImageUpload
                   setFieldValue={setFieldValue}
+                  error={touched.eventPhoto && errors.eventPhoto}
+
                 />
 
                 {/* Event Title */}
@@ -339,7 +368,7 @@ const CreateEvents = () => {
                       label={'Start Time'}
                       getSelectedTime={time => {
                         const formattedTime = moment(time).format('HH:mm'); // Format to HH:mm
-                        console.log('formattedTime', formattedTime);
+                        // console.log('formattedTime', formattedTime);
 
                         setFieldValue('startTime', formattedTime);
                       }}
@@ -496,7 +525,15 @@ const CreateEvents = () => {
                   label={'Create Event'}
                   labelProps={{ color: 'whiteColor' }}
                   borderRadius="sm"
-                  onPress={handleSubmit}
+                  onPress={() => {
+                    handleSubmit()
+                  }}
+                // isLoading={isLoading || isSubmitting} // Disable if submitting
+                // disabled={
+                //   !(values.username && values.password) ||
+                //   isLoading ||
+                //   isSubmitting
+                // }
                 />
               </View>
             </>

@@ -1,3 +1,3 @@
 export default {
-    upload: 'upload'
+    uploadImage: (folderName: string, bucketName: string) => `uploads?folderName=${folderName}&bucketName=${bucketName}`
 }

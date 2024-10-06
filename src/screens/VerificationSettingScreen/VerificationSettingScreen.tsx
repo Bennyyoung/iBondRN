@@ -28,7 +28,7 @@ import useTextInputDropdown from '@/components/BottomSheetHooks/useSelectInputDr
 import SelectedArray from '@/components/SelectedArray/SelectedArray';
 import { IconVector } from '@/assets/icons/IconVector';
 import Text from '@/components/Text';
-import useCreateEvent from '@/utils/hooks/CreateEvent/useEvent';
+import useCreateEvent from '@/utils/hooksEvent/useCreateEvent';
 import VerificationPayment from '@/components/VerificationPayment/VerificationPayment';
 import VerifyInfo from '@/components/VerifyInfo/VerifyInfo';
 

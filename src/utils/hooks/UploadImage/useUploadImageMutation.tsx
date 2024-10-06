@@ -5,9 +5,11 @@ import { useUploadImageMutation } from '@/redux/features/upload/service';
 const useImageUpload = () => {
     const [uploadImage, { isLoading, isError, isSuccess }] = useUploadImageMutation();
 
-    const uploadAnImage = async (data: UploadImageRequest) => {
+    const uploadAnImage = async ({ formData, folderName, bucketName }: UploadImageRequest) => {
+
         try {
-            const response = await uploadImage(data).unwrap();
+            const queryString = `?folderName=${encodeURIComponent(folderName)}&bucketName=${encodeURIComponent(bucketName)}`;
+            const response = await uploadImage({ formData, folderName, bucketName }).unwrap();
 
             if (response) {
                 return response;

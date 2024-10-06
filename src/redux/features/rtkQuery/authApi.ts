@@ -15,9 +15,10 @@ const baseQuery = fetchBaseQuery({
     if (accessToken) {
       headers.set('Authorization', `Bearer ${accessToken}`);
     }
-    headers.set('Content-Type', 'application/json');
+    // headers.set('Content-Type', 'application/json'); // Avoid setting Content Type for formData
     return headers;
   },
+  timeout: 30000,
 });
 
 const baseQueryWithEncryption: BaseQueryFn<
@@ -35,7 +36,7 @@ const baseQueryWithEncryption: BaseQueryFn<
 
   try {
     const result = await baseQuery(encryptedArgs, api, extraOptions);
-    // console.log(result, 'result here');
+    console.log(result, 'result here');
 
     if (result.error) {
       const { status, data } = result.error;

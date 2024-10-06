@@ -21,3 +21,34 @@ export interface User {
   followText: string;
   isAttendee: boolean;
 };
+
+export interface Event {
+  id: number;
+  createdBy: string | null;
+  lastModifiedBy: string | null;
+  createdAt: string;
+  updatedAt: string | null;
+  eventTitle: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  eventType: "PHYSICAL" | "VIRTUAL";
+  eventPrivacy: "PUBLIC" | "PRIVATE" | 'FOLLOWERS ONLY' | 'GROUP';
+  category: string;
+  hostName: string;
+  eventUrl: string;
+  attendees: any[]; // Assuming attendees are an empty array, you can replace 'any' with the correct type
+  imageUrl: string;
+  channel: string;
+  eventStatus: "PENDING" | "ACTIVE" | "CANCELLED"; // Adjust if other statuses are possible
+  otherDetails: string;
+}
+
+export interface EventResponse {
+  status: number;
+  message: string;
+  data: {
+    content: Event[];
+  };
+}

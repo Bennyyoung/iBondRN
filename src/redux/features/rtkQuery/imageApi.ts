@@ -9,7 +9,7 @@ import {
   import { RootState } from '@/redux/store';
   
   const baseQuery = fetchBaseQuery({
-    baseUrl: getBaseUrl('imageBaseUrl'),
+    baseUrl: getBaseUrl('baseurl'),
     prepareHeaders: (headers, { getState }) => {
       const accessToken = (getState() as RootState).user.token;
       if (accessToken) {

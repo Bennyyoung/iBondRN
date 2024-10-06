@@ -5,14 +5,9 @@ import { UploadImageResponse, UploadImageRequest } from "./service.types"
 export const iBondMobileApi = api.injectEndpoints({
     endpoints: (build) => ({
         uploadImage: build.mutation<UploadImageResponse, UploadImageRequest>({
-            query: ({ file, folderName, bucketName }) => {
-                const formData = new FormData();
-                formData.append("file", file);
-                formData.append("folderName", folderName);
-                formData.append("bucketName", bucketName);
-
+            query: ({ formData, folderName, bucketName }) => {
                 return {
-                    url: `${paths.upload}?folderName=${folderName}&bucketName=${bucketName}`,
+                    url: paths.uploadImage(folderName, bucketName),
                     method: "POST",
                     body: formData,
                 };

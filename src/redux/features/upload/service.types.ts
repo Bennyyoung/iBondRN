@@ -14,7 +14,7 @@ export type UploadImageResponse = {
 };
 
 export type UploadImageRequest = {
-    file: File;
+    formData: FormData;
     folderName: string;
-    bucketName: string
+    bucketName: string;
 }

@@ -6,7 +6,7 @@ import ImageUploadIcon from "@/assets/svg/imageUploadIcon.svg"
 import Text from "../Text"
 import { FormikErrors } from "formik"
 import { useState } from "react"
-import { launchImageLibrary } from "react-native-image-picker"
+import { ImageLibraryOptions, launchImageLibrary } from "react-native-image-picker"
 import { SvgIcon } from "@/assets/icons"
 import React from "react"
 
@@ -26,13 +26,23 @@ type ImageUploadProps = {
         group: '',
         otherDetails: string;
     }>>
+    error?: string | boolean;
 }
 
-const ImageUpload = ({ setFieldValue }: ImageUploadProps) => {
-    const [imageUri, setImageUri] = useState(null)
+const fetchFile = async (filePath: string): Promise<File> => {
+    const response = await fetch(filePath);
+    const blob = await response.blob();
+    const file = new File([blob], filePath.split('/').pop() || 'file.jpg', {
+        type: blob.type,
+    });
+    return file;
+};
+
+const ImageUpload = ({ setFieldValue, error }: ImageUploadProps) => {
+    const [imageUri, setImageUri] = useState<string | null>(null)
 
     const handleImageUpload = async () => {
-        const options = {
+        const options: ImageLibraryOptions = {
             mediaType: 'photo',
             maxWidth: 1920,
             maxHeight: 1080,
@@ -43,8 +53,14 @@ const ImageUpload = ({ setFieldValue }: ImageUploadProps) => {
             const result = await launchImageLibrary(options);
             if (result.assets && result.assets.length > 0) {
                 const selectedImage = result.assets[0].uri;
-                setImageUri(selectedImage)
-                setFieldValue('eventPhoto', imageUri)
+                if (selectedImage) {
+                    setImageUri(selectedImage)
+                    // const image = selectedImage.split('/').pop()
+                    const file = await fetchFile(selectedImage)
+                    console.log('file', file);
+                    
+                    setFieldValue('eventPhoto', file)
+                }
             }
 
         } catch (error) {
@@ -76,6 +92,9 @@ const ImageUpload = ({ setFieldValue }: ImageUploadProps) => {
             </TouchableOpacity >
 
             <Text style={styles.photoRecommendation}>Add a 16:9 cover photo. 1920x1080 recommended.</Text>
+            {error && typeof error === 'string' && (
+                <Text style={styles.errorText}>{error}</Text>
+            )}
         </>
     )
 }
@@ -125,7 +144,12 @@ const styles = StyleSheet.create({
         lineHeight: 13,
         letterSpacing: 0.06,
         marginVertical: 10
-    }
+    },
+    errorText: {
+        color: '#FF3B30',
+        fontSize: RFValue(12),
+        marginTop: RFValue(4),
+    },
 })
 
 export default ImageUpload
