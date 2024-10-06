@@ -11,6 +11,9 @@ import MainWrapper from '@/components/MainWrapper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
+import { useDispatch } from 'react-redux';
+import { updateRegistrationData } from '@/redux/features/auth/slices';
 
 interface ForgotPasswordFormValues {
   emailOrPhone: string;
@@ -23,19 +26,27 @@ const validationSchema = Yup.object().shape({
 const ForgotPassword: React.FC = () => {
   const [useEmail, setUseEmail] = useState(true);
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const dispatch = useDispatch();
+  const { sendOtpRequest } = useSendOtp();
 
-  const handleResetPassword = (
+  const handleResetPassword = async (
     values: ForgotPasswordFormValues,
     { setSubmitting }: FormikHelpers<ForgotPasswordFormValues>,
   ) => {
-    // Handle password reset logic here
-    console.log(values);
-    // If successful, navigate to the next screen
-    // navigation.navigate('NextScreen');
-    setTimeout(() => {
+    setSubmitting(true);
+    dispatch(
+      updateRegistrationData({
+        email: useEmail ? values.emailOrPhone : '',
+        phone: !useEmail ? values.emailOrPhone : '',
+      }),
+    );
+    const response = await sendOtpRequest(values.emailOrPhone);
+    if (response) {
       navigation.navigate('ForgotPasswordConfirmation');
-      setSubmitting(false);
-    }, 1500);
+    }
+
+    // Remove
+    navigation.navigate('ForgotPasswordConfirmation');
   };
 
   const toggleInputType = () => {
@@ -74,6 +85,7 @@ const ForgotPassword: React.FC = () => {
             <CustomInput
               label={useEmail ? 'Email' : 'Phone Number'}
               value={values.emailOrPhone}
+              max={useEmail ? 50 : 11}
               onChangeText={handleChange('emailOrPhone')}
               onBlur={handleBlur('emailOrPhone')}
               error={touched.emailOrPhone && errors.emailOrPhone}

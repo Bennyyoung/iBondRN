@@ -41,6 +41,7 @@ interface CustomInputProps {
   containerProps?: object;
   iconName?: SvgIconPackType;
   iconSize?: keyof Theme['iconSizes'];
+  max?: number;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -52,6 +53,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   secureTextEntry = false,
   error,
   keyboardType = 'default',
+  max = 100,
   containerProps,
   iconName,
   iconSize,
@@ -125,6 +127,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             onChangeText={onChangeText}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            maxLength={max}
             secureTextEntry={secureTextEntry && !isPasswordVisible}
             blurOnSubmit
             keyboardType={keyboardType}

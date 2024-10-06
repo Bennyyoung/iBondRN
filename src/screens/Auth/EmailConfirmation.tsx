@@ -14,6 +14,7 @@ import useValidateOtp from '@/utils/hooks/Auth/useValidateOtp';
 import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { maskContactInfo } from '@/utils/helpers/maskInfo';
 
 const EmailConfirmation: React.FC = () => {
   const [code, setCode] = useState('');
@@ -52,6 +53,8 @@ const EmailConfirmation: React.FC = () => {
     }
   };
 
+  const maskedContact = maskContactInfo(registrationData.email as string);
+
   const handleResend = async () => {
     setIsResending(true);
     await sendOtpRequest(registrationData.email!);
@@ -68,7 +71,7 @@ const EmailConfirmation: React.FC = () => {
           </Text>
         </Text>
         <Text variant="regular12" textAlign="center" color="black" mb="lg">
-          To confirm your email address, enter the code sent to sh****l.com
+          To confirm your email address, enter the code sent to {maskedContact}
         </Text>
       </Box>
 

@@ -8,33 +8,77 @@ import background from '@/assets/images/bg-image.png';
 import OTPInput from '@/components/InputOtp';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import useValidateOtp from '@/utils/hooks/Auth/useValidateOtp';
+import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
+import { maskContactInfo } from '@/utils/helpers/maskInfo';
 
 const ForgotPasswordConfirmation: React.FC = () => {
-  const [code, setCode] = useState('');
-  const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigation = useNavigation<StackNavigationProp<any>>();
+  const [formState, setFormState] = useState({
+    code: '',
+    error: '',
+    isSubmitting: false,
+    isResending: false,
+  });
 
-  const handleConfirmation = () => {
-    if (code.length !== 6) {
-      setError('Please enter a 6-digit code.');
-    } else {
-      // Handle confirmation logic here
-      console.log('Confirmation code:', code);
-      setIsSubmitting(true);
-      // If successful, navigate to the next screen
-      // navigation.navigate('NextScreen');
-      setTimeout(() => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+  const { registrationData } = useSelector((state: RootState) => state.user);
+  const { validateOtpCode, isLoading } = useValidateOtp();
+  const { sendOtpRequest } = useSendOtp();
+
+  const handleConfirmation = async () => {
+    if (formState.code.length !== 6) {
+      setFormState(prev => ({
+        ...prev,
+        error: 'Please enter a 6-digit code.',
+      }));
+      return;
+    }
+
+    setFormState(prev => ({ ...prev, error: '', isSubmitting: true }));
+
+    try {
+      const response = await validateOtpCode({
+        email: (registrationData.email || registrationData.phone) as string,
+        otp: parseInt(formState.code, 10),
+      });
+
+      if (response) {
         navigation.navigate('ChangePassword');
-        setIsSubmitting(false);
-      }, 3000);
+      }
+      // Remove
+      navigation.navigate('ChangePassword');
+    } catch (error) {
+      setFormState(prev => ({
+        ...prev,
+        error: 'Failed to confirm OTP. Please try again.',
+      }));
+    } finally {
+      setFormState(prev => ({ ...prev, isSubmitting: false }));
     }
   };
 
-  const handleResend = () => {
-    // Handle resend logic here
-    console.log('Resending code');
+  const handleResend = async () => {
+    setFormState(prev => ({ ...prev, isResending: true }));
+
+    try {
+      await sendOtpRequest(
+        (registrationData.email || registrationData.phone) as string,
+      );
+    } catch (error) {
+      setFormState(prev => ({
+        ...prev,
+        error: 'Failed to resend OTP. Please try again later.',
+      }));
+    } finally {
+      setFormState(prev => ({ ...prev, isResending: false }));
+    }
   };
+
+  const maskedContact = maskContactInfo(
+    (registrationData.email || registrationData.phone) as string,
+  );
 
   return (
     <MainWrapper backgroundImage={background} hasBackButton={true}>
@@ -46,11 +90,15 @@ const ForgotPasswordConfirmation: React.FC = () => {
           </Text>
         </Text>
         <Text variant="regular12" textAlign="center" color="black" mb="lg">
-          To confirm your email address, enter the code sent to sh****l.com
+          To confirm your {registrationData.email ? 'email' : 'phone number'},
+          enter the code sent to {maskedContact}.
         </Text>
       </Box>
 
-      <OTPInput onCodeComplete={setCode} error={error} />
+      <OTPInput
+        onCodeComplete={code => setFormState(prev => ({ ...prev, code }))}
+        error={formState.error}
+      />
 
       <CustomButton
         label="Continue"
@@ -60,14 +108,19 @@ const ForgotPasswordConfirmation: React.FC = () => {
         borderRadius="smm"
         marginTop="sm"
         marginBottom="xl"
-        isLoading={isSubmitting}
-        disabled={isSubmitting}
+        isLoading={formState.isSubmitting || isLoading}
+        disabled={formState.isSubmitting || isLoading}
       />
 
       <TouchableOpacity onPress={handleResend}>
-        <Text textAlign="center" mt="xl">
+        <Text
+          textAlign="center"
+          mt="xl"
+          color={formState.isResending ? 'grey' : 'primary'}>
           Didn't receive code?{' '}
-          <Text color="primary" variant="medium14">
+          <Text
+            color={formState.isResending ? 'grey' : 'primary'}
+            variant="medium14">
             Resend
           </Text>
         </Text>

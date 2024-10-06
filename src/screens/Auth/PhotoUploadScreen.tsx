@@ -51,6 +51,7 @@ const PhotoUploadScreen = () => {
           if (result.assets === undefined) {
             return '';
           }
+
           setPictureData({
             photograph: result?.assets[0]?.base64 as string,
             path: result?.assets[0]?.uri as string,

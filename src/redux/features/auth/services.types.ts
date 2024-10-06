@@ -12,6 +12,7 @@ export type RegisterRequest = {
   dob: string;
   username: string;
   address: string;
+  phone?: string;
   profilePicture: string;
   location: string;
   closeSchool: string;
