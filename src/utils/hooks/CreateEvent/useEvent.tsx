@@ -1,5 +1,5 @@
 import { showErrorToast } from '@/utils/helpers/toastHelper';
-import { CreateEventRequest, CreateEventResponse } from '@/redux/features/events/service.types';
+import { CreateEventRequest } from '@/redux/features/events/service.types';
 import { useCreateEventMutation } from '@/redux/features/events/service';
 
 const useCreateEvent = () => {

@@ -8,6 +8,7 @@ import { FormikErrors } from "formik"
 import { useState } from "react"
 import { launchImageLibrary } from "react-native-image-picker"
 import { SvgIcon } from "@/assets/icons"
+import React from "react"
 
 const { height } = Dimensions.get('window')
 

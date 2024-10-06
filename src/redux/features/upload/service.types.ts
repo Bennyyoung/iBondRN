@@ -14,5 +14,7 @@ export type UploadImageResponse = {
 };
 
 export type UploadImageRequest = {
-    
+    file: File;
+    folderName: string;
+    bucketName: string
 }
