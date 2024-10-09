@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
 import { useDispatch } from 'react-redux';
 import { updateRegistrationData } from '@/redux/features/auth/slices';
+import useValidateAccount from '@/utils/hooks/Auth/useValidateAccount';
 
 interface ForgotPasswordFormValues {
   emailOrPhone: string;
@@ -28,12 +29,18 @@ const ForgotPassword: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const dispatch = useDispatch();
   const { sendOtpRequest } = useSendOtp();
+  const { validateUserAccount } = useValidateAccount();
 
   const handleResetPassword = async (
     values: ForgotPasswordFormValues,
     { setSubmitting }: FormikHelpers<ForgotPasswordFormValues>,
   ) => {
     setSubmitting(true);
+    const isValidAccount = await validateUserAccount(values.emailOrPhone);
+    if (!isValidAccount) {
+      return '';
+    }
+
     dispatch(
       updateRegistrationData({
         email: useEmail ? values.emailOrPhone : '',
@@ -44,9 +51,6 @@ const ForgotPassword: React.FC = () => {
     if (response) {
       navigation.navigate('ForgotPasswordConfirmation');
     }
-
-    // Remove
-    navigation.navigate('ForgotPasswordConfirmation');
   };
 
   const toggleInputType = () => {

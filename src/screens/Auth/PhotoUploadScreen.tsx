@@ -1,3 +1,5 @@
+/* eslint-disable no-catch-shadow */
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
 import {
@@ -16,7 +18,11 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { IconVector } from '@/assets/icons/IconVector';
 import usePhotoUploadBottomSheet from '@/components/BottomSheetHooks/usePhotoUploadModal';
-import { showToast } from '@/utils/helpers/toastHelper';
+import {
+  showErrorToast,
+  showSuccessToast,
+  showToast,
+} from '@/utils/helpers/toastHelper';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import {
   check,
@@ -26,6 +32,12 @@ import {
   RESULTS,
 } from 'react-native-permissions';
 import Image from '@/components/Image';
+import { useUploadFilesMutation } from '@/redux/features/uploads/service';
+import { updateRegistrationData } from '@/redux/features/auth/slices';
+import { useDispatch, useSelector } from 'react-redux';
+import useRegisterUser from '@/utils/hooks/Auth/useRegisterUser';
+import { RootState } from '@/redux/store';
+import { RegisterRequest } from '@/redux/features/auth/services.types';
 
 const PhotoUploadScreen = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -34,6 +46,11 @@ const PhotoUploadScreen = () => {
     photograph: '',
     path: '',
   });
+  const dispatch = useDispatch();
+
+  const [uploadFiles, { isLoading, error }] = useUploadFilesMutation();
+  const { registerUser, isLoading: userSignUpLoading } = useRegisterUser();
+  const { registrationData } = useSelector((state: RootState) => state.user);
 
   const handleLaunchImageLibrary = async () => {
     try {
@@ -52,15 +69,27 @@ const PhotoUploadScreen = () => {
             return '';
           }
 
+          const selectedFile = result.assets[0];
+
           setPictureData({
-            photograph: result?.assets[0]?.base64 as string,
-            path: result?.assets[0]?.uri as string,
+            photograph: selectedFile?.base64 as string,
+            path: selectedFile?.uri as string,
           });
-          return '';
+
+          if (selectedFile?.uri) {
+            const file = {
+              uri: selectedFile.uri,
+              name: selectedFile.fileName || 'photo.jpg',
+              type: selectedFile.type || 'image/jpeg',
+            };
+            handleUpload([file]);
+          }
         },
       );
     } catch (error) {
-      showToast(error as string);
+      showErrorToast(
+        error?.data?.message || 'An error occurred during password reset',
+      );
     }
   };
 
@@ -85,12 +114,21 @@ const PhotoUploadScreen = () => {
             if (result.assets === undefined) {
               return '';
             }
+            const selectedFile = result.assets[0];
+
             setPictureData({
-              photograph: result?.assets[0]?.base64 as string,
-              path: result?.assets[0]?.uri as string,
+              photograph: selectedFile?.base64 as string,
+              path: selectedFile?.uri as string,
             });
 
-            return '';
+            if (selectedFile?.uri) {
+              const file = {
+                uri: selectedFile.uri,
+                name: selectedFile.fileName || 'photo.jpg',
+                type: selectedFile.type || 'image/jpeg',
+              };
+              handleUpload([file]);
+            }
           },
         );
       } else {
@@ -113,12 +151,21 @@ const PhotoUploadScreen = () => {
               if (res.assets === undefined) {
                 return '';
               }
+              const selectedFile = res.assets[0];
+
               setPictureData({
-                photograph: res?.assets[0]?.base64 as string,
-                path: res?.assets[0]?.uri as string,
+                photograph: selectedFile?.base64 as string,
+                path: selectedFile?.uri as string,
               });
 
-              return '';
+              if (selectedFile?.uri) {
+                const file = {
+                  uri: selectedFile.uri,
+                  name: selectedFile.fileName || 'photo.jpg',
+                  type: selectedFile.type || 'image/jpeg',
+                };
+                handleUpload([file]);
+              }
             },
           );
         }
@@ -128,7 +175,7 @@ const PhotoUploadScreen = () => {
         }
       }
     } catch {
-      showToast('An error occurred');
+      showSuccessToast('An error occurred');
     }
   };
 
@@ -142,6 +189,39 @@ const PhotoUploadScreen = () => {
         handleLaunchImageLibrary();
       }
     });
+  };
+
+  const handleUpload = async (files: File[]) => {
+    try {
+      const result = await uploadFiles({
+        files,
+        folderName: 'profile-picture',
+      });
+
+      if (result.data) {
+        // console.log('Actually stepped into here');
+        dispatch(
+          updateRegistrationData({
+            profilePicture: result.data.data[0].fileUrl,
+          }),
+        );
+        showSuccessToast('File uploaded successfully!');
+      }
+      if (error) {
+        showErrorToast('File upload failed.');
+      }
+    } catch (err) {
+      showErrorToast('Error during upload');
+    }
+  };
+
+  const handleRegister = async () => {
+    // return navigation.navigate('FindFriendsFromContacts');
+    const response = await registerUser(registrationData as RegisterRequest);
+
+    if (response) {
+      navigation.navigate('FindFriendsFromContacts');
+    }
   };
 
   return (
@@ -214,11 +294,13 @@ const PhotoUploadScreen = () => {
         paddingHorizontal="md">
         <CustomButton
           label="Add a Photo"
-          onPress={() => navigation.navigate('FindFriendsFromContacts')}
+          onPress={handleRegister}
           backgroundColor="primary"
           labelProps={{ color: 'white', variant: 'regular14' }}
           borderRadius="smm"
           height={Platform.OS === 'ios' ? RFValue(42) : RFValue(52)}
+          disabled={isLoading || userSignUpLoading}
+          isLoading={isLoading || userSignUpLoading}
         />
       </Box>
     </SafeAreaView>

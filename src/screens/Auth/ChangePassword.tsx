@@ -57,7 +57,7 @@ const ChangePassword: React.FC = () => {
       // Reset the password using the hook
       const response = await resetPassword(data);
 
-      if (!response) {
+      if (response) {
         // If successful, navigate to the success screen
         navigation.navigate('SuccessScreen', {
           iconName: 'success',

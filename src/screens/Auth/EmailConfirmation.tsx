@@ -43,7 +43,7 @@ const EmailConfirmation: React.FC = () => {
           navigation.navigate('UsernameSelection');
         }
         // Remove
-        navigation.navigate('UsernameSelection');
+        // navigation.navigate('UsernameSelection');
       } catch (error: any) {
         showErrorToast(error?.message || 'Invalid OTP, please try again.');
         setError('Invalid OTP, please try again.');

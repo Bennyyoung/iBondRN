@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import authSlice from './features/auth/slices';
 import { api } from './features/rtkQuery/authApi';
 import utilitySlice from './features/utility/slice';
+import { uploadsApi } from './features/uploads/api';
 
 const rootReducer = combineReducers({
   // Add your regular slice reducers
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
 
   // Add RTK Query reducers
   [api.reducerPath]: api.reducer,
+  [uploadsApi.reducerPath]: uploadsApi.reducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

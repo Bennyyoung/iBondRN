@@ -7,4 +7,6 @@ export default {
   validateToken: (token: string) => `auth/auth/validate-token?token=${token}`,
   validateUsername: (username: string) =>
     `auth/auth/username/generate?username=${username}`,
+  validateAccount: (emailOrPhoneNumber: string) =>
+    `auth/auth/validate-account?emailOrPhoneNumber=${emailOrPhoneNumber}`,
 };

@@ -47,8 +47,6 @@ const ForgotPasswordConfirmation: React.FC = () => {
       if (response) {
         navigation.navigate('ChangePassword');
       }
-      // Remove
-      navigation.navigate('ChangePassword');
     } catch (error) {
       setFormState(prev => ({
         ...prev,
