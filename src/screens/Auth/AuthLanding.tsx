@@ -61,7 +61,7 @@ const SignUp: React.FC = () => {
     }
 
     // Remove
-    navigation.navigate('EmailConfirmation');
+    // navigation.navigate('EmailConfirmation');
     setSubmitting(false);
   };
 

@@ -15,10 +15,10 @@ const baseQuery = fetchBaseQuery({
     if (accessToken) {
       headers.set('Authorization', `Bearer ${accessToken}`);
     }
-    // headers.set('Content-Type', 'application/json'); // Avoid setting Content Type for formData
+    headers.set('Content-Type', 'multipart/form-data');
+    headers.set('accept', '*/*');
     return headers;
   },
-  timeout: 30000,
 });
 
 const baseQueryWithEncryption: BaseQueryFn<
@@ -36,7 +36,6 @@ const baseQueryWithEncryption: BaseQueryFn<
 
   try {
     const result = await baseQuery(encryptedArgs, api, extraOptions);
-    // console.log(result, 'result here', api);
 
     if (result.error) {
       const { status, data } = result.error;
@@ -87,14 +86,14 @@ const baseQueryWithEncryption: BaseQueryFn<
   }
 };
 
-export const api = createApi({
+export const uploadsApi = createApi({
   baseQuery: baseQueryWithEncryption,
   endpoints: () => ({}),
-  reducerPath: 'iBondMobile',
-  tagTypes: ['iBondMobile'],
+  reducerPath: 'iBondMobileUploads',
+  tagTypes: ['iBondMobileUploads'],
 });
 
-export const enhancedApi = api.enhanceEndpoints({
+export const enhancedApi = uploadsApi.enhanceEndpoints({
   endpoints: () => ({
     // Add your endpoints here
   }),

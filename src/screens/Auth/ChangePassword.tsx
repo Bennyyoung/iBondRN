@@ -8,23 +8,24 @@ import background from '@/assets/images/bg-image.png';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StackParamsList } from '@/navigation/types';
+import useForgotPassword from '@/utils/hooks/Auth/useForgotPassword';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { validatePassword } from '@/utils/helpers/validatePassword';
 
 const ChangePassword: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+
+  const { resetPassword, isLoading } = useForgotPassword();
   const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
+  const { registrationData } = useSelector((state: RootState) => state.user);
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
-    if (text.length < 8) {
-      setError(
-        'Password is too short. It should be at least 8 characters combination of letters, numbers, and special symbols',
-      );
-    } else {
-      setError('');
-    }
+    setError('');
   };
 
   const handleConfirmPasswordChange = (text: string) => {
@@ -32,21 +33,40 @@ const ChangePassword: React.FC = () => {
     setConfirmPasswordError('');
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    if (password && !validatePassword(password)) {
+      setError(
+        'Password must be at least 8 characters long, include letters, numbers, and special symbols',
+      );
+      return;
+    }
+
     if (password !== confirmPassword) {
       setConfirmPasswordError('Confirm password must be the same.');
       return;
     }
+
     if (password && !error) {
-      // Navigate to the next screen or complete the sign-up process
-      console.log('Password created successfully');
-      navigation.navigate('SuccessScreen', {
-        iconName: 'success',
-        title: 'Password changed successfully',
-        message: 'You can now login with your new password',
-        nextScreen: 'Login',
-        buttonText: 'Continue to Log In',
-      });
+      const data = {
+        emailOrPhoneNumber: (registrationData.email ||
+          registrationData.phone) as string,
+        newPassword: password,
+        confirmNewPassword: confirmPassword,
+      };
+
+      // Reset the password using the hook
+      const response = await resetPassword(data);
+
+      if (response) {
+        // If successful, navigate to the success screen
+        navigation.navigate('SuccessScreen', {
+          iconName: 'success',
+          title: 'Password changed successfully',
+          message: 'You can now login with your new password',
+          nextScreen: 'Login',
+          buttonText: 'Continue to Log In',
+        });
+      }
     }
   };
 
@@ -89,7 +109,8 @@ const ChangePassword: React.FC = () => {
         borderRadius="smm"
         marginTop="md"
         marginBottom="lg"
-        disabled={!password || !!error}
+        disabled={!password || !!error || isLoading}
+        isLoading={isLoading}
       />
     </MainWrapper>
   );

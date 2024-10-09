@@ -34,6 +34,8 @@ const UsernameSelection: React.FC = () => {
   };
 
   const handleValidate = async () => {
+    // Remove
+    // navigation.navigate('PasswordCreation');
     if (username.length > 4) {
       await validate(username);
       if (!error && !isLoading && isUsernameValid) {

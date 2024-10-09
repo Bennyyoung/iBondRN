@@ -59,6 +59,12 @@ export const iBondMobileApi = api.injectEndpoints({
         method: 'GET',
       }),
     }),
+    validateAccount: build.mutation<GeneralResponseType, string>({
+      query: emailOrPhoneNumber => ({
+        url: paths.validateAccount(emailOrPhoneNumber),
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -70,4 +76,5 @@ export const {
   useValidateOtpMutation,
   useValidateTokenMutation,
   useValidateUsernameMutation,
+  useValidateAccountMutation,
 } = iBondMobileApi;
