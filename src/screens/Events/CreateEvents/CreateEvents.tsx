@@ -204,7 +204,6 @@ const CreateEvents = () => {
         'Unsupported file type',
         (value) => {
           if (value && value.type) {
-            console.log('value', value);
             // Check the MIME type directly
             return ['image/jpeg', 'image/png', 'image/jpg'].includes(value.type);
           }
@@ -252,7 +251,6 @@ const CreateEvents = () => {
 
   // Form submission handler
   const handleCreateEvent = async (values: any) => {
-    console.log('hi');
 
     const uploadImage = async () => {
 
@@ -260,7 +258,6 @@ const CreateEvents = () => {
       const bucketName = 'cloud-storage'
 
       const formData = new FormData()
-      console.log('values', values);
 
 
       formData.append('files', values.eventPhoto)
@@ -275,7 +272,6 @@ const CreateEvents = () => {
         folderName,
         bucketName
       })
-      console.log('imageUrl', imageUrl);
     }
 
     await uploadImage()

@@ -21,7 +21,6 @@ type Tabs = 'Details' | 'Comments' | 'Attendees'
 
 const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
   const { event } = route.params as EventDetails
-  console.log('event', event);
 
 
   const [activeTab, setActiveTab] = useState<Tabs>('Details')
@@ -55,7 +54,6 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
         break;
     }
   }
-  console.log('event', event);
 
   return (
     <ScrollView style={styles.container}>

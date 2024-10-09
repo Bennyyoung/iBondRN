@@ -18,7 +18,7 @@ const accountSettingsOptions = [
   {
     id: 2,
     title: 'Verifications',
-    link: 'VerificationsScreen',
+    link: 'VerificationScreen',
   },
   {
     id: 3,

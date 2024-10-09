@@ -57,7 +57,6 @@ const ImageUpload = ({ setFieldValue, error }: ImageUploadProps) => {
                     setImageUri(selectedImage)
                     // const image = selectedImage.split('/').pop()
                     const file = await fetchFile(selectedImage)
-                    console.log('file', file);
                     
                     setFieldValue('eventPhoto', file)
                 }

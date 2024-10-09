@@ -1,4 +1,5 @@
 
+
 import React, { ReactElement, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, TextInput, View, TouchableOpacity, Button } from "react-native";
 import { Formik } from 'formik';
@@ -28,7 +29,6 @@ import useTextInputDropdown from '@/components/BottomSheetHooks/useSelectInputDr
 import SelectedArray from '@/components/SelectedArray/SelectedArray';
 import { IconVector } from '@/assets/icons/IconVector';
 import Text from '@/components/Text';
-import useCreateEvent from '@/utils/hooksEvent/useCreateEvent';
 import VerificationPayment from '@/components/VerificationPayment/VerificationPayment';
 import VerifyInfo from '@/components/VerifyInfo/VerifyInfo';
 
@@ -159,8 +159,8 @@ interface FormValues {
   otherDetails: string;
 }
 
-const CreateEvents = () => {
-  const { createAnEvent, isLoading, isSuccess } = useCreateEvent()
+const VerificationSettingScreen = () => {
+  // const { createAnEvent, isLoading, isSuccess } = useCreateEvent()
 
   const navigation = useNavigation()
   const [hosts, setHosts] = useState<User[]>([])
@@ -259,11 +259,6 @@ const CreateEvents = () => {
         onSubmit={handleSubmit}
       >
         {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched }) => {
-
-          console.log('values', values);
-
-
-
 
           return (
             <View style={styles.formContainer}>
@@ -390,4 +385,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateEvents;
+export default VerificationSettingScreen;

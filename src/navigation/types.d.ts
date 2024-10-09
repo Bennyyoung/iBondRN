@@ -77,6 +77,7 @@ export type AppNavRoutes = {
   ProfileScreen: undefined;
 
   VerificationScreen: undefined;
+  VerificationSettingScreen: undefined;
 
 };
 

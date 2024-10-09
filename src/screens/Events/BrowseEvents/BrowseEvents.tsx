@@ -22,8 +22,10 @@ import eventDetails from '@/utils/eventDetails';
 import TopEventsForYou from '@/components/TopEventsForYou/TopEventsForYou';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import useGetAllEvents from '@/utils/hooks/Event/useGetAllEvents';
 
 const { width: screenWidth, height } = Dimensions.get('window')
+
 
 const eventsNavigation = [
   {
@@ -75,6 +77,9 @@ const getItem = (data: any, index: number) => data[index];
 const getItemCount = (data: any) => data.length;
 
 const BrowseEvents: React.FC = () => {
+  const { data } = useGetAllEvents()
+  console.log('Events data', data);
+
   const navigation = useNavigation()
 
   return (
