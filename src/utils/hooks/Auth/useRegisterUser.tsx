@@ -2,23 +2,27 @@ import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
 import { RegisterRequest } from '@/redux/features/auth/services.types';
 import { useRegisterMutation } from '@/redux/features/auth/service';
 import { useDispatch } from 'react-redux';
-import { setUserData } from '@/redux/features/auth/slices';
+import { updateNewUser } from '@/redux/features/auth/slices';
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useRegisterUser = () => {
   const [register, { isLoading, isError }] = useRegisterMutation();
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   const registerUser = async (data: RegisterRequest) => {
     try {
       const response = await register(data).unwrap();
       // console.log(response, 'The response did got here');
 
-      if (response && response.data) {
-        dispatch(setUserData(response.data));
+      if (response && response.status === 201) {
+        dispatch(updateNewUser(true));
+        await AsyncStorage.setItem('@newlyregistered', 'true');
+        await AsyncStorage.setItem('@shouldupdateinterests', 'true');
         showSuccessToast('Registration successful');
-        return response.data;
+        return true;
       } else {
         throw new Error('Registration failed');
       }

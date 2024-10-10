@@ -16,6 +16,7 @@ export interface InitialState {
   isAuthenticated: boolean;
   userData: Omit<AuthResponse['data'], 'status' | 'message'> | null;
   registrationData: Partial<RegisterRequest>;
+  isNewlyRegistered: boolean;
 }
 
 const initState: InitialState = {
@@ -23,6 +24,7 @@ const initState: InitialState = {
   status: 'idle',
   token: null,
   userData: null,
+  isNewlyRegistered: true, // Remove true and initialise as false
   registrationData: {},
 };
 
@@ -36,7 +38,6 @@ export const userSlice = createSlice({
       state,
       action: PayloadAction<Partial<RegisterRequest>>,
     ) => {
-      console.log(action.payload, 'payload', state.registrationData);
       state.registrationData = {
         ...state.registrationData,
         ...action.payload,
@@ -57,6 +58,9 @@ export const userSlice = createSlice({
       state.isAuthenticated = true;
       state.status = 'login-success';
       state.token = payload.token;
+    },
+    updateNewUser: (state, { payload }) => {
+      state.isNewlyRegistered = payload;
     },
   },
 
@@ -119,6 +123,7 @@ export const userSlice = createSlice({
 export const {
   logout,
   setUserData,
+  updateNewUser,
   updateRegistrationData,
   clearRegistrationData,
 } = userSlice.actions;

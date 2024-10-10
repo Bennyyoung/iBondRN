@@ -10,6 +10,8 @@ import { ChevronLeft, X } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { SearchBar } from '@/components/SearchBar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useUpdateUserInterests from '@/utils/hooks/Auth/useUpdateUserInterests';
 
 const interestsList = [
   'Politics',
@@ -38,7 +40,9 @@ const SearchInterests = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [searchInput, setSearchInput] = useState('');
   const [filteredInterests, setFilteredInterests] = useState(interestsList);
-  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+
+  const { updateInterests, isLoading } = useUpdateUserInterests();
 
   useEffect(() => {
     if (searchInput) {
@@ -61,6 +65,25 @@ const SearchInterests = () => {
     } else if (selectedInterests.length < 20) {
       setSelectedInterests([...selectedInterests, interest]);
     }
+  };
+
+  const viewedInterestsScreen = async () => {
+    try {
+      await AsyncStorage.removeItem('@shouldupdateinterests');
+    } catch {}
+  };
+
+  const handleContinue = async () => {
+    const response = await updateInterests(selectedInterests);
+    if (response) {
+      await viewedInterestsScreen();
+      navigation.navigate('DashboardTab');
+    }
+  };
+
+  const handleSkip = () => {
+    viewedInterestsScreen();
+    navigation.navigate('DashboardTab');
   };
 
   const renderInterestItem = ({ item }: { item: string }) => (
@@ -112,7 +135,7 @@ const SearchInterests = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <ChevronLeft color="black" size={RFValue(30)} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={handleSkip}>
           <Text variant="regular16" color="primary">
             Skip for now
           </Text>
@@ -167,8 +190,8 @@ const SearchInterests = () => {
         right={0}
         paddingHorizontal="md">
         <CustomButton
-          label="Continue"
-          onPress={() => {}}
+          label={isLoading ? 'Saving...' : 'Continue'}
+          onPress={handleContinue}
           backgroundColor="primary"
           labelProps={{ color: 'white', variant: 'regular14' }}
           borderRadius="smm"

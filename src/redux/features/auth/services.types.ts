@@ -210,3 +210,13 @@ export type ValidateUsernameResponse = {
     itExist: boolean;
   };
 };
+
+export type ConnectUsersResponse = {
+  status: number;
+  message: string;
+  data: string[];
+};
+
+export type UpdateUserInterests = {
+  interests: string[];
+};

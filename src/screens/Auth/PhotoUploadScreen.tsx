@@ -216,11 +216,10 @@ const PhotoUploadScreen = () => {
   };
 
   const handleRegister = async () => {
-    // return navigation.navigate('FindFriendsFromContacts');
     const response = await registerUser(registrationData as RegisterRequest);
 
     if (response) {
-      navigation.navigate('FindFriendsFromContacts');
+      navigation.navigate('Login');
     }
   };
 
