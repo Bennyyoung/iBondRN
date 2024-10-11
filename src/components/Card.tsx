@@ -1,67 +1,77 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, Platform } from 'react-native';
 import ImageIcon from '@/assets/svg/img-part.svg'; // Importing img-part.svg
 import Sud from '@/assets/svg/sud.svg'; // Importing sud.svg
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useNavigation } from '@react-navigation/native';
-
+import { Event } from '@/components/types';
+import { SvgIcon } from '@/assets/icons/SvgIcon';
+import moment from 'moment';
 
 // Define the interface for the props
 interface CardProps {
-  data: {
-    id?: number;
-    eventTitle?: string;
-    eventStatus?: string;
-    eventType?: string;
-    eventPlatform?: string;
-    statusColor?: string;
-    statusIcon?: React.JSX.Element;
-    platformIcon?: React.JSX.Element;
-    meetingIcon?: React.JSX.Element;
-    eventTimeIcon?: React.JSX.Element;
-    eventImage?: React.JSX.Element;
-    eventTime?: string
-  };
+  data: Event
 }
-
 const { height } = Dimensions.get('window')
 
 // Card component that receives data as props
 const Card = ({ data }: CardProps) => {
   const navigation = useNavigation()
-  const { id, eventStatus, eventTitle, statusColor, eventType, eventPlatform, statusIcon, platformIcon, meetingIcon, eventTimeIcon, eventTime, eventImage } = data
+  const { id, eventStatus, date, eventTitle, eventType, eventPlatform, endTime, statusIcon, platformIcon, meetingIcon, eventTimeIcon, startTime, imageUrl, location } = data
+
+  const now = moment();
+  const eventDate = moment(date);
+  const eventStartTime = moment(startTime, 'HH:mm:ss');
+  const eventEndTime = moment(endTime, 'HH:mm:ss');
+
+  // Check if the event is today
+  const isToday = eventDate.isSame(now, 'day');
+
+  // Check if the event is ongoing
+  const isOngoing = now.isBetween(eventStartTime, eventEndTime);
+
+  // Determine the display text and color
+  let statusText = moment(date).format('ddd, D MMM, YYYY');
+  let statusColor = '#000';  // Default color
+  if (isToday) {
+    statusText = isOngoing ? 'Ongoing' : 'Today';
+    statusColor = '#FF3B30';  // Change color to red if ongoing or today
+  }
 
   return (
     <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('EventDetailScreen', { event: data })}>
-      <View style={styles.imageContainer}>
-        {eventImage}
-      </View>
+      <Image
+        source={{
+          uri: `${imageUrl}`
+        }}
+        style={styles.image}
+        resizeMode='cover'
+        resizeMethod='resize'
+      />
 
       <View style={styles.content}>
-        {/* Title */}
         <Text style={styles.title}>{eventTitle}</Text>
 
-        {/* Status */}
         <View style={styles.statusContainer}>
           {statusIcon}
           <Text style={[styles.status, { color: statusColor }]}>
-            {eventStatus}
+            {statusText}
           </Text>
 
           {
-            (eventTime && eventTimeIcon) && (
+            startTime && (
               <>
                 <Text style={styles.dot}>•</Text>
                 {eventTimeIcon}
+                <SvgIcon name='clock' />
                 <Text style={[styles.status, { color: statusColor }]}>
-                  {eventTime}
+                  {startTime}
                 </Text>
               </>
             )
           }
         </View>
 
-        {/* Mode and Platform Info */}
         <View style={styles.footer}>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
             {platformIcon}
@@ -70,7 +80,7 @@ const Card = ({ data }: CardProps) => {
           <Text style={styles.dot}>•</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
             {meetingIcon}
-            <Text style={styles.infoText}>{eventPlatform}</Text>
+            <Text style={styles.infoText}>{eventPlatform || location}</Text>
           </View>
         </View>
       </View>
@@ -99,12 +109,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 12,
     backgroundColor: '#FFFFFF',
-    marginHorizontal: 30
+    marginHorizontal: 30,
+    // height: '40%'
   },
   image: {
-    width: '90%',
-    height: '90%',
-    resizeMode: 'contain',
+    width: '100%',
+    height: Platform.OS === 'ios' ? 200 : undefined, // Fixed height for iOS
+    aspectRatio: 16 / 9, // This will maintain a 16:9 aspect ratio on Android
   },
   content: {
     padding: 10,

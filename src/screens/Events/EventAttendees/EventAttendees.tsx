@@ -1,15 +1,14 @@
+import React from "react";
 import UsersBox from "@/components/UsersBox/UsersBox"
 import users from "@/utils/users"
-import { User } from "@/components/types";
+import { Event, User } from "@/components/types";
 
-
-const EventAttendees = () => {
-
-    const attendees = users.filter((user: User) => user.isAttendee)
+const EventAttendees = ({ event }: { event: Event }) => {
     return (
         <>
             <UsersBox
-                users={attendees}
+                users={event.attendees}
+                type="attendees"
             />
         </>
     )

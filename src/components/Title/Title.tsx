@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
         paddingLeft: 16, // Assuming 'md' is 16px, adjust as necessary
         width: 130,
         alignItems: 'center',
+        marginBottom: 20
     },
     text: {
         fontWeight: '600',

@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { View, StyleSheet, FlatList, ScrollView, VirtualizedList, Dimensions } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, FlatList, ScrollView, VirtualizedList, Dimensions, ActivityIndicator } from 'react-native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import Box from '@/components/Box';
 import TitleBar from '@/components/TitleBar/TitleBar';
@@ -9,13 +9,6 @@ import Title from '@/components/Title/Title';
 import CalendarIcon from '@/assets/svg/calender.svg';
 import { SearchBar } from '@/components/SearchBar';
 import SearchBarIcon from '@/assets/svg/searchIcon.svg';
-import EducationIcon from '@/assets/svg/education.svg';
-import CareerIcon from '@/assets/svg/career.svg';
-import CultureIcon from '@/assets/svg/culture.svg';
-import EntertainmentIcon from '@/assets/svg/entertainment.svg';
-import SportIcon from '@/assets/svg/sport.svg';
-import SocialIcon from '@/assets/svg/social.svg';
-import CorporateIcon from '@/assets/svg/corporate.svg';
 import Card from '@/components/Card'; // Assuming Card.tsx is in the same folder
 import SubTitle from '@/components/SubTitle/SubTitle';
 import eventDetails from '@/utils/eventDetails';
@@ -23,64 +16,72 @@ import TopEventsForYou from '@/components/TopEventsForYou/TopEventsForYou';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import useGetAllEvents from '@/utils/hooks/Event/useGetAllEvents';
+import { Event } from '@/components/types';
+import useSearchEvents from '@/utils/hooks/Event/useSearchEvent';
+import { eventsNavigation } from '@/utils/browseEventsData';
+import moment from 'moment';
 
 const { width: screenWidth, height } = Dimensions.get('window')
-
-
-const eventsNavigation = [
-  {
-    id: 1,
-    icon: <CorporateIcon />,
-    linkName: 'Corporate',
-    linkUrl: ''
-  },
-  {
-    id: 2,
-    icon: <EducationIcon />,
-    linkName: 'Education',
-    linkUrl: ''
-  },
-  {
-    id: 3,
-    icon: <CareerIcon />,
-    linkName: 'Career',
-    linkUrl: ''
-  },
-  {
-    id: 4,
-    icon: <CultureIcon />,
-    linkName: 'Culture',
-    linkUrl: ''
-  },
-  {
-    id: 5,
-    icon: <EntertainmentIcon />,
-    linkName: 'Entertainment',
-    linkUrl: ''
-  },
-  {
-    id: 6,
-    icon: <SocialIcon />,
-    linkName: 'Sport',
-    linkUrl: ''
-  },
-  {
-    id: 7,
-    icon: <SportIcon />,
-    linkName: 'Social',
-    linkUrl: ''
-  },
-
-];
 
 const getItem = (data: any, index: number) => data[index];
 const getItemCount = (data: any) => data.length;
 
 const BrowseEvents: React.FC = () => {
-  const { data } = useGetAllEvents()
-  console.log('Events data', data);
-
   const navigation = useNavigation()
+  const { fetchAllEvents } = useGetAllEvents()
+  const [events, setEvents] = useState<Event[]>([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [category, setCategory] = useState('')
+  const [isSearchTriggered, setIsSearchTriggered] = useState(false)
+  const { searchEvents } = useSearchEvents(searchTerm, category)
+
+  const triggerSearch = () => {
+    setIsSearchTriggered(true)
+  }
+
+
+  const handleSearch = useCallback((text: string) => {
+    setSearchTerm(text)
+  }, [])
+
+  useEffect(() => {
+    if (isSearchTriggered && searchTerm.length >= 3) {
+      searchEvents()
+      setIsSearchTriggered(false)
+    }
+  }, [isSearchTriggered, searchTerm, category])
+
+  
+  const getEvents = async () => {
+    const events = await fetchAllEvents()
+    const content = events.data.content
+    setEvents(content)
+  }
+
+  const handleCategory = (category: string) => {
+    setCategory(category)
+    triggerSearch()
+  }
+  useEffect(() => {
+    getEvents()
+  }, [])
+
+  const isEventTodayOrOngoing = (event: Event) => {
+    const now = moment()
+    const eventDate = moment(event.date)
+    const eventStartTime = moment(event.startTime, 'HH:mm:ss')
+    const eventEndTime = moment(event.startTime, 'HH:mm:ss')
+
+    // Check if event date is today
+    const isToday = eventDate.isSame(now, 'day')
+
+    // Check if event is ongoing
+    const isOngoing = now.isBetween(eventStartTime, eventEndTime)
+
+    return isToday || isOngoing
+  }
+
+  // const happenngSoonEvents = events.filter(isEventTodayOrOngoing)
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -88,7 +89,7 @@ const BrowseEvents: React.FC = () => {
       <TitleBar>
         <Box style={styles.title}>
           <TouchableOpacity onPress={() => navigation.navigate('MyEvents')}>
-            <Text style={styles.createEvent}>
+            <Text>
               {/* Create Event */}
             </Text>
           </TouchableOpacity>
@@ -108,70 +109,83 @@ const BrowseEvents: React.FC = () => {
       {/* Search Bar */}
       <Box paddingHorizontal={'md'}>
         <SearchBar
+          getSearchInput={handleSearch}
           placeholder="Search"
           backgroundColor="#FBF7FF"
           height={RFValue(40)}
-          borderRadius={RFValue(12)}
-          svgIcon={<SearchBarIcon />}
+          svgIcon={
+            <TouchableOpacity onPress={triggerSearch}>
+              <SearchBarIcon />
+            </TouchableOpacity>
+          }
         />
       </Box>
 
       {/* Horizontal scrolling navigation */}
-      <Box marginTop={'Ml'} style={styles.gridContainer}>
+      <Box style={styles.gridContainer}>
         {eventsNavigation.map((events) => (
-          <Box key={events.id} style={styles.gridItem}>
+          <TouchableOpacity
+            key={events.id}
+            style={styles.gridItem}
+            onPress={() => handleCategory(events.categoryName)}
+          >
             <Box style={styles.iconCircle}>{events.icon}</Box>
-            <Text style={styles.iconLabel}>{events.linkName}</Text>
-          </Box>
+            <Text style={styles.iconLabel}>{events.categoryName}</Text>
+          </TouchableOpacity>
         ))}
       </Box>
 
-      {/* Happening Soon */}
-      <View style={{ paddingHorizontal: 20 }}>
-        <SubTitle title={'Happening Soon'} subtitle='Show more' />
-      </View>
+      {
+        (() => {
+          // Filter data to include only ongoing or today events
+          const filteredData = (events).filter(isEventTodayOrOngoing);
+          {/* Happening Soon */ }
+          <View style={{ paddingHorizontal: 20 }}>
+            <SubTitle title={'Happening Soon'} subtitle='Show more' />
+          </View>
 
-      <VirtualizedList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={eventDetails}
-        keyExtractor={(item) => item.id.toString()}
-        initialNumToRender={4}
-        renderItem={({ item }) => {
-          if (item.eventStatus === 'Ongoing') {
-            return (
-              <Card data={item} />
-            )
-          }
-          if (item.eventStatus === 'Today') {
-            return (
-              <Card data={item} />
-            )
-          }
-          return null
-        }}
-        // showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.flatListContainer}
-        getItem={getItem}
-        getItemCount={getItemCount}
-      />
+          return filteredData.length > 0 ? (
+            <VirtualizedList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={filteredData}
+              keyExtractor={(item) => item.id.toString()}
+              initialNumToRender={4}
+              renderItem={({ item }) => (
+                <Card data={item} />
+              )}
+              contentContainerStyle={styles.flatListContainer}
+              getItem={getItem}
+              getItemCount={getItemCount}
+            />
+          ) : (
+            // Display a message when there are no events
+            // <Text style={styles.noEvents}>No Events happening soon</Text>
+            null
+          );
+        })()
+      }
+
+
+
 
       <Box style={{ marginHorizontal: 16 }}>
-        {
-          eventDetails.map(eventDetail => {
-            if (eventDetail.eventStatus === 'Today') {
-              return null
+        {events.length > 0 ? (
+          events.map((event) => {
+            const status = isEventTodayOrOngoing(event);
+            // Render only events that are not 'TODAY' or 'ONGOING'
+            if (status !== 'TODAY' && status !== 'ONGOING') {
+              return <Card key={event.id} data={event} />;
             }
-            if (eventDetail.eventStatus === 'Ongoing') {
-              return null
-            }
-            return <Card key={eventDetail.id} data={eventDetail} />
+            return null;
           })
-        }
+        ) : (
+          <Text>No other events available</Text>
+        )}
       </Box>
 
       {/* Top Events */}
-      <TopEventsForYou />
+      <TopEventsForYou events={events} />
 
     </ScrollView>
   );
@@ -212,10 +226,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    padding: 16
+    padding: 16,
+    marginTop: 20
   },
   gridItem: {
-    width: '22%',
+    width: 84.25,
     alignItems: 'center',
     marginBottom: 20,
     marginRight: 20
@@ -236,11 +251,23 @@ const styles = StyleSheet.create({
     marginRight: 16 // Adds spacing between cards
   },
   flatListContainer: {
-    paddingLeft: 16 // Add padding to align with other content
+    paddingHorizontal: 10, // Add horizontal padding for spacing
+    flexDirection: 'row',  // Ensure the items are laid out horizontally
+    alignItems: 'center',  // Center align the items
   },
   eventListContainer: {
     padding: 16
-  }
+  },
+  anErrorOccured: {
+    fontSize: RFValue(14, height),
+    textAlign: 'center',
+    padding: 20
+  },
+  noEvents: {
+    fontSize: RFValue(14, height),
+    textAlign: 'center',
+    padding: 20
+  },
 });
 
 

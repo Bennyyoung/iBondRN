@@ -1,3 +1,5 @@
+import { Event } from "@/components/types";
+
 export type AppNavRoutes = {
   // authentication navigation types
   Onboarding: undefined;
@@ -82,41 +84,15 @@ export type AppNavRoutes = {
 };
 
 // Events
-export type Event = {
-  id: number;
-  eventTitle: string;
-  eventPlatform: string;
-  eventType: string;
-  eventStatus: string;
-  statusColor: string;
-  statusIcon: string;
-  eventTime: string;
-  meetingIcon: React.JSX.Element;  // For the SVG component
-  platformIcon: React.JSX.Element; // For the SVG component
-  eventImage: React.JSX.Element; // For the SVG component
-  eventTimeIcon: React.JSX.Element,
-  organizer: {
-    organizerPicture: React.JSX.Element,
-    organizerName: string,
-    organizerUniversity: string,
-    isVerified: boolean
-  }
-}
 
+type EventDetailRouteProp = RouteProp<{
+  EventDetailScreen: { event: Event };
+}, 'EventDetailScreen'>;
 
-
-export type EventDetails = {
-  event: Event
-}
-
-export type RouteParams = EventDetails
-
-
-type EventDetailsScreenRouteProp = RouteProp<RouteParams, 'EventDetails'>;
-
-export type EventDetailsProps = {
-  route: EventDetailsScreenRouteProp;
-}
+// Define props type for the component
+type EventDetailScreenProps = {
+  route: EventDetailRouteProp;
+};
 
 // Dashboard Bottom tab routes
 type MyTabRoutes = {

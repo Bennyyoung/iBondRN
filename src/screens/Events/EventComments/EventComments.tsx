@@ -1,7 +1,7 @@
 import Box from "@/components/Box"
 import Comment from "@/components/Comment/Comment"
 import Text from "@/components/Text"
-import commentData from "@/utils/commentData"
+import { commentData } from "@/utils/browseEventsData"
 
 const EventComments = () => {
 

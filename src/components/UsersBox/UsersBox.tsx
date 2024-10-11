@@ -1,3 +1,4 @@
+import React from "react"
 import Box from "@/components/Box"
 import FollowText from "@/components/FollowText/FollowText"
 import Text from "@/components/Text"
@@ -6,11 +7,17 @@ import { RFValue } from "react-native-responsive-fontsize"
 const { height } = Dimensions.get('window')
 import { User } from "../types";
 
-const UsersBox = (users: User[]) => {
+type UsersBoxProps = {
+    users: User[]
+    type: string
+}
+
+const UsersBox = (props: UsersBoxProps) => {
+    const { users, type } = props
 
     return (
         <>
-            {users.users.length > 0 && users.users.map((user: User) => (
+            {users.length > 0 ? users.map((user: User) => (
                 <Box key={user.id} style={styles.attendeeContainer}>
                     {/* Profile Image and Online Indicator */}
                     <Box style={styles.profileContainer}>
@@ -27,14 +34,19 @@ const UsersBox = (users: User[]) => {
                             <Text style={styles.university}>{user.university}</Text>
                         </Box>
                     </Box>
-    
+
                     {/* Follow Text */}
                     <FollowText
                         followText={user.followText}
                         fontSize={17}
                     />
                 </Box>
-            ))}
+            )) : (
+                <Box style={styles.emptyContainer}>
+                    <Text style={styles.emptyArray}>No {type} yet</Text>
+                </Box>
+            )
+            }
         </>
     )
 }
@@ -88,4 +100,13 @@ const styles = StyleSheet.create({
         color: '#999BAD',
         fontSize: 14,
     },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    emptyArray: {
+        textAlign: 'center',
+        fontSize: RFValue(16, height)
+    }
 })

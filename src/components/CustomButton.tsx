@@ -11,7 +11,7 @@ import { SvgIconPackType } from '@/assets/icons';
 
 type CustomButtonProps = BaseButtonProps &
   VariantProps<Theme, 'textVariants', 'labelVariant'> & {
-    label: string | JSX.Element;
+    label: string | (() => JSX.Element | string);
     labelProps?: Omit<TextProps, 'children'>;
     isLoading?: boolean;
     loadingIconColor?: PaletteType;
@@ -61,7 +61,14 @@ const CustomButton: FC<CustomButtonProps> = props => {
             {label}
           </Text>
         ) : (
-          label
+          <Text
+            variant={labelVariant}
+            {...labelProps}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={{ flexShrink: 1 }}>
+            {label()} {/* Call the label function */}
+          </Text>
         )}
         {isLoading && (
           <Box marginLeft="sm">

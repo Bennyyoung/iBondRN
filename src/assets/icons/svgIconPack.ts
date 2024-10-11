@@ -33,6 +33,17 @@ import book from "@/assets/svg/book.svg"
 import database from "@/assets/svg/database.svg"
 import moon from "@/assets/svg/moon.svg"
 import info_circle from "@/assets/svg/info-circle.svg"
+import corporate from "@/assets/svg/corporate.svg"
+import education from "@/assets/svg/education.svg"
+import career from "@/assets/svg/career.svg"
+import culture from "@/assets/svg/culture.svg"
+import entertainment from "@/assets/svg/entertainment.svg"
+import sport from "@/assets/svg/sport.svg"
+import social from "@/assets/svg/social.svg"
+import segunOwoPrivateClub from "@/assets/svg/segunOwoPrivateClub.svg"
+import organizerPicture from "@/assets/svg/organizerPicture.svg"
+import gif from "@/assets/svg/gif.svg"
+import leftArrowIcon from "@/assets/svg/leftArrowIcon.svg"
 
 const svgIconPack = {
   appleIcon,
@@ -69,7 +80,18 @@ const svgIconPack = {
   book,
   database,
   moon,
-  info_circle
+  info_circle,
+  corporate,
+  education, 
+  career,
+  culture,
+  entertainment,
+  sport,
+  social,
+  segunOwoPrivateClub,
+  organizerPicture,
+  gif,
+  leftArrowIcon
 };
 
 export { svgIconPack };

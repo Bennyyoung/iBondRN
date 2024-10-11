@@ -4,44 +4,61 @@ import TopEventsForYou from "@/components/TopEventsForYou/TopEventsForYou"
 import { Dimensions, Image, StyleSheet } from "react-native"
 import { RFValue } from "react-native-responsive-fontsize"
 import SmallProfileIcon from "@/assets/svg/smallProfileIcon.svg"
-import { Event, EventDetails, EventDetailsProps, RouteParams } from "@/navigation/types"
 import MapView, { Marker } from "react-native-maps"
 import users from "@/utils/users"
+import { Event } from "@/components/types"
+import { SvgIcon } from "@/assets/icons/SvgIcon"
+import moment from "moment"
 
 const { height } = Dimensions.get('window')
 
-const Details = ({ event }: EventDetails) => {
+const Details = ({ event }: { event: Event }) => {
 
     return (
         <Box>
             <Box style={styles.detailsSection}>
-                <Box style={styles.attendeesList}>
-                    <Box style={styles.attendeesContainer}>
-                        {
-                            users.slice(1, 5).map((user, index) => (
-                                <Box key={index} style={styles.profileContainer}>
-                                    {user.profileImage}
-                                </Box>
-                            ))
-                        }
-                    </Box>
-                    <Text style={styles.attendeeText}>{`${users.filter(user => user.isAttendee).length} Attendees`}</Text>
-                </Box>
+                {
+                    event.attendees.length > 0 ? (
+                        <Box style={styles.attendeesList}>
+                            <Box style={styles.attendeesContainer}>
+                                {
+                                    // users.slice(1, 5).map((user, index) => (
+                                    // <Box key={index} style={styles.profileContainer}>
+                                    //     {user.profileImage}
+                                    // </Box>
+                                    // ))
+
+                                    event.attendees.length > 0 ? (
+                                        event.attendees.slice(1, 5).map((attendee, index) => (
+                                            <Box key={index} style={styles.profileContainer}>
+                                                {attendee?.profileImage}
+                                            </Box>
+                                        ))
+                                    ) : null
+                                }
+                            </Box>
+                            <Text style={styles.attendeeText}>
+                                {`${event.attendees.length} ${(event.attendees.length === 0 || event.attendees.length === 1) ? 'Attendee' : 'Attendees'}`}
+                            </Text>
+                        </Box>
+                    ) : null
+                }
 
                 {/* Event Details */}
                 <Box style={styles.infoRow}>
-                    <Text style={styles.icon}>{event?.statusIcon}</Text>
-                    <Text style={styles.infoText}>{event.eventStatus}</Text>
+                    <SvgIcon name="calender" size='sm' style={{ marginRight: 5 }} />
+                    <Text style={{ fontSize: RFValue(16, height) }}>{moment(event.date).format('dddd D MMM, YYYY')}</Text>
+                    {/* h:mm A */}
                 </Box>
 
                 <Box style={styles.infoRow}>
-                    <Text style={styles.icon}>{event.eventTimeIcon}</Text>
-                    <Text style={styles.infoText}>11:30 AM</Text>
+                    <SvgIcon name="clock" size="sm" style={{ marginRight: 5 }} />
+                    <Text style={{ fontSize: RFValue(16, height) }}>{moment(event.date).format('h:mm A')}</Text>
                 </Box>
 
-                <Box style={styles.infoRow}>
-                    <Text style={styles.icon}>{event.platformIcon}</Text>
-                    <Text style={styles.infoText}>{event.eventType}</Text>
+                <Box style={[styles.infoRow, styles.lastRow]}>
+                    <SvgIcon name="location" size="sm" color='black' style={{ marginRight: 5 }} />
+                    <Text style={{ textTransform: 'capitalize', fontSize: RFValue(16, height) }}>{event.location}</Text>
                 </Box>
 
                 {/* Google Map */}
@@ -64,7 +81,7 @@ const Details = ({ event }: EventDetails) => {
                 {/* More Details */}
                 <Text style={{ color: '#151619', fontWeight: '400', fontSize: RFValue(16, height) }}>More Details</Text>
                 <Text style={styles.moreDetails}>
-                    Join us for an insightful and practical event designed to empower Nigerian employees with tools and strategies needed to thrive in a remote work environment.
+                    {event.otherDetails}
                 </Text>
             </Box>
         </Box>
@@ -75,7 +92,7 @@ export default Details
 
 const styles = StyleSheet.create({
     detailsSection: {
-        marginVertical: 10,
+        // marginVertical: 10,
     },
     sectionTitle: {
         fontSize: RFValue(16, height),
@@ -109,7 +126,12 @@ const styles = StyleSheet.create({
     infoRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 5,
+        paddingVertical: 20,
+        borderBottomWidth: 0.4,  // Add a bottom border
+        borderBottomColor: 'grey',  // Set the color for the horizontal line,
+    },
+    lastRow: {
+        borderBottomWidth: 0,  // Remove the border from the last row
     },
     icon: {
         fontSize: RFValue(18, height),

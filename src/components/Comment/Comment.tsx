@@ -52,8 +52,8 @@ const Comment = (props: CommentProps) => {
 
             {/*  Sub Comments*/}
             {
-                subComments && subComments.map(subComment => (
-                    <Box style={{ flexDirection: 'row', paddingLeft: 40, justifyContent: 'flex-end' }}>
+                subComments && subComments.map((subComment, index) => (
+                    <Box key={index} style={{ flexDirection: 'row', paddingLeft: 40, justifyContent: 'flex-end' }}>
                         {profileImage}
 
                         <Box style={styles.subCommentContainer}>

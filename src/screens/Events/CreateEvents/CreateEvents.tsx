@@ -30,6 +30,7 @@ import Text from '@/components/Text';
 import useCreateEvent from '@/utils/hooks/Event/useCreateEvent';
 import moment from 'moment';
 import useImageUpload from '@/utils/hooks/UploadImage/useUploadImageMutation';
+import { categoryOptions, eventType, privacyOptions, groupOptions } from '@/utils/createEventsData';
 
 // Import images from assets
 const customIcon = require('@/assets/svg/group.svg');
@@ -53,103 +54,7 @@ const initialValues = {
 }
 
 // Static options for dropdowns
-const categoryOptions = [
-  {
-    id: 'corporate',
-    value: 'Corporate'
-  },
-  {
-    id: 'education',
-    value: 'Education'
-  },
-  {
-    id: 'career',
-    value: 'Career'
-  },
-  {
-    id: 'culture',
-    value: 'Culture'
-  },
-  {
-    id: 'entertainment',
-    value: 'Entertainment'
-  },
-  {
-    id: 'social',
-    value: 'Social'
-  },
-  {
-    id: 'sport',
-    value: 'Sport'
-  },
-];
 
-const eventType = [
-  {
-    id: 'physical',
-    value: 'Physical'
-  },
-  {
-    id: 'virtual',
-    value: 'Virtual'
-  },
-];
-
-const privacyOptions = [
-  {
-    id: 'public',
-    value: 'Public',
-    iconName: 'globe',
-    label: 'Anyone on and off iBond Elite'
-  },
-  {
-    id: 'private',
-    value: 'Private',
-    iconName: 'lock',
-    label: 'Only people you invite can see and join event'
-  },
-  {
-    id: 'followers',
-    value: 'Followers Only',
-    iconName: 'followers',
-    label: "It'll be shown only to your followers"
-  },
-  {
-    id: 'group',
-    value: 'Group',
-    iconName: 'group',
-    label: 'Members of a group that you belong',
-    arrowRight: 'rightArrow'
-  },
-];
-
-const groupOptions = [
-  {
-    id: 'segun owo',
-    value: 'Segun OWO Private club',
-    image: <SegunOwoPrivateClub style={{ marginRight: 20 }} />
-  },
-  {
-    id: 'finesse gub',
-    value: 'Finesse Hub',
-    image: <SegunOwoPrivateClub style={{ marginRight: 20 }} />
-  },
-  {
-    id: 'dpa mastermind community',
-    value: 'The DPA Priate Mastermind Community',
-    image: <SegunOwoPrivateClub style={{ marginRight: 20 }} />
-  },
-  {
-    id: 'ui/ux desingners',
-    value: 'UI/UX Designers & Developers',
-    image: <SegunOwoPrivateClub style={{ marginRight: 20 }} />
-  },
-  {
-    id: 'lautech',
-    value: 'LAUTECH Student UNION',
-    image: <SegunOwoPrivateClub style={{ marginRight: 20 }} />
-  },
-]
 
 type EventHost = {
   id: number
@@ -276,11 +181,6 @@ const CreateEvents = () => {
 
     await uploadImage()
 
-    // const data = handleTransform(values)
-    // console.log('data', data);
-
-    // await createAnEvent(data)
-
   };
 
   return (
@@ -292,9 +192,6 @@ const CreateEvents = () => {
         onSubmit={handleCreateEvent}
       >
         {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, resetForm }) => {
-          // console.log('eventPhoto', values.eventPhoto);
-
-
           return (
             <>
               <TitleBar>
@@ -364,8 +261,6 @@ const CreateEvents = () => {
                       label={'Start Time'}
                       getSelectedTime={time => {
                         const formattedTime = moment(time).format('HH:mm'); // Format to HH:mm
-                        // console.log('formattedTime', formattedTime);
-
                         setFieldValue('startTime', formattedTime);
                       }}
                       errorMessage={touched.startTime && errors.startTime}

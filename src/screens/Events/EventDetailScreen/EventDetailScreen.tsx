@@ -1,7 +1,7 @@
 import { BaseButton } from '@/components/BaseButton';
 import Box from '@/components/Box';
 import { CustomButton } from '@/components/CustomButton';
-import { Event, EventDetails, EventDetailsProps, RouteParams } from '@/navigation/types';
+import { EventDetails, EventDetailScreenProps, EventDetailsProps, RouteParams } from '@/navigation/types';
 import { RouteProp } from '@react-navigation/core';
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions, Platform } from 'react-native';
@@ -14,14 +14,18 @@ import MoreLikeThis from '@/components/MoreLikeThis/MoreLikeThis';
 import Verified from "@/assets/svg/verify.svg"
 import Modal from '@/components/Modal/Modal';
 import PurpleTick from "@/assets/svg/purpleTick.svg"
+import { Event } from '@/components/types';
+import moment from 'moment';
+import { SvgIcon } from '@/assets/icons';
 
 const { height } = Dimensions.get('window')
 
 type Tabs = 'Details' | 'Comments' | 'Attendees'
 
-const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
-  const { event } = route.params as EventDetails
+const EventDetailScreen: React.FC<EventDetailScreenProps> = ({ route }) => {
+  console.log('route', JSON.stringify(route, null, 2));
 
+  const { event } = route.params
 
   const [activeTab, setActiveTab] = useState<Tabs>('Details')
   const [isAttending, setIsAttending] = useState(false)
@@ -33,13 +37,13 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
   }
 
   const displayEventStatus = (event: Event) => {
-    if (event.eventType === 'Ongoing') {
-      setEventType('Join Event')
-      return 'Join Event'
+    if (event.eventType === "PHYSICAL" || event.eventType === "VIRTUAL") {
+      setEventType('Attend')
+      return 'Attend'
     }
-    setEventType('Attend')
+    setEventType('Join Event')
 
-    return 'Attend'
+    return 'Join Event'
   }
 
   const renderContent = (activeTab: Tabs) => {
@@ -49,7 +53,7 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
       case 'Comments':
         return <Comments />
       case 'Attendees':
-        return <Attendees />
+        return <Attendees event={event} />
       default:
         break;
     }
@@ -58,9 +62,14 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
       {/* Event Image */}
-      <View style={styles.imageContainer}>
-        {event.eventImage}
-      </View>
+      <Image
+        source={{
+          uri: `${event.imageUrl}`
+        }}
+        style={styles.image}
+        resizeMode='cover'
+        resizeMethod='resize'
+      />
 
 
       {/* Event Title */}
@@ -70,25 +79,20 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
 
       {/* Event Date and Time */}
       <View style={styles.infoRow}>
-        <Text style={styles.icon}>{event.statusIcon}</Text>
-        <Text>{event.eventStatus}</Text>
-        {
-          (event.eventTime && event.eventTimeIcon) && (
-            <>
-              <Text style={styles.dot}>•</Text>
-              {event.eventTimeIcon}
-              <Text style={[styles.status, { color: event.statusColor }]}>
-                {event.eventTime}
-              </Text>
-            </>
-          )
-        }
+        <SvgIcon name="calender" size='sm' style={{ marginRight: 5 }} />
+        <Text style={{ fontSize: RFValue(13, height) }}>{moment(event.date).format('ddd, D MMM, YYYY')}</Text>
+        {/* h:mm A */}
+        <>
+          <Text style={styles.dot}>•</Text>
+          <SvgIcon name="clock" size="sm" style={{ marginRight: 5 }} />
+          <Text style={{ fontSize: RFValue(13, height) }}>{moment(event.date).format('h:mm A')}</Text>
+        </>
       </View>
 
       {/* Event Type */}
       <View style={styles.infoRow}>
-        <Text style={styles.icon}>{event.platformIcon}</Text>
-        <Text>{event.eventType}</Text>
+        <SvgIcon name="location" size="sm" color='black' style={{ marginRight: 5 }} />
+        <Text style={{ textTransform: 'capitalize', fontSize: RFValue(13, height) }}>{event.eventType}</Text>
       </View>
 
       {/* Action Buttons */}
@@ -150,7 +154,7 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
       </Box>
 
       {/* Organizer */}
-      <View style={styles.detailsSection}>
+      {/* <View style={styles.detailsSection}>
         <Text style={styles.sectionTitle}>Organizer</Text>
         <View style={styles.organizerRow}>
           {event.organizer.organizerPicture}
@@ -165,15 +169,15 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
             <Text style={styles.followText}>Follow</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
 
       {/* "More like this" Section */}
-      <MoreLikeThis />
+      {/* <MoreLikeThis /> */}
 
-      <TopEventsForYou />
+      {/* <TopEventsForYou /> */}
 
       {/* Modal starts*/}
-      <Modal
+      {/* <Modal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       >
@@ -220,7 +224,7 @@ const EventDetailScreen: React.FC<EventDetailsProps> = ({ route }) => {
             />
           </Box>
         </Box>
-      </Modal>
+      </Modal> */}
       {/* Modal ends */}
 
     </ScrollView>
@@ -243,11 +247,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     borderRadius: 8
   },
-  eventImage: {
+  image: {
     width: '100%',
-    height: 200,
-    borderRadius: 8,
+    height: Platform.OS === 'ios' ? 200 : undefined, // Fixed height for iOS
+    aspectRatio: 16 / 9, // This will maintain a 16:9 aspect ratio on Android
   },
+
   eventTitle: {
     fontSize: RFValue(18, height),
     fontWeight: 'bold',
@@ -341,7 +346,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-    marginVertical: 20,
+    marginTop: 20,
   },
   tab: {
     paddingVertical: 10,

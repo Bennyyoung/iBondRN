@@ -2,7 +2,7 @@ import { Box } from "lucide-react-native"
 import { StyleSheet, VirtualizedList } from "react-native"
 import Card from "../Card"
 import SubTitle from "../SubTitle/SubTitle"
-import eventDetails from "@/utils/eventDetails"
+import { Event } from '@/navigation/types';
 
 const getItem = (data: any, index: number) => data[index];
 const getItemCount = (data: any) => data.length;
@@ -13,7 +13,12 @@ const styles = StyleSheet.create({
     },
 })
 
-const TopEventsForYou = () => {
+type TopEventsForYouProps = {
+    events: Event[]
+}
+
+const TopEventsForYou = (props: Event[]) => {
+    const { events } = props
 
     return (
         <>
@@ -22,7 +27,7 @@ const TopEventsForYou = () => {
             <VirtualizedList
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={eventDetails}
+                data={events}
                 keyExtractor={(item) => item.id.toString()}
                 initialNumToRender={4}
                 renderItem={({ item }) => {
