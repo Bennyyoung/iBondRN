@@ -13,6 +13,7 @@ import MainWrapper from '@/components/MainWrapper';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import useLoginUser from '@/utils/hooks/Auth/useLogin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface LoginFormValues {
   username: string;
@@ -37,8 +38,22 @@ const Login: React.FC = () => {
       password: values.password,
     });
 
-    if (userData) {
-      navigation.replace('HomeScreen');
+    // await AsyncStorage.setItem('@newlyregistered', 'true');
+    // await AsyncStorage.setItem('@shouldupdateinterests', 'true');
+    const shouldConnect = await AsyncStorage.getItem('@newlyregistered');
+    const shouldUpdateInterests = await AsyncStorage.getItem(
+      '@shouldupdateinterests',
+    );
+
+    if (userData && shouldConnect === 'true') {
+      navigation.navigate('FindFriendsFromContacts');
+      return;
+    } else if (userData && shouldUpdateInterests === 'true') {
+      navigation.navigate('SearchInterests');
+      return;
+    } else if (userData) {
+      navigation.replace('DashboardTab');
+      return;
     }
     setSubmitting(false);
   };
@@ -101,7 +116,7 @@ const Login: React.FC = () => {
               backgroundColor="primary"
               labelProps={{ color: 'white', variant: 'regular14' }}
               borderRadius="smm"
-              isLoading={isLoading || isSubmitting} // Disable if submitting
+              isLoading={isLoading || isSubmitting}
               disabled={
                 !(values.username && values.password) ||
                 isLoading ||

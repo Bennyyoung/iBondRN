@@ -52,6 +52,11 @@ function AuthenticatedStack() {
         headerShown: false,
       }}>
       <Stack.Screen component={DashboardTab} name="DashboardTab" />
+      <Stack.Screen
+        component={FindFriendsFromContacts}
+        name="FindFriendsFromContacts"
+      />
+      <Stack.Screen component={SearchInterests} name="SearchInterests" />
       <Stack.Screen component={AuthLanding} name="AuthLanding" />
       <Stack.Screen component={SuccessScreen} name="SuccessScreen" />
     </Stack.Navigator>

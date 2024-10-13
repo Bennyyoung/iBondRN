@@ -9,4 +9,6 @@ export default {
     `auth/auth/username/generate?username=${username}`,
   validateAccount: (emailOrPhoneNumber: string) =>
     `auth/auth/validate-account?emailOrPhoneNumber=${emailOrPhoneNumber}`,
+  connectUsers: 'auth/users/by-phone-numbers',
+  updateInterests: 'auth/users/set-interests',
 };

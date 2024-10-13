@@ -87,16 +87,16 @@ const PostSignUpScreen = () => {
     if (userType === 'non-student' && location) {
       if (location.length < 8) {
         setError('Provide a valid address.');
+        setIsSubmitting(false);
         return;
       }
-      setIsSubmitting(false);
     }
 
     dispatch(
       updateRegistrationData({
         student: userType === 'student' ? true : false,
         studentDto: {
-          school: school as string,
+          school: userType === 'non-student' ? '' : (school as string),
           faculty: faculty as string,
           department: department as string,
           level: classYear as string,
@@ -106,10 +106,8 @@ const PostSignUpScreen = () => {
       }),
     );
 
-    setTimeout(() => {
-      navigation.navigate('PhotoUploadScreen');
-      setIsSubmitting(false);
-    }, 3000);
+    setIsSubmitting(false);
+    navigation.navigate('PhotoUploadScreen');
   };
 
   useEffect(() => {

@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Platform,
   FlatList,
@@ -17,11 +18,27 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { IconVector } from '@/assets/icons/IconVector';
 import Contacts from 'react-native-contacts';
+import { useConnectUsersQuery } from '@/redux/features/auth/service';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FindFriendsFromContacts = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [contacts, setContacts] = useState([]);
+  const [filteredContacts, setFilteredContacts] = useState([]);
   const [showContacts, setShowContacts] = useState(false);
+  const [isPermissionGranted, setIsPermissionGranted] = useState(false);
+
+  const { data: connectedUsersData, isLoading } = useConnectUsersQuery(null);
+
+  useEffect(() => {
+    if (
+      contacts.length > 0 &&
+      connectedUsersData &&
+      connectedUsersData.data.length > 0
+    ) {
+      filterContacts();
+    }
+  }, [contacts, connectedUsersData]);
 
   const requestContactsPermission = async () => {
     if (Platform.OS === 'android') {
@@ -48,17 +65,38 @@ const FindFriendsFromContacts = () => {
       .then((contcts: any) => {
         setContacts(contcts);
         setShowContacts(true);
+        setIsPermissionGranted(true); // Update state to show permission granted
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  const handleContinue = () => {
+  const filterContacts = () => {
+    const filtered = contacts.filter(contact => {
+      const phoneNumbers = contact.phoneNumbers.map(pn =>
+        pn.number.replace(/\s+/g, ''),
+      );
+      return phoneNumbers.some(phoneNumber =>
+        connectedUsersData.data.includes(phoneNumber),
+      );
+    });
+    setFilteredContacts(filtered);
+  };
+
+  const viewedConnectScreen = async () => {
+    try {
+      await AsyncStorage.removeItem('@newlyregistered');
+    } catch {}
+  };
+
+  const handleContinue = async () => {
+    await viewedConnectScreen();
     navigation.navigate('SearchInterests');
   };
 
-  const handleSkip = () => {
+  const handleSkip = async () => {
+    await viewedConnectScreen();
     navigation.navigate('SearchInterests');
   };
 
@@ -148,7 +186,7 @@ const FindFriendsFromContacts = () => {
         </Text>
         {!showContacts ? (
           <>
-            <Text variant="regular14" textAlign="left" color="black" mb="xxl">
+            <Text variant="regular14" textAlign="left" color="black" mb="md">
               Allow iBond access to your contacts and we'll help you connect
               with your friends faster.
             </Text>
@@ -156,11 +194,14 @@ const FindFriendsFromContacts = () => {
               <Box alignSelf="center" justifyContent="center" mb="xxl" mt="xl">
                 <IconVector name="contact_list" size="xxxl" />
               </Box>
+              <Text variant="regular12" color="grey" textAlign="center" mt="sm">
+                Tap the icon to connect your contacts.
+              </Text>
             </TouchableOpacity>
           </>
         ) : (
           <FlatList
-            data={contacts}
+            data={filteredContacts}
             renderItem={renderContactItem}
             keyExtractor={item => item?.recordID}
           />
@@ -173,12 +214,16 @@ const FindFriendsFromContacts = () => {
         right={0}
         paddingHorizontal="md">
         <CustomButton
-          label="Continue"
-          onPress={handleContinue}
+          label={isPermissionGranted ? 'Continue' : 'Connect'}
+          onPress={
+            isPermissionGranted ? handleContinue : requestContactsPermission
+          }
           backgroundColor="primary"
           labelProps={{ color: 'white', variant: 'regular14' }}
           borderRadius="smm"
           height={Platform.OS === 'ios' ? RFValue(42) : RFValue(52)}
+          disabled={isLoading}
+          isLoading={isLoading}
         />
       </Box>
     </SafeAreaView>
