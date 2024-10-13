@@ -53,6 +53,7 @@ import archive from "@/assets/svg/archive.svg"
 import send2 from "@/assets/svg/send2.svg"
 import eyeSlash from "@/assets/svg/eyeSlash.svg"
 import flag from "@/assets/svg/flag.svg"
+import galleryAddPurple from "@/assets/svg/galleryAddPurple.svg"
 
 const svgIconPack = {
   appleIcon,
@@ -109,7 +110,8 @@ const svgIconPack = {
   archive,
   send2,
   eyeSlash,
-  flag
+  flag,
+  galleryAddPurple
 };
 
 export { svgIconPack };

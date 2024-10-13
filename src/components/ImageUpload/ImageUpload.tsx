@@ -2,7 +2,6 @@ import { Dimensions, StyleSheet, Image } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import Box from "../Box"
 import { RFValue } from "react-native-responsive-fontsize"
-import ImageUploadIcon from "@/assets/svg/imageUploadIcon.svg"
 import Text from "../Text"
 import { FormikErrors } from "formik"
 import { useState } from "react"
@@ -11,6 +10,17 @@ import { SvgIcon } from "@/assets/icons"
 import React from "react"
 
 const { height } = Dimensions.get('window')
+
+type Placeholders = {
+    default: {
+        title: string;
+        icon: React.JSX.Element;
+    };
+    withImage: {
+        title: string;
+        icon: React.JSX.Element;
+    };
+};
 
 type ImageUploadProps = {
     setFieldValue: (field: string, value: any, shouldValidate?: boolean) => Promise<void | FormikErrors<{
@@ -27,9 +37,15 @@ type ImageUploadProps = {
         otherDetails: string;
     }>>
     error?: string | boolean;
+    placeholders: Placeholders
+    recommendedText?: string
 }
 
+
+
 const fetchFile = async (filePath: string): Promise<File> => {
+    console.log('filePath', filePath);
+    
     const response = await fetch(filePath);
     const blob = await response.blob();
     const file = new File([blob], filePath.split('/').pop() || 'file.jpg', {
@@ -38,7 +54,7 @@ const fetchFile = async (filePath: string): Promise<File> => {
     return file;
 };
 
-const ImageUpload = ({ setFieldValue, error }: ImageUploadProps) => {
+const ImageUpload = ({ setFieldValue, error, placeholders, recommendedText }: ImageUploadProps) => {
     const [imageUri, setImageUri] = useState<string | null>(null)
 
     const handleImageUpload = async () => {
@@ -57,7 +73,7 @@ const ImageUpload = ({ setFieldValue, error }: ImageUploadProps) => {
                     setImageUri(selectedImage)
                     // const image = selectedImage.split('/').pop()
                     const file = await fetchFile(selectedImage)
-                    
+
                     setFieldValue('eventPhoto', file)
                 }
             }
@@ -76,21 +92,21 @@ const ImageUpload = ({ setFieldValue, error }: ImageUploadProps) => {
                             <Image source={{ uri: imageUri }} style={styles.imagePreview} />
 
                             <Box style={styles.changePhotoContainer}>
-                                <SvgIcon name="gallery_add" size="sml" />
-                                <Text style={styles.changePhotoText}>Change photo</Text>
+                                {placeholders.withImage.icon}
+                                <Text style={styles.changePhotoText}>{placeholders.withImage.title}</Text>
                             </Box>
                         </>
                     ) : (
                         <>
-                            <ImageUploadIcon />
-                            <Text style={styles.addPhoto}>Add Photo</Text>
+                            {placeholders.default.icon}
+                            <Text style={styles.addPhoto}>{placeholders.default.title}</Text>
 
                         </>
                     )
                 }
             </TouchableOpacity >
 
-            <Text style={styles.photoRecommendation}>Add a 16:9 cover photo. 1920x1080 recommended.</Text>
+            {recommendedText && <Text style={styles.photoRecommendation}>{recommendedText}</Text>}
             {error && typeof error === 'string' && (
                 <Text style={styles.errorText}>{error}</Text>
             )}

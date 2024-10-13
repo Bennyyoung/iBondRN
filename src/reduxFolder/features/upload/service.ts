@@ -10,6 +10,10 @@ export const iBondMobileApi = api.injectEndpoints({
                     url: paths.uploadImage(folderName, bucketName),
                     method: "POST",
                     body: formData,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        'Accept': '*/*',
+                    }
                 };
             },
         }),

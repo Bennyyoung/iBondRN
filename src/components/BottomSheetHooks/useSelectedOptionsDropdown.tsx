@@ -6,6 +6,8 @@ interface SelectedOptionsDropdownProps {
     searchable?: boolean;
     list: any
     handleItemPress: (listElement: any) => void;
+    externalLink: string,
+    setExternalLink: React.Dispatch<React.SetStateAction<string>>,
     dismissBottomSheet?: () => void
     selected: [];
     selectedTextColor: PaletteType;

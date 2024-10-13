@@ -11,7 +11,7 @@ import CustomInput from '@/components/CustomInput';
 import TitleBar from '@/components/TitleBar/TitleBar';
 import ImageUpload from '@/components/ImageUpload/ImageUpload';
 
-const { height } = Dimensions.get('window')
+const { height, width } = Dimensions.get('window')
 
 interface ProfileValues {
     profilePicture: string;
@@ -95,7 +95,19 @@ const EditProfileScreen: React.FC = () => {
                             <ImageUpload
                                 setFieldValue={setFieldValue}
                                 error={touched.profilePicture && errors.profilePicture}
+                                // imageUri=
                             />
+
+                            <Box style={styles.profileImageContainer}>
+                                <Image
+                                    source={{ uri: 'https://your-profile-image-url.com' }}
+                                    style={styles.profileImage}
+                                />
+                                <TouchableOpacity style={styles.changeProfileIcon}>
+                                    <SvgIcon name="camera" size={15} />
+                                </TouchableOpacity>
+                            </Box>
+
                             <TouchableOpacity
                                 style={{
                                     position: 'absolute',
@@ -237,6 +249,27 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         fontSize: RFValue(17, height),
         color: '#6500E0'
+    },
+    profileImageContainer: {
+        position: 'absolute',
+        top: 100,
+        left: width / 2 - 40, // Center profile image horizontally
+        alignItems: 'center',
+    },
+    profileImage: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        borderWidth: 2,
+        borderColor: 'white',
+    },
+    changeProfileIcon: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        backgroundColor: 'white',
+        borderRadius: 15,
+        padding: 5,
     },
     input: {
         fontSize: RFValue(14),

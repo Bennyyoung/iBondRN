@@ -29,6 +29,7 @@ interface SelectAnOptionFromBottomSheetProps {
     secureTextEntry?: boolean;
     isPasswordVisible?: boolean;
     keyboardType?: KeyboardType;
+    setExternalLink?: React.Dispatch<React.SetStateAction<string>>
 }
 
 const SelectAnOptionFromBottomSheet = ({
@@ -49,7 +50,8 @@ const SelectAnOptionFromBottomSheet = ({
     isPasswordVisible,
     keyboardType = 'default',
     containerProps,
-    error
+    error,
+    setExternalLink
 }: SelectAnOptionFromBottomSheetProps) => {
     const [isFocused, setIsFocused] = useState(false);
     const [filteredList, setFilteredList] = useState<any[]>(list);
@@ -174,7 +176,7 @@ const SelectAnOptionFromBottomSheet = ({
                                                 <TextInput
                                                     style={styles.input}
                                                     value={value}
-                                                    onChangeText={onChangeText}
+                                                    onChangeText={(value) => setExternalLink && setExternalLink(value)}
                                                     onFocus={handleFocus}
                                                     onBlur={handleBlur}
                                                     maxLength={max}

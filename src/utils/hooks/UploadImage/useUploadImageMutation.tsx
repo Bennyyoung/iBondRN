@@ -6,9 +6,10 @@ const useImageUpload = () => {
     const [uploadImage, { isLoading, isError, isSuccess }] = useUploadImageMutation();
 
     const uploadAnImage = async ({ formData, folderName, bucketName }: UploadImageRequest) => {
+        console.log('formData', formData._parts);
+        
 
         try {
-            const queryString = `?folderName=${encodeURIComponent(folderName)}&bucketName=${encodeURIComponent(bucketName)}`;
             const response = await uploadImage({ formData, folderName, bucketName }).unwrap();
 
             if (response) {

@@ -74,6 +74,7 @@ interface FormValues {
   startTime: string;
   endTime: string;
   eventType: string;
+  eventChannel: string;
   location: string;
   eventPrivacy: string;
   group: string;
@@ -165,10 +166,10 @@ const CreateEvents = () => {
       eventType: values.eventType,
       eventPrivacy: values.eventPrivacy,
       category: values.eventCategory,
-      hostName: hostName,
+      hostName: hostName || 'Kelvin',
       eventUrl: "string",
       imageUrl: "string",
-      channel: "string",
+      channel: values.eventChannel,
       otherDetails: values.otherDetails,
       groupName: values.group || null,
       createdBy: "string"
@@ -183,21 +184,25 @@ const CreateEvents = () => {
       const folderName = 'profile-picture'
       const bucketName = 'cloud-storage'
 
+      console.log('eventPhoto', values.eventPhoto);
+      
+
       const formData = new FormData()
-
-
-      formData.append('files', values.eventPhoto)
-      const imageData = {
-        files: formData,
-        folderName,
-        bucketName
-      }
+      formData.append('files', {
+        uri: values.eventPhoto.uri,
+        name: values.eventPhoto.name || 'image.jpg',
+        type: values.eventPhoto.type || 'image/jpeg',
+      });
 
       const imageUrl = uploadAnImage({
         formData,
         folderName,
         bucketName
       })
+
+
+      // console.log('imageUrl', imageUrl);
+      
     }
 
     await uploadImage()
@@ -213,6 +218,8 @@ const CreateEvents = () => {
         onSubmit={handleCreateEvent}
       >
         {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, resetForm }) => {
+          // console.log('values.eventHost', values.eventHost);
+
           return (
             <>
               <TitleBar>
@@ -229,9 +236,21 @@ const CreateEvents = () => {
               </TitleBar>
 
               <Box style={styles.formContainer}>
+
                 <ImageUpload
                   setFieldValue={setFieldValue}
                   error={touched.eventPhoto && errors.eventPhoto}
+                  placeholders={{
+                    withImage: {
+                      title: 'Change Photo',
+                      icon: <SvgIcon name="gallery_add" size="sml" />,
+                    },
+                    default: {
+                      title: 'Add Photo',
+                      icon: <SvgIcon name="galleryAddPurple" size="sml" />,
+                    }
+                  }}
+                  recommendedText="Add a 16:9 cover photo. 1920x1080 recommended."
                 />
 
                 {/* Event Title */}
@@ -321,6 +340,36 @@ const CreateEvents = () => {
                   iconSize="sml"
                   showHeader={true}
                 />
+
+                {
+                  values.eventType === 'virtual' && (
+                    <SelectedChannel
+                      label={'Channel'}
+                      list={channelOptions}
+                      getSelectedValue={value => {
+                        setFieldValue('eventChannel', value);
+                      }}
+                      placeholder="Channel"
+                      selectedValue={values.eventChannel}
+                      errorMessage={touched.eventChannel && errors.eventChannel}
+                      modulePalette="primary"
+                      iconName="chevron_downward"
+                      iconSize="sml"
+                      showHeader={true}
+                      action='Done'
+                    />
+                    // <SelectedChannel
+                    //   getSelectedValue={value => {
+                    //     setFieldValue('eventChannel', value);
+                    //   }}
+                    //   label="Channel"
+                    //   placeholder={'Channel'}
+                    //   list={channelOptions}
+                    // showHeader={true}
+                    // action='Done'
+                    // />
+                  )
+                }
 
                 {/* Location */}
                 <CustomInput
@@ -430,8 +479,15 @@ const CreateEvents = () => {
                   showHeader={true}
                 />
 
+                <CustomButton
+                  label={'Create Event'}
+                  labelProps={{ color: 'whiteColor' }}
+                  borderRadius="sm"
+                  onPress={() => handleSubmit()}
+                />
+
                 {/* This has the Button too */}
-                <SelectedChannel
+                {/* <SelectedChannel
                   getSelectedValue={value => {
                     setFieldValue('eventChannel', value);
                   }}
@@ -440,7 +496,7 @@ const CreateEvents = () => {
                   list={channelOptions}
                   showHeader={true}
                   action='Done'
-                />
+                /> */}
 
               </Box>
 
