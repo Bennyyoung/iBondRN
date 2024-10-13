@@ -18,7 +18,7 @@ import Login from '@/screens/Auth//Login';
 import type { AppNavRoutes } from './types';
 import DashboardTab from './DashboardTab';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/reduxFolder/store';
 import ForgotPassword from '@/screens/Auth/ForgotPassword';
 import EmailConfirmation from '@/screens/Auth/EmailConfirmation';
 import UsernameSelection from '@/screens/Auth/UsernameSelection';
@@ -39,6 +39,7 @@ import AccountSettings from '@/screens/AccountSettings/AccountSettings';
 import ProfileScreen from '@/screens/ProfileScreen/ProfileScreen';
 import VerificationScreen from '@/screens/VerificationScreen/VerificationScreen';
 import VerificationSettingScreen from '@/screens/VerificationSettingScreen/VerificationSettingScreen';
+import EditProfileScreen from '@/screens/EditProfileScreen';
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
 
@@ -116,6 +117,7 @@ function UnauthenticatedStack() {
       <Stack.Screen component={CreateEvents} name='CreateEvents' />
       <Stack.Screen component={AccountSettings} name='AccountSettings' />
       <Stack.Screen component={ProfileScreen} name='ProfileScreen' />
+      <Stack.Screen component={EditProfileScreen} name='EditProfileScreen' />
       <Stack.Screen component={VerificationScreen} name='VerificationScreen' />
       <Stack.Screen component={VerificationSettingScreen} name='VerificationSettingScreen' />
       <Stack.Screen component={EventDetailScreen} name='EventDetailScreen' />

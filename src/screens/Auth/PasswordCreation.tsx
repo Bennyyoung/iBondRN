@@ -9,7 +9,7 @@ import background from '@/assets/images/bg-image.png';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch } from 'react-redux';
-import { updateRegistrationData } from '@/redux/features/auth/slices';
+import { updateRegistrationData } from '@/reduxFolder/features/auth/slices';
 import { validatePassword } from '@/utils/helpers/validatePassword';
 
 const PasswordCreation: React.FC = () => {

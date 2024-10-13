@@ -1,8 +1,8 @@
 import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
-import { RegisterRequest } from '@/redux/features/auth/services.types';
-import { useRegisterMutation } from '@/redux/features/auth/service';
+import { RegisterRequest } from '@/reduxFolder/features/auth/services.types';
+import { useRegisterMutation } from '@/reduxFolder/features/auth/service';
 import { useDispatch } from 'react-redux';
-import { updateNewUser } from '@/redux/features/auth/slices';
+import { updateNewUser } from '@/reduxFolder/features/auth/slices';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';

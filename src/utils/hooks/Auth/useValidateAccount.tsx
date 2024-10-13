@@ -1,5 +1,5 @@
 import { showErrorToast } from '@/utils/helpers/toastHelper';
-import { useValidateAccountMutation } from '@/redux/features/auth/service';
+import { useValidateAccountMutation } from '@/reduxFolder/features/auth/service';
 
 const useValidateAccount = () => {
   const [validateAccount, { isLoading, isError }] =

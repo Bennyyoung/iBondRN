@@ -1,6 +1,6 @@
 import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
-import { ForgotPasswordRequest } from '@/redux/features/auth/services.types';
-import { useForgotPasswordMutation } from '@/redux/features/auth/service';
+import { ForgotPasswordRequest } from '@/reduxFolder/features/auth/services.types';
+import { useForgotPasswordMutation } from '@/reduxFolder/features/auth/service';
 
 const useForgotPassword = () => {
   const [forgotPassword, { isLoading, isError }] = useForgotPasswordMutation();

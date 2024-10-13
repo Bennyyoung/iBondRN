@@ -17,7 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import CustomInput from '@/components/CustomInput';
 import { useDispatch } from 'react-redux';
-import { updateRegistrationData } from '@/redux/features/auth/slices';
+import { updateRegistrationData } from '@/reduxFolder/features/auth/slices';
 import { showErrorToast } from '@/utils/helpers/toastHelper';
 import useFetchInstitutions from '@/utils/hooks/Utility/useInstitutions';
 import useFetchFacultiesAndDepartments from '@/utils/hooks/Utility/useFacultiesAndDepartments';

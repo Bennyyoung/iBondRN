@@ -6,7 +6,8 @@ import useTextInputDropdown from "../BottomSheetHooks/useSelectInputDropdown";
 import contexts from "../../contexts/index";
 import useDropdownItems from "../BottomSheetHooks/useDropdownItems";
 import { useState, useCallback } from "react";
-
+import { PaletteType } from "@/constants/theme";
+import React from "react";
 
 const { height } = Dimensions.get('window');
 
@@ -25,8 +26,6 @@ type SelectedArrayProps = {
     unselectedColor?: PaletteType;
     unselectedTextColor?: PaletteType;
 }
-
-
 
 const SelectedArray = ({
     placeholder = '',
@@ -92,6 +91,5 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: '#6500E0',
         lineHeight: 18,
-        // letterSpacing: -0.08
     }
 })

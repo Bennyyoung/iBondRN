@@ -9,7 +9,7 @@ import OTPInput from '@/components/InputOtp';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/reduxFolder/store';
 import useValidateOtp from '@/utils/hooks/Auth/useValidateOtp';
 import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
 import { maskContactInfo } from '@/utils/helpers/maskInfo';

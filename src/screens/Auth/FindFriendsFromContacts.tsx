@@ -18,7 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { IconVector } from '@/assets/icons/IconVector';
 import Contacts from 'react-native-contacts';
-import { useConnectUsersQuery } from '@/redux/features/auth/service';
+import { useConnectUsersQuery } from '@/reduxFolder/features/auth/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FindFriendsFromContacts = () => {

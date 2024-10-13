@@ -1,6 +1,6 @@
 import { showErrorToast } from '@/utils/helpers/toastHelper';
-import { GetAllEventsRequest, GetAllEventsResponse } from '@/redux/features/events/service.types';
-import { useGetAllEventQuery } from '@/redux/features/events/service';
+import { GetAllEventsRequest, GetAllEventsResponse } from '@/reduxFolder/features/events/service.types';
+import { useGetAllEventQuery } from '@/reduxFolder/features/events/service';
 
 const page = 0; // Default page if not provided
 const size = 10; // Default size if not provided

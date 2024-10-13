@@ -32,12 +32,12 @@ import {
   RESULTS,
 } from 'react-native-permissions';
 import Image from '@/components/Image';
-import { useUploadFilesMutation } from '@/redux/features/uploads/service';
-import { updateRegistrationData } from '@/redux/features/auth/slices';
+import { useUploadFilesMutation } from '@/reduxFolder/features/uploads/service';
+import { updateRegistrationData } from '@/reduxFolder/features/auth/slices';
 import { useDispatch, useSelector } from 'react-redux';
 import useRegisterUser from '@/utils/hooks/Auth/useRegisterUser';
-import { RootState } from '@/redux/store';
-import { RegisterRequest } from '@/redux/features/auth/services.types';
+import { RootState } from '@/reduxFolder/store';
+import { RegisterRequest } from '@/reduxFolder/features/auth/services.types';
 
 const PhotoUploadScreen = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();

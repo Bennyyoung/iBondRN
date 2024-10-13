@@ -1,6 +1,6 @@
 import { showErrorToast } from '@/utils/helpers/toastHelper';
-import { CreateEventRequest } from '@/redux/features/events/service.types';
-import { useCreateEventMutation } from '@/redux/features/events/service';
+import { CreateEventRequest } from '@/reduxFolder/features/events/service.types';
+import { useCreateEventMutation } from '@/reduxFolder/features/events/service';
 
 const useCreateEvent = () => {
     const [createEvent, { isLoading, isError, isSuccess }] = useCreateEventMutation();

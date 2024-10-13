@@ -1,5 +1,5 @@
 import { showErrorToast } from '@/utils/helpers/toastHelper';
-import { useConnectUsersQuery } from '@/redux/features/auth/service';
+import { useConnectUsersQuery } from '@/reduxFolder/features/auth/service';
 
 const useConnectUsers = () => {
   const { data, isLoading, isError } = useConnectUsersQuery(null);

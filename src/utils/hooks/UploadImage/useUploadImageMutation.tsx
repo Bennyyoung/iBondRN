@@ -1,6 +1,6 @@
 import { showErrorToast } from '@/utils/helpers/toastHelper';
-import { UploadImageRequest } from '@/redux/features/upload/service.types';
-import { useUploadImageMutation } from '@/redux/features/upload/service';
+import { UploadImageRequest } from '@/reduxFolder/features/upload/service.types';
+import { useUploadImageMutation } from '@/reduxFolder/features/upload/service';
 
 const useImageUpload = () => {
     const [uploadImage, { isLoading, isError, isSuccess }] = useUploadImageMutation();

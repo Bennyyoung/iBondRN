@@ -3,7 +3,7 @@ import { CustomButton } from '@/components/CustomButton';
 import Text from '@/components/Text';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { logout } from '@/redux/features/auth/slices';
+import { logout } from '@/reduxFolder/features/auth/slices';
 
 const DashboardTab = () => {
   // const { userData, token } = useSelector((state: RootState) => state.user);

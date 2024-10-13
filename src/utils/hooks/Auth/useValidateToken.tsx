@@ -1,5 +1,5 @@
 import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
-import { useValidateTokenMutation } from '@/redux/features/auth/service';
+import { useValidateTokenMutation } from '@/reduxFolder/features/auth/service';
 
 const useValidateToken = () => {
   const [validateToken, { isLoading, isError }] = useValidateTokenMutation();

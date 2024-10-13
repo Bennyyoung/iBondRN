@@ -319,7 +319,7 @@
 //                 maximumDate={new Date()}
 //                 errorMessage={touched.eventDate && errors.eventDate}
 //                 modulePalette="primary"
-//                 iconName="calender"
+//                 iconName="calendar"
 //                 iconSize="sml"
 //               />
 

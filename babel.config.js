@@ -28,7 +28,7 @@ module.exports = function (api) {
             '@/utils': './src/utils',
             '@/components': './src/components',
             '@/screens': './src/screens',
-            '@/redux': './src/redux',
+            '@/reduxFolder': './src/reduxFolder',
             '@/assets': './src/assets',
             '@/navigation': './src/navigation',
             '@/constants': './src/constants',

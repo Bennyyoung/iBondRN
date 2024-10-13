@@ -10,7 +10,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { StackParamsList } from '@/navigation/types';
 import useForgotPassword from '@/utils/hooks/Auth/useForgotPassword';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/reduxFolder/store';
 import { validatePassword } from '@/utils/helpers/validatePassword';
 
 const ChangePassword: React.FC = () => {

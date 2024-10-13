@@ -14,7 +14,7 @@ import SelectInput from '@/components/SelectInput';
 import { DateInput } from '@/components/DateInput';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
-import { updateRegistrationData } from '@/redux/features/auth/slices';
+import { updateRegistrationData } from '@/reduxFolder/features/auth/slices';
 import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
 
 interface SignUpFormValues {
@@ -152,7 +152,7 @@ const SignUp: React.FC = () => {
                   maximumDate={new Date()}
                   errorMessage={touched.dateOfBirth && errors.dateOfBirth}
                   modulePalette="primary"
-                  iconName="calender"
+                  iconName="calendar"
                   iconSize="sml"
                 />
               </Box>

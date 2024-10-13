@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { iBondMobileApi } from './service';
 import { AuthResponse, RegisterRequest } from './services.types';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/reduxFolder/store';
 
 export interface InitialState {
   status:

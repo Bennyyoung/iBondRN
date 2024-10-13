@@ -1,5 +1,5 @@
 import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
-import { useUpdateUserInterestsMutation } from '@/redux/features/auth/service';
+import { useUpdateUserInterestsMutation } from '@/reduxFolder/features/auth/service';
 
 const useUpdateUserInterests = () => {
   const [updateUserInterests, { isLoading, isError }] =

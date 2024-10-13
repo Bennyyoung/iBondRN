@@ -5,7 +5,7 @@ import {
   InstitutionsResponse,
   InterestsResponse,
 } from './services.types';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/reduxFolder/store';
 
 interface IUtilityState {
   institutions: InstitutionsResponse | null;

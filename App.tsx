@@ -14,7 +14,8 @@ import Contexts from './src/contexts';
 
 import theme from '@/constants/theme';
 import Navigation from '@/navigation/';
-import { store } from '@/redux/store';
+import { persistor, store } from '@/reduxFolder/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const App = () => {
   enableScreens(true);
@@ -28,16 +29,18 @@ const App = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <SafeAreaProvider>
-            <BottomSheetModalProvider>
-              <Contexts.BottomSheet.BottomSheetProvider>
-                <Navigation />
-              </Contexts.BottomSheet.BottomSheetProvider>
-            </BottomSheetModalProvider>
-          </SafeAreaProvider>
-          <FlashMessage position="top" />
-        </ThemeProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <ThemeProvider theme={theme}>
+            <SafeAreaProvider>
+              <BottomSheetModalProvider>
+                <Contexts.BottomSheet.BottomSheetProvider>
+                  <Navigation />
+                </Contexts.BottomSheet.BottomSheetProvider>
+              </BottomSheetModalProvider>
+            </SafeAreaProvider>
+            <FlashMessage position="top" />
+          </ThemeProvider>
+        </PersistGate>
       </Provider>
     </GestureHandlerRootView>
   );

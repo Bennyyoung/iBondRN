@@ -1,7 +1,7 @@
 import { BaseButton } from '@/components/BaseButton';
 import Box from '@/components/Box';
 import { CustomButton } from '@/components/CustomButton';
-import { EventDetails, EventDetailScreenProps, EventDetailsProps, RouteParams } from '@/navigation/types';
+import { EventDetailScreenProps } from '@/navigation/types';
 import { RouteProp } from '@react-navigation/core';
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions, Platform } from 'react-native';
@@ -17,10 +17,16 @@ import PurpleTick from "@/assets/svg/purpleTick.svg"
 import { Event } from '@/components/types';
 import moment from 'moment';
 import { SvgIcon } from '@/assets/icons';
+import TitleBar from '@/components/TitleBar/TitleBar';
+import { trailingButtonOptions } from '@/utils/eventDetails';
+import SelectFromBottomSheet from '@/components/BottomSheetContent/SelectFromBottomSheet';
+import SelectedEventDetailsOptions from '@/components/SelectedEventDetailsOptions/SelectedEventDetailsOptions';
+
 
 const { height } = Dimensions.get('window')
 
 type Tabs = 'Details' | 'Comments' | 'Attendees'
+
 
 const EventDetailScreen: React.FC<EventDetailScreenProps> = ({ route }) => {
   console.log('route', JSON.stringify(route, null, 2));
@@ -61,6 +67,21 @@ const EventDetailScreen: React.FC<EventDetailScreenProps> = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <TitleBar>
+        <Box style={styles.titleContainer}>
+          <Text style={styles.eventDetail}>
+            Event Detail
+          </Text>
+        </Box>
+        <TouchableOpacity onPress={() => { }}>
+          <SelectedEventDetailsOptions
+            // label="Channel"
+            // placeholder={'Channel'}
+            list={trailingButtonOptions}
+            showHeader={true}
+          />
+        </TouchableOpacity>
+      </TitleBar>
       {/* Event Image */}
       <Image
         source={{
@@ -79,7 +100,7 @@ const EventDetailScreen: React.FC<EventDetailScreenProps> = ({ route }) => {
 
       {/* Event Date and Time */}
       <View style={styles.infoRow}>
-        <SvgIcon name="calender" size='sm' style={{ marginRight: 5 }} />
+        <SvgIcon name="calendar" size='sm' style={{ marginRight: 5 }} />
         <Text style={{ fontSize: RFValue(13, height) }}>{moment(event.date).format('ddd, D MMM, YYYY')}</Text>
         {/* h:mm A */}
         <>
@@ -239,18 +260,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 16,
   },
-  imageContainer: {
-    justifyContent: 'center',
+  titleContainer: {
+    // paddingVertical: RFValue(10),
+    paddingRight: RFValue(16),
+    paddingLeft: RFValue(0),
+    justifyContent: 'space-between',
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
-    backgroundColor: '#FFFFFF',
-    marginHorizontal: 30,
-    borderRadius: 8
+    gap: 16
+  },
+  eventDetail: {
+    fontWeight: '600',
+    fontSize: RFValue(17, height),
+    color: '#151619'
   },
   image: {
     width: '100%',
     height: Platform.OS === 'ios' ? 200 : undefined, // Fixed height for iOS
-    aspectRatio: 16 / 9, // This will maintain a 16:9 aspect ratio on Android
+    aspectRatio: 16 / 9, // This will maintain a 16:9 aspect ratio on Android,
+    marginTop: 60,
+    borderRadius: 8
   },
 
   eventTitle: {

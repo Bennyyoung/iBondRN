@@ -1,6 +1,6 @@
 import { showErrorToast } from '@/utils/helpers/toastHelper';
-import { useCreateGroupMutation } from '@/redux/features/events/service';
-import { CreateEventGroupRequest, CreateEventGroupResponse } from '@/redux/features/events/service.types';
+import { useCreateGroupMutation } from '@/reduxFolder/features/events/service';
+import { CreateEventGroupRequest, CreateEventGroupResponse } from '@/reduxFolder/features/events/service.types';
 
 const useCreateEventGroup = () => {
     const [createGroup, { isLoading, isError, isSuccess }] = useCreateGroupMutation();

@@ -1,5 +1,5 @@
 import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
-import { useSendOtpMutation } from '@/redux/features/auth/service';
+import { useSendOtpMutation } from '@/reduxFolder/features/auth/service';
 
 const useSendOtp = () => {
   const [sendOtp, { isLoading, isError }] = useSendOtpMutation();

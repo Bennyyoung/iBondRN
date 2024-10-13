@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
   Platform,
+  KeyboardType,
 } from 'react-native';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -24,20 +25,7 @@ interface CustomInputProps {
   onFocus?: (e: any) => void;
   secureTextEntry?: boolean;
   error?: string | boolean;
-  keyboardType?:
-    | 'default'
-    | 'numeric'
-    | 'email-address'
-    | 'ascii-capable'
-    | 'numbers-and-punctuation'
-    | 'url'
-    | 'number-pad'
-    | 'phone-pad'
-    | 'name-phone-pad'
-    | 'decimal-pad'
-    | 'twitter'
-    | 'web-search'
-    | 'visible-password';
+  keyboardType?: KeyboardType;
   containerProps?: object;
   iconName?: SvgIconPackType;
   iconSize?: keyof Theme['iconSizes'];

@@ -13,7 +13,7 @@ import { showErrorToast } from '@/utils/helpers/toastHelper';
 import useValidateOtp from '@/utils/hooks/Auth/useValidateOtp';
 import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/reduxFolder/store';
 import { maskContactInfo } from '@/utils/helpers/maskInfo';
 
 const EmailConfirmation: React.FC = () => {

@@ -13,7 +13,7 @@ const accountSettingsOptions = [
   {
     id: 1,
     title: 'Profile',
-    link: 'ProfileScreen',
+    link: 'EditProfileScreen',
   },
   {
     id: 2,

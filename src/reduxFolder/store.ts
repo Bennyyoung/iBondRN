@@ -4,6 +4,7 @@ import { api } from './features/rtkQuery/authApi';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { uploadsApi } from './features/uploads/api';
 
 const persistConfig = {
   key: 'root',

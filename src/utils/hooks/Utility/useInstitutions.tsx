@@ -1,7 +1,7 @@
-import { useGetInstitutionsQuery } from '@/redux/features/utility/service';
+import { useGetInstitutionsQuery } from '@/reduxFolder/features/utility/service';
 import { useDispatch } from 'react-redux';
 import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
-import { clearData } from '@/redux/features/utility/slice';
+import { clearData } from '@/reduxFolder/features/utility/slice';
 
 const useFetchInstitutions = () => {
   const { data, error, isLoading } = useGetInstitutionsQuery();

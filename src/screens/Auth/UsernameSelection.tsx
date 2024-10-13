@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import useValidateUsername from '@/utils/hooks/Auth/useValidateUsername';
 import { useDispatch } from 'react-redux';
-import { updateRegistrationData } from '@/redux/features/auth/slices';
+import { updateRegistrationData } from '@/reduxFolder/features/auth/slices';
 
 const UsernameSelection: React.FC = () => {
   const [username, setUsername] = useState('');

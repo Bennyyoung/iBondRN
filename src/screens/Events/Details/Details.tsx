@@ -46,7 +46,7 @@ const Details = ({ event }: { event: Event }) => {
 
                 {/* Event Details */}
                 <Box style={styles.infoRow}>
-                    <SvgIcon name="calender" size='sm' style={{ marginRight: 5 }} />
+                    <SvgIcon name="calendar" size='sm' style={{ marginRight: 5 }} />
                     <Text style={{ fontSize: RFValue(16, height) }}>{moment(event.date).format('dddd D MMM, YYYY')}</Text>
                     {/* h:mm A */}
                 </Box>

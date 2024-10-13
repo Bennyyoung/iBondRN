@@ -8,7 +8,8 @@ export type BottomSheetProps = {
   _content?: ReactNode | ComponentType<any>;
   _onChange?: (index: number) => void;
   _onDismiss?: () => void;
-  _showHeader: boolean;
+  _showHeader?: boolean;
+  _action?: ReactNode | ComponentType<any>
 };
 
 export type BottomSheetContextProps = {

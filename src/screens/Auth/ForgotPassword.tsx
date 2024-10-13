@@ -13,7 +13,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
 import { useDispatch } from 'react-redux';
-import { updateRegistrationData } from '@/redux/features/auth/slices';
+import { updateRegistrationData } from '@/reduxFolder/features/auth/slices';
 import useValidateAccount from '@/utils/hooks/Auth/useValidateAccount';
 
 interface ForgotPasswordFormValues {

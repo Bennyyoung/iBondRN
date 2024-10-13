@@ -6,12 +6,11 @@ import TitleBar from '@/components/TitleBar/TitleBar';
 import PlusIcon from '@/assets/svg/plusIcon.svg';
 import Text from '@/components/Text';
 import Title from '@/components/Title/Title';
-import CalendarIcon from '@/assets/svg/calender.svg';
+import CalendarIcon from '@/assets/svg/calendar.svg';
 import { SearchBar } from '@/components/SearchBar';
 import SearchBarIcon from '@/assets/svg/searchIcon.svg';
 import Card from '@/components/Card'; // Assuming Card.tsx is in the same folder
 import SubTitle from '@/components/SubTitle/SubTitle';
-import eventDetails from '@/utils/eventDetails';
 import TopEventsForYou from '@/components/TopEventsForYou/TopEventsForYou';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';

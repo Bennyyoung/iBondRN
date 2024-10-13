@@ -3,6 +3,7 @@ import authSlice from './features/auth/slices';
 import { api } from './features/rtkQuery/authApi';
 import utilitySlice from './features/utility/slice';
 import { uploadsApi } from './features/uploads/api';
+import modalReducer from "./reducers/modal.reducer"
 
 const rootReducer = combineReducers({
   // Add your regular slice reducers
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   user: authSlice,
   [utilitySlice.name]: utilitySlice,
   utility: utilitySlice,
+  modal: modalReducer,
 
   // Add RTK Query reducers
   [api.reducerPath]: api.reducer,

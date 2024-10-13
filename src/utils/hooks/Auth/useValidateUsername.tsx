@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useValidateUsernameMutation } from '@/redux/features/auth/service';
+import { useValidateUsernameMutation } from '@/reduxFolder/features/auth/service';
 
 const useValidateUsername = () => {
   const [validateUsername] = useValidateUsernameMutation();

@@ -1,6 +1,6 @@
 import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
-import { ValidateOtpRequest } from '@/redux/features/auth/services.types';
-import { useValidateOtpMutation } from '@/redux/features/auth/service';
+import { ValidateOtpRequest } from '@/reduxFolder/features/auth/services.types';
+import { useValidateOtpMutation } from '@/reduxFolder/features/auth/service';
 
 const useValidateOtp = () => {
   const [validateOtp, { isLoading, isError }] = useValidateOtpMutation();

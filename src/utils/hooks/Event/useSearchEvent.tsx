@@ -1,6 +1,6 @@
 import { showErrorToast } from '@/utils/helpers/toastHelper';
-import { useSearchEventQuery } from '@/redux/features/events/service';
-import { SearchEventRequest, SearchEventResponse } from '@/redux/features/events/service.types';
+import { useSearchEventQuery } from '@/reduxFolder/features/events/service';
+import { SearchEventRequest, SearchEventResponse } from '@/reduxFolder/features/events/service.types';
 
 const defaultTitle = 'hello'; // Default title if not provided
 const defaultCategory = 'EDUCATION'; // Default category if not provided

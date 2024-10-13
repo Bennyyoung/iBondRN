@@ -4,7 +4,7 @@ import facebookIcon from '@/assets/svg/facebookLogo.svg';
 import googleIcon from '@/assets/svg/googleLogo.svg';
 import onboarding_background from '@/assets/svg/bg-image.svg';
 import chevron_downward from '@/assets/svg/dropdown.svg';
-import calender from '@/assets/svg/calender.svg';
+import calendar from '@/assets/svg/calendar.svg';
 import error_close from '@/assets/svg/error_close.svg';
 import check_mark from '@/assets/svg/check_mark.svg';
 import eyeoff_error from '@/assets/svg/eyeoff_error.svg';
@@ -44,6 +44,15 @@ import segunOwoPrivateClub from "@/assets/svg/segunOwoPrivateClub.svg"
 import organizerPicture from "@/assets/svg/organizerPicture.svg"
 import gif from "@/assets/svg/gif.svg"
 import leftArrowIcon from "@/assets/svg/leftArrowIcon.svg"
+import liveVideo from "@/assets/svg/liveVideo.svg"
+import link from "@/assets/svg/link.svg"
+import closeCircle from "@/assets/svg/closeCircle.svg"
+import more2 from "@/assets/svg/more2.svg"
+import trailingButton from "@/assets/svg/trailingButton.svg"
+import archive from "@/assets/svg/archive.svg"
+import send2 from "@/assets/svg/send2.svg"
+import eyeSlash from "@/assets/svg/eyeSlash.svg"
+import flag from "@/assets/svg/flag.svg"
 
 const svgIconPack = {
   appleIcon,
@@ -53,7 +62,7 @@ const svgIconPack = {
   onboarding_background,
   chevron_downward,
   chevron_upward,
-  calender,
+  calendar,
   check_mark,
   error_close,
   eyeoff_error,
@@ -82,7 +91,7 @@ const svgIconPack = {
   moon,
   info_circle,
   corporate,
-  education, 
+  education,
   career,
   culture,
   entertainment,
@@ -91,7 +100,16 @@ const svgIconPack = {
   segunOwoPrivateClub,
   organizerPicture,
   gif,
-  leftArrowIcon
+  leftArrowIcon,
+  liveVideo,
+  link,
+  closeCircle,
+  more2,
+  trailingButton,
+  archive,
+  send2,
+  eyeSlash,
+  flag
 };
 
 export { svgIconPack };

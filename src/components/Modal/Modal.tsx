@@ -2,15 +2,18 @@ import Box from "@/components/Box"
 import { useState } from "react";
 import { StyleSheet, Modal as RNModal, TouchableWithoutFeedback } from "react-native"
 import Text from "../Text";
+import { useAppDispatch } from "@/reduxFolder/index";
 // import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { showModal } from '@/reduxFolder/reducers/modal.reducer';
 
 type ModalProps = {
     modalVisible: boolean
-    setModalVisible: React.Dispatch<React.SetStateAction<boolean>>
     children: React.ReactNode
 }
 
-const Modal = ({ modalVisible, setModalVisible, children }: ModalProps) => {
+const Modal = ({ modalVisible, children }: ModalProps) => {
+    const dispatch = useAppDispatch()
+
     return (
         <Box style={styles.centeredView}>
             <RNModal
@@ -18,10 +21,11 @@ const Modal = ({ modalVisible, setModalVisible, children }: ModalProps) => {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    setModalVisible(false)
+                    dispatch(showModal(false))
                 }}
             >
-                <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                <TouchableWithoutFeedback onPress={() => dispatch(showModal(false))
+                }>
                     {children}
                 </TouchableWithoutFeedback>
             </RNModal>

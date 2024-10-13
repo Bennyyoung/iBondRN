@@ -13,6 +13,7 @@ interface DropdownItemsProps {
     placeholder: string
     showHeader: boolean
     setSelected: any
+    action: string
 }
 
 const useDropdownItems = () => {
@@ -25,9 +26,10 @@ const useDropdownItems = () => {
                     {...props}
                     dismissBottomSheet={dismissBottomSheet} />
             ),
-            _snapPoints: props.list.length < 3 ? ['30%', '30%'] : ['70%', '70%'],
-            _title: props.placeholder ? props.placeholder : 'elect Option',
+            _snapPoints: props.list.length < 3 ? ['30%', '30%'] : (props.list.length > 2 && props.list.length < 4 ) ? ['50%', '50%'] : ['70%', '70%'],
+            _title: props.placeholder ? props.placeholder : 'Select Option',
             _showHeader: props?.showHeader,
+            _action: props?.action
         })
     }
 

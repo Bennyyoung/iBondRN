@@ -31,6 +31,8 @@ import useCreateEvent from '@/utils/hooks/Event/useCreateEvent';
 import moment from 'moment';
 import useImageUpload from '@/utils/hooks/UploadImage/useUploadImageMutation';
 import { categoryOptions, eventType, privacyOptions, groupOptions } from '@/utils/createEventsData';
+import SelectedChannel from '@/components/SelectedChannel/SelectedChannel';
+import { SvgIcon } from '@/assets/icons';
 
 // Import images from assets
 const customIcon = require('@/assets/svg/group.svg');
@@ -49,7 +51,7 @@ const initialValues = {
   eventPrivacy: '',
   group: '',
   eventHost: [] as EventHost[],
-  eventChanel: '',
+  eventChannel: '',
   otherDetails: ''
 }
 
@@ -82,6 +84,7 @@ interface FormValues {
 const CreateEvents = () => {
   const { createAnEvent, isLoading, isSuccess } = useCreateEvent()
   const { uploadAnImage } = useImageUpload()
+  const [openChannel, setOpenChannel] = useState(false)
 
   const navigation = useNavigation()
   const [hosts, setHosts] = useState<User[]>([])
@@ -94,6 +97,24 @@ const CreateEvents = () => {
     image: user.profileImage,
     label: user.university
   }))
+
+  const channelOptions = [
+    {
+      id: 'iBondLive',
+      value: 'iBond Live',
+      image: <SvgIcon name="liveVideo" size="sml" style={{ marginRight: 15 }} />
+    },
+    {
+      id: 'externalLink',
+      value: 'External Link',
+      image: <SvgIcon name="link" size="sml" style={{ marginRight: 15 }} />
+    },
+    {
+      id: 'other',
+      value: 'Other',
+      image: <SvgIcon name="more2" size="sml" style={{ marginRight: 15 }} />
+    },
+  ]
 
   const toggleHosts = () => {
     setShowHosts(!showAllHosts)
@@ -207,11 +228,10 @@ const CreateEvents = () => {
                 </TouchableOpacity>
               </TitleBar>
 
-              <View style={styles.formContainer}>
+              <Box style={styles.formContainer}>
                 <ImageUpload
                   setFieldValue={setFieldValue}
                   error={touched.eventPhoto && errors.eventPhoto}
-
                 />
 
                 {/* Event Title */}
@@ -249,7 +269,7 @@ const CreateEvents = () => {
                   maximumDate={new Date()}
                   errorMessage={touched.eventDate && errors.eventDate}
                   modulePalette="primary"
-                  iconName="calender"
+                  iconName="calendar"
                   iconSize="sml"
                 />
 
@@ -410,23 +430,21 @@ const CreateEvents = () => {
                   showHeader={true}
                 />
 
-
-                {/* Submit Button */}
-                <CustomButton
-                  label={'Create Event'}
-                  labelProps={{ color: 'whiteColor' }}
-                  borderRadius="sm"
-                  onPress={() => {
-                    handleSubmit()
+                {/* This has the Button too */}
+                <SelectedChannel
+                  getSelectedValue={value => {
+                    setFieldValue('eventChannel', value);
                   }}
-                // isLoading={isLoading || isSubmitting} // Disable if submitting
-                // disabled={
-                //   !(values.username && values.password) ||
-                //   isLoading ||
-                //   isSubmitting
-                // }
+                  label="Channel"
+                  placeholder={'Channel'}
+                  list={channelOptions}
+                  showHeader={true}
+                  action='Done'
                 />
-              </View>
+
+              </Box>
+
+
             </>
           )
         }}

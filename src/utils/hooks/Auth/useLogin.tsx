@@ -1,8 +1,8 @@
 import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
-import { AuthRequest } from '@/redux/features/auth/services.types';
-import { useLoginMutation } from '@/redux/features/auth/service';
+import { AuthRequest } from '@/reduxFolder/features/auth/services.types';
+import { useLoginMutation } from '@/reduxFolder/features/auth/service';
 import { useDispatch } from 'react-redux';
-import { setUserData } from '@/redux/features/auth/slices';
+import { setUserData } from '@/reduxFolder/features/auth/slices';
 
 const useLoginUser = () => {
   const [login, { isLoading, isError }] = useLoginMutation();
