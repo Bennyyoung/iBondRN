@@ -81,7 +81,26 @@ export type AppNavRoutes = {
 
   VerificationScreen: undefined;
   VerificationSettingScreen: undefined;
-
+  PrivacyPolicyScreen: undefined;
+  AppearanceSettingsScreen: undefined;
+  TermsOfServiceScreen: undefined;
+  NotificationSettingsScreen: undefined;
+  PostsAndCommentsScreen: undefined;
+  TagsAndMentionsScreen: undefined;
+  NewFollowersScreen: undefined;
+  SharesLikesRepostsScreen: undefined;
+  ProfileViewsScreen: undefined;
+  MessagingScreen: undefined;
+  SuggestedPostsScreen: undefined;
+  PeopleYouMayKnowScreen: undefined;
+  EventsSettingsScreen: undefined;
+  LiveVideoScreen: undefined;
+  MarketPlaceScreen: undefined;
+  LifeEventsScreen: undefined;
+  NewsletterScreen: undefined;
+  PromotionScreen: undefined;
+  PromotionScreen: undefined;
+  OtherNotificationsScreen: undefined;
 };
 
 // Events

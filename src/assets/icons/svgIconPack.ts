@@ -22,6 +22,7 @@ import group from '@/assets/svg/group.svg';
 import rightArrow from '@/assets/svg/rightArrow.svg';
 import clock from '@/assets/svg/clock.svg';
 import chevron_upward from '@/assets/svg/chevron_upward.svg';
+import chevron_forward from '@/assets/svg/chevron_forward.svg';
 import gallery_add from '@/assets/svg/gallery_add.svg';
 import contact_list from '@/assets/svg/contact_list.svg';
 import search from '@/assets/svg/search.svg';
@@ -63,6 +64,7 @@ const svgIconPack = {
   onboarding_background,
   chevron_downward,
   chevron_upward,
+  chevron_forward,
   calendar,
   check_mark,
   error_close,

@@ -11,13 +11,15 @@ import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { CustomButton } from '@/components/CustomButton';
 import PaymentIcon from '@/assets/svg/paymenticon.svg'; 
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamsList } from '@/navigation/types';
 
 
 
 const { height } = Dimensions.get('window');
 
 const PaymentSuccessScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
 
   return (
     <View style={styles.container}>

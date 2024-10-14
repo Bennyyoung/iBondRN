@@ -33,6 +33,7 @@ import useImageUpload from '@/utils/hooks/UploadImage/useUploadImageMutation';
 import { categoryOptions, eventType, privacyOptions, groupOptions } from '@/utils/createEventsData';
 import SelectedChannel from '@/components/SelectedChannel/SelectedChannel';
 import { SvgIcon } from '@/assets/icons';
+import { useUploadFilesMutation } from '@/reduxFolder/features/uploads/service';
 
 // Import images from assets
 const customIcon = require('@/assets/svg/group.svg');
@@ -83,7 +84,7 @@ interface FormValues {
 }
 
 const CreateEvents = () => {
-  const { createAnEvent, isLoading, isSuccess } = useCreateEvent()
+  const { createAnEvent, isSuccess } = useCreateEvent()
   const { uploadAnImage } = useImageUpload()
   const [openChannel, setOpenChannel] = useState(false)
 
@@ -155,58 +156,43 @@ const CreateEvents = () => {
   const handleTransform = (values: FormValues) => {
 
     const hostName = values.eventHost.map((host: { value: any; }) => host.value)
+    // console.log('hostName', hostName);
+    console.log('values.eventChannel', values.eventChannel);
+    
+    
 
 
-    return {
+    const data = {
       eventTitle: values.eventTitle,
       date: values.startTime,
       startDateTime: values.startTime,
       endDateTime: values.endTime,
       location: values.location,
-      eventType: values.eventType,
-      eventPrivacy: values.eventPrivacy,
-      category: values.eventCategory,
-      hostName: hostName || 'Kelvin',
-      eventUrl: "string",
-      imageUrl: "string",
+      eventType: values.eventType.toUpperCase(),
+      eventPrivacy: values.eventPrivacy.toUpperCase(),
+      category: values.eventCategory.toUpperCase(),
+      hostName: 'Kelvin' || hostName,
+      eventUrl: "",
+      imageUrl: "",
       channel: values.eventChannel,
       otherDetails: values.otherDetails,
       groupName: values.group || null,
-      createdBy: "string"
+      createdBy: "allison"
     }
+
+    console.log('data', data);
+    
+
+    return data
   }
+
+  const [uploadFiles] = useUploadFilesMutation();
+
 
   // Form submission handler
   const handleCreateEvent = async (values: any) => {
-
-    const uploadImage = async () => {
-
-      const folderName = 'profile-picture'
-      const bucketName = 'cloud-storage'
-
-      console.log('eventPhoto', values.eventPhoto);
-      
-
-      const formData = new FormData()
-      formData.append('files', {
-        uri: values.eventPhoto.uri,
-        name: values.eventPhoto.name || 'image.jpg',
-        type: values.eventPhoto.type || 'image/jpeg',
-      });
-
-      const imageUrl = uploadAnImage({
-        formData,
-        folderName,
-        bucketName
-      })
-
-
-      // console.log('imageUrl', imageUrl);
-      
-    }
-
-    await uploadImage()
-
+    const data = await handleTransform(values)
+    createAnEvent(data)
   };
 
   return (
@@ -347,6 +333,8 @@ const CreateEvents = () => {
                       label={'Channel'}
                       list={channelOptions}
                       getSelectedValue={value => {
+                        console.log('value', value);
+                        
                         setFieldValue('eventChannel', value);
                       }}
                       placeholder="Channel"

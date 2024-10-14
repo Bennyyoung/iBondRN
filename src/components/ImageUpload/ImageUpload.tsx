@@ -8,6 +8,9 @@ import { useState } from "react"
 import { ImageLibraryOptions, launchImageLibrary } from "react-native-image-picker"
 import { SvgIcon } from "@/assets/icons"
 import React from "react"
+import { updateRegistrationData } from "@/reduxFolder/features/auth/slices"
+import { showSuccessToast, showErrorToast } from "@/utils/helpers/toastHelper"
+import { useUploadFilesMutation } from "@/reduxFolder/features/uploads/service"
 
 const { height } = Dimensions.get('window')
 
@@ -43,18 +46,39 @@ type ImageUploadProps = {
 
 
 
-const fetchFile = async (filePath: string): Promise<File> => {
-    console.log('filePath', filePath);
-    
-    const response = await fetch(filePath);
-    const blob = await response.blob();
-    const file = new File([blob], filePath.split('/').pop() || 'file.jpg', {
-        type: blob.type,
-    });
-    return file;
-};
+
 
 const ImageUpload = ({ setFieldValue, error, placeholders, recommendedText }: ImageUploadProps) => {
+
+  const [uploadFiles, { isLoading }] = useUploadFilesMutation();
+
+  const handleUpload = async (files: File[]) => {
+    console.log('hi');
+    
+    try {
+      const result = await uploadFiles({
+        files,
+        folderName: 'profile-picture',
+      });
+
+      console.log('result', result);
+      
+
+      if (result.data) {
+        console.log('Actually stepped into here');
+        showSuccessToast('File uploaded successfully!');
+      }
+      if (error) {
+        showErrorToast('File upload failed.');
+      }
+    } catch (err) {
+        console.log('err', err);
+        
+      showErrorToast('Error during upload');
+    }
+  };
+
+
     const [imageUri, setImageUri] = useState<string | null>(null)
 
     const handleImageUpload = async () => {
@@ -68,11 +92,17 @@ const ImageUpload = ({ setFieldValue, error, placeholders, recommendedText }: Im
         try {
             const result = await launchImageLibrary(options);
             if (result.assets && result.assets.length > 0) {
-                const selectedImage = result.assets[0].uri;
+                const selectedImage = result.assets[0];
                 if (selectedImage) {
-                    setImageUri(selectedImage)
+                    setImageUri(selectedImage?.uri as string)
                     // const image = selectedImage.split('/').pop()
-                    const file = await fetchFile(selectedImage)
+                    // const file = await fetchFile(selectedImage)
+                    const file = {
+                        uri: selectedImage.uri,
+                        name: selectedImage.fileName || 'photo.jpg',
+                        type: selectedImage.type || 'image/jpeg',
+                      };
+                      handleUpload([file]);
 
                     setFieldValue('eventPhoto', file)
                 }

@@ -8,6 +8,8 @@ const useCreateEvent = () => {
     const createAnEvent = async (data: CreateEventRequest) => {
         try {
             const response = await createEvent(data).unwrap();
+            console.log('response', JSON.stringify(response, null, 2));
+            
 
             if (response) {
                 return response;

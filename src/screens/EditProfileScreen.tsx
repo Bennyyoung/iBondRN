@@ -10,6 +10,8 @@ import * as Yup from 'yup';
 import CustomInput from '@/components/CustomInput';
 import TitleBar from '@/components/TitleBar/TitleBar';
 import ImageUpload from '@/components/ImageUpload/ImageUpload';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamsList } from '@/navigation/types';
 
 const { height, width } = Dimensions.get('window')
 
@@ -48,7 +50,7 @@ const initialValues: ProfileValues = {
 };
 
 const EditProfileScreen: React.FC = () => {
-    const navigation = useNavigation();
+    const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
     const [isStudent, setIsStudent] = React.useState(true);
 
     const handleSubmit = (
@@ -89,6 +91,8 @@ const EditProfileScreen: React.FC = () => {
                                 </Text>
                             </TouchableOpacity>
                         </TitleBar>
+
+
 
                         {/* Cover and Profile Image */}
                         <Box marginVertical="sm" alignItems="center">

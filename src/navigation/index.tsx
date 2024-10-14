@@ -40,6 +40,27 @@ import ProfileScreen from '@/screens/ProfileScreen/ProfileScreen';
 import VerificationScreen from '@/screens/VerificationScreen/VerificationScreen';
 import VerificationSettingScreen from '@/screens/VerificationSettingScreen/VerificationSettingScreen';
 import EditProfileScreen from '@/screens/EditProfileScreen';
+import PrivacyPolicyScreen from '@/screens/PrivacyPolicyScreen/PrivacyPolicyScreen';
+import AppearanceSettingsScreen from '@/screens/AppearanceSettingsScreen/AppearanceSettingsScreen';
+import NotificationSettingsScreen from '@/screens/Settings/NotificationSettingsScreen/NotificationSettingsScreen';
+import TermsOfServiceScreen from '@/screens/TermsOfServiceScreen/TermsOfServiceScreen';
+import PostsAndCommentsScreen from '@/screens/Settings/PostsAndCommentsScreen/PostsAndCommentsScreen';
+import TagsAndMentionsScreen from '@/screens/Settings/TagsAndMentionsScreen/TagsAndMentionsScreen';
+import NewFollowersScreen from '@/screens/Settings/NewFollowersScreen/NewFollowersScreen';
+import SharesLikesRepostsScreen from '@/screens/Settings/SharesLikesRepostsScreen/SharesLikesRepostsScreen';
+import ProfileViewsScreen from '@/screens/Settings/ProfileViews/ProfileViews';
+import MessagingScreen from '@/screens/Settings/MessagingScreen/MessagingScreen';
+import SuggestedPostsScreen from '@/screens/Settings/SuggestedPostsScreen/SuggestedPostsScreen';
+import PeopleYouMayKnowScreen from '@/screens/PeopleYouMayKnowScreen/PeopleYouMayKnowScreen';
+import EventsSettingsScreen from '@/screens/Settings/EventsSettingsScreen/EventsSettingsScreen';
+import LiveVideoScreen from '@/screens/Settings/LiveVideoScreen/LiveVideoScreen';
+import MarketPlaceScreen from '@/screens/Settings/MarketPlaceScreen/MarketPlaceScreen';
+import LifeEventsScreen from '@/screens/Settings/LifeEventsScreen/LifeEventsScreen';
+import NewsletterScreen from '@/screens/Settings/NewsletterScreen/NewsletterScreen';
+import PromotionScreen from '@/screens/Settings/PromotionScreen/PromotionScreen';
+import AppUpdateScreen from '@/screens/Settings/AppUpdateScreen/AppUpdateScreen';
+import OtherNotificationsScreen from '@/screens/Settings/OtherNotificationsScreen/OtherNotificationsScreen';
+
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
 
@@ -119,7 +140,27 @@ function UnauthenticatedStack() {
       <Stack.Screen component={ProfileScreen} name='ProfileScreen' />
       <Stack.Screen component={EditProfileScreen} name='EditProfileScreen' />
       <Stack.Screen component={VerificationScreen} name='VerificationScreen' />
+      <Stack.Screen component={PrivacyPolicyScreen} name='PrivacyPolicyScreen' />
+      <Stack.Screen component={TermsOfServiceScreen} name='TermsOfServiceScreen' />
+      <Stack.Screen component={AppearanceSettingsScreen} name='AppearanceSettingsScreen' />
       <Stack.Screen component={VerificationSettingScreen} name='VerificationSettingScreen' />
+      <Stack.Screen component={NotificationSettingsScreen} name='NotificationSettingsScreen' />
+      <Stack.Screen component={PostsAndCommentsScreen} name='PostsAndCommentsScreen' />
+      <Stack.Screen component={TagsAndMentionsScreen} name='TagsAndMentionsScreen' />
+      <Stack.Screen component={NewFollowersScreen} name='NewFollowersScreen' />
+      <Stack.Screen component={SharesLikesRepostsScreen} name='SharesLikesRepostsScreen' />
+      <Stack.Screen component={ProfileViewsScreen} name='ProfileViewsScreen' />
+      <Stack.Screen component={MessagingScreen} name='MessagingScreen' />
+      <Stack.Screen component={SuggestedPostsScreen} name='SuggestedPostsScreen' />
+      <Stack.Screen component={PeopleYouMayKnowScreen} name='PeopleYouMayKnowScreen' />
+      <Stack.Screen component={EventsSettingsScreen} name='EventsSettingsScreen' />
+      <Stack.Screen component={LiveVideoScreen} name='LiveVideoScreen' />
+      <Stack.Screen component={MarketPlaceScreen} name='MarketPlaceScreen' />
+      <Stack.Screen component={LifeEventsScreen} name='LifeEventsScreen' />
+      <Stack.Screen component={NewsletterScreen} name='NewsletterScreen' />
+      <Stack.Screen component={PromotionScreen} name='PromotionScreen' />
+      <Stack.Screen component={AppUpdateScreen} name='AppUpdateScreen' />
+      <Stack.Screen component={OtherNotificationsScreen} name='OtherNotificationsScreen' />
       <Stack.Screen component={EventDetailScreen} name='EventDetailScreen' />
       <Stack.Screen component={UsernameSelection} name="UsernameSelection" />
       <Stack.Screen component={PasswordCreation} name="PasswordCreation" />

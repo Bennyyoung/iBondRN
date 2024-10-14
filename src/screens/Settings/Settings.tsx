@@ -8,6 +8,8 @@ import Box from "@/components/Box";
 import TitleBar from "@/components/TitleBar/TitleBar";
 import { RFValue } from "react-native-responsive-fontsize";
 import { CustomButton } from "@/components/CustomButton";
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamsList } from '@/navigation/types';
 
 const { height } = Dimensions.get('window');
 
@@ -40,25 +42,25 @@ const settingsOptions: Array<{
     id: 4,
     title: 'Notifications',
     svgName: 'notification',
-    link: 'Notifications',
+    link: 'NotificationSettingsScreen',
   },
   {
     id: 5,
     title: 'Terms of Service',
     svgName: 'book',
-    link: 'TermsOfService',
+    link: 'TermsOfServiceScreen',
   },
   {
     id: 6,
     title: 'Privacy Policy',
     svgName: 'database',
-    link: 'PrivacyPolicy',
+    link: 'PrivacyPolicyScreen',
   },
   {
     id: 7,
     title: 'Appearance',
     svgName: 'moon',
-    link: 'Appearance',
+    link: 'AppearanceSettingsScreen',
   },
   {
     id: 8,
@@ -69,7 +71,7 @@ const settingsOptions: Array<{
 ];
 
 const Settings = () => {
-  const navigation = useNavigation(); // Use navigation from React Navigation
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>(); // Use navigation from React Navigation
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

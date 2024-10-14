@@ -35,6 +35,8 @@ import Text from '@/components/Text';
 
 import AccountVerificationCard from '@/components/AccountVerificationCard/AccountVerificationCard';
 import VerificationInfo from '@/components/VerificationInfo/VerificationInfo';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamsList } from '@/navigation/types';
 
 // Import images from assets
 const customIcon = require('@/assets/svg/group.svg');
@@ -167,7 +169,7 @@ const CreateEvents = () => {
 
 
 
-  const navigation = useNavigation()
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>()
   const [hosts, setHosts] = useState<User[]>([])
   const [showAllHosts, setShowHosts] = useState(false)
   const [count, setCount] = useState(0)

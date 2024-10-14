@@ -19,6 +19,8 @@ import { Event } from '@/components/types';
 import useSearchEvents from '@/utils/hooks/Event/useSearchEvent';
 import { eventsNavigation } from '@/utils/browseEventsData';
 import moment from 'moment';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamsList } from '@/navigation/types';
 
 const { width: screenWidth, height } = Dimensions.get('window')
 
@@ -26,7 +28,7 @@ const getItem = (data: any, index: number) => data[index];
 const getItemCount = (data: any) => data.length;
 
 const BrowseEvents: React.FC = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>()
   const { fetchAllEvents } = useGetAllEvents()
   const [events, setEvents] = useState<Event[]>([])
   const [searchTerm, setSearchTerm] = useState('')
@@ -58,7 +60,7 @@ const BrowseEvents: React.FC = () => {
   }
 
   const handleCategory = (category: string) => {
-    setCategory(category)
+    setCategory(category.toUpperCase())
     triggerSearch()
   }
   useEffect(() => {

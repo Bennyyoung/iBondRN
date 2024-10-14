@@ -7,6 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Event } from '@/components/types';
 import { SvgIcon } from '@/assets/icons/SvgIcon';
 import moment from 'moment';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamsList } from '@/navigation/types';
 
 // Define the interface for the props
 interface CardProps {
@@ -16,7 +18,7 @@ const { height } = Dimensions.get('window')
 
 // Card component that receives data as props
 const Card = ({ data }: CardProps) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>()
   const { id, eventStatus, date, eventTitle, eventType, eventPlatform, endTime, statusIcon, platformIcon, meetingIcon, eventTimeIcon, startTime, imageUrl, location } = data
 
   const now = moment();

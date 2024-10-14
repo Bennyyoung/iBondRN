@@ -20,7 +20,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
       immutableCheck: false,
-    }).concat(api.middleware),
+    }).concat(api.middleware, uploadsApi.middleware),
 });
 
 export const persistor = persistStore(store);

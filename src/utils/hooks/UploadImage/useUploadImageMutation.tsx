@@ -1,12 +1,13 @@
 import { showErrorToast } from '@/utils/helpers/toastHelper';
 import { UploadImageRequest } from '@/reduxFolder/features/upload/service.types';
 import { useUploadImageMutation } from '@/reduxFolder/features/upload/service';
+import { useUploadFilesMutation } from '@/reduxFolder/features/uploads/service';
 
 const useImageUpload = () => {
-    const [uploadImage, { isLoading, isError, isSuccess }] = useUploadImageMutation();
+    const [uploadImage, { isLoading, isError, isSuccess }] = useUploadFilesMutation();
 
     const uploadAnImage = async ({ formData, folderName, bucketName }: UploadImageRequest) => {
-        console.log('formData', formData._parts);
+        console.log('formData', formData);
         
 
         try {

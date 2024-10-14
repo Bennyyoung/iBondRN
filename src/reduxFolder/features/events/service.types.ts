@@ -13,13 +13,13 @@ export type CreateEventRequest = {
     eventType: string,
     eventPrivacy: string,
     category: string,
-    hostName: string,
+    hostName: string[],
     eventUrl: string,
     imageUrl: string,
-    attendees: [],
+    // attendees: [],
     channel: string,
     otherDetails: string,
-    groupName: string,
+    groupName: string | null,
     createdBy: string
 }
 

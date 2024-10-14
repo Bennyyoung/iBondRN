@@ -52,3 +52,8 @@ export interface EventResponse {
     content: Event[];
   };
 }
+
+export interface SwitchProps {
+  value: boolean;
+  onValueChange: (newValue: boolean) => void;
+}
