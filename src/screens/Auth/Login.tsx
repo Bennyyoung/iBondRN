@@ -18,10 +18,14 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import { appleAuth } from '@invertase/react-native-apple-authentication';
+import {
+  AppleButton,
+  appleAuth,
+} from '@invertase/react-native-apple-authentication';
 import { GOOGLE_AUTH_KEY } from '@env';
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { auth } from '@/utils/hooks/auth.config';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface LoginFormValues {
   username: string;
@@ -71,12 +75,25 @@ const Login: React.FC = () => {
         requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
       });
 
-      if (appleAuthRequestResponse) {
-        // const { email, fullName, identityToken } = appleAuthRequestResponse;
-        // console.log({ email, fullName, identityToken });
+      const { user, email, fullName, identityToken } = appleAuthRequestResponse;
+
+      // Check credential state
+      const credentialState = await appleAuth.getCredentialStateForUser(user);
+
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        // User is authenticated, proceed with your login flow
+        console.log('Apple Sign-In successful:', {
+          email,
+          fullName,
+          identityToken,
+        });
+      } else {
+        // Handle other credential states
+        Alert.alert('Apple Sign-In failed');
       }
     } catch (error) {
-      // console.error(error);
+      console.error('Apple Sign-In error:', error);
+      Alert.alert('Apple Sign-In failed');
     }
   };
 
@@ -89,7 +106,7 @@ const Login: React.FC = () => {
       password: values.password,
     });
 
-    // await AsyncStorage.setItem('@newlyregistered', 'true');
+    await AsyncStorage.setItem('@newlyregistered', 'true');
     // await AsyncStorage.setItem('@shouldupdateinterests', 'true');
     const shouldConnect = await AsyncStorage.getItem('@newlyregistered');
     const shouldUpdateInterests = await AsyncStorage.getItem(
@@ -195,7 +212,10 @@ const Login: React.FC = () => {
               <SvgIcon name="authLine" size="xl" />
             </Box>
 
-            <Box flexDirection="row" justifyContent="space-between">
+            <Box
+              flexDirection="row"
+              justifyContent="space-between"
+              alignContent="center">
               <Box width={Platform.OS === 'ios' ? '48%' : '100%'}>
                 <CustomButton
                   label="Google"
@@ -212,27 +232,21 @@ const Login: React.FC = () => {
                     alignContent: 'center',
                     justifyContent: 'center',
                   }}
-                  isLoading={isLoading || isSubmitting}
                   disabled={isLoading || isSubmitting}
                 />
               </Box>
               {Platform.OS === 'ios' && (
                 <Box width="48%">
-                  <CustomButton
-                    label="Apple"
-                    iconName="appleIcon"
-                    iconSize="sm"
-                    onPress={handleAppleSignIn}
-                    backgroundColor="black"
-                    labelProps={{ color: 'white', variant: 'medium14' }}
-                    borderRadius="smm"
-                    paddingVertical="xs"
+                  <AppleButton
+                    buttonStyle={AppleButton.Style.BLACK}
+                    buttonType={AppleButton.Type.SIGN_IN}
                     style={{
                       alignContent: 'center',
                       justifyContent: 'center',
+                      width: '100%',
+                      height: RFValue(41),
                     }}
-                    isLoading={isLoading || isSubmitting}
-                    disabled={isLoading || isSubmitting}
+                    onPress={handleAppleSignIn}
                   />
                 </Box>
               )}

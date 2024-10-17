@@ -8,9 +8,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  if  ([FIRApp defaultApp] == nil) {
-    [FIRApp configure];
-  }
+  [FIRApp configure];
 
   self.moduleName = @"iBondMobile";
   // You can add your custom initial props in the dictionary below.

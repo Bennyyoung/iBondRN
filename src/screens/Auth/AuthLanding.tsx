@@ -16,6 +16,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
 import { updateRegistrationData } from '@/redux/features/auth/slices';
 import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
+import moment from 'moment';
 
 interface SignUpFormValues {
   firstName: string;
@@ -30,7 +31,17 @@ const validationSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
   lastName: Yup.string().required('Last Name is required'),
   gender: Yup.string().required('Gender is required'),
-  dateOfBirth: Yup.string().required('Date of Birth is required'),
+  dateOfBirth: Yup.string()
+    .required('Date of Birth is required')
+    .test(
+      'is-18-years-old',
+      'You must be at least 18 years old',
+      function (value) {
+        const today = moment();
+        const dateOfBirth = moment(value, 'YYYY-MM-DD');
+        return today.diff(dateOfBirth, 'years') >= 18;
+      },
+    ),
   email: Yup.string().email('Invalid email').required('Email is required'),
   referralCode: Yup.string(),
 });
