@@ -18,8 +18,12 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { IconVector } from '@/assets/icons/IconVector';
 import Contacts from 'react-native-contacts';
-import { useConnectUsersQuery } from '@/redux/features/auth/service';
+import { useConnectUsersMutation } from '@/redux/features/auth/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { showErrorToast } from '@/utils/helpers/toastHelper';
+import { ConnectUsersRequest } from '@/redux/features/auth/services.types';
+
+const BATCH_SIZE = 100;
 
 const FindFriendsFromContacts = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -28,17 +32,13 @@ const FindFriendsFromContacts = () => {
   const [showContacts, setShowContacts] = useState(false);
   const [isPermissionGranted, setIsPermissionGranted] = useState(false);
 
-  const { data: connectedUsersData, isLoading } = useConnectUsersQuery(null);
+  const [connectUsers, { isLoading }] = useConnectUsersMutation();
 
   useEffect(() => {
-    if (
-      contacts.length > 0 &&
-      connectedUsersData &&
-      connectedUsersData.data.length > 0
-    ) {
-      filterContacts();
+    if (contacts.length > 0) {
+      batchAndSendContacts();
     }
-  }, [contacts, connectedUsersData]);
+  }, [contacts]);
 
   const requestContactsPermission = async () => {
     if (Platform.OS === 'android') {
@@ -62,26 +62,46 @@ const FindFriendsFromContacts = () => {
 
   const loadContacts = () => {
     Contacts.getAll()
-      .then((contcts: any) => {
-        setContacts(contcts);
+      .then((contactsList: any) => {
+        setContacts(contactsList);
         setShowContacts(true);
-        setIsPermissionGranted(true); // Update state to show permission granted
+        setIsPermissionGranted(true);
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  const filterContacts = () => {
-    const filtered = contacts.filter(contact => {
-      const phoneNumbers = contact.phoneNumbers.map(pn =>
-        pn.number.replace(/\s+/g, ''),
-      );
-      return phoneNumbers.some(phoneNumber =>
-        connectedUsersData.data.includes(phoneNumber),
-      );
-    });
-    setFilteredContacts(filtered);
+  const batchAndSendContacts = async () => {
+    try {
+      const phoneNumbers = contacts
+        .map(contact =>
+          contact.phoneNumbers.map(pn => pn.number.replace(/\s+/g, '')),
+        )
+        .flat();
+
+      for (let i = 0; i < phoneNumbers.length; i += BATCH_SIZE) {
+        const batch = phoneNumbers.slice(i, i + BATCH_SIZE);
+
+        const requestData: ConnectUsersRequest = {
+          phoneNumbers: batch,
+          page: 1,
+          limit: BATCH_SIZE,
+          sortBy: 'name',
+          sortDirection: 'ASC',
+        };
+
+        const response = await connectUsers(requestData).unwrap();
+
+        if (response.status === 200) {
+          // showSuccessToast('Contacts synced successfully!');
+        } else {
+          throw new Error(response.message);
+        }
+      }
+    } catch (err: any) {
+      showErrorToast(err.message || 'Failed to sync contacts.');
+    }
   };
 
   const viewedConnectScreen = async () => {

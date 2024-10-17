@@ -1,4 +1,4 @@
-# Resolve react_native_pods.rb with node to allow for hoisting
+# Resolve react_native_pods.rb and react-native-permissions setup using node
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
     "react-native/scripts/react_native_pods.rb",
@@ -18,13 +18,17 @@ setup_permissions([
   'Camera',
 ])
 
+# Handle dynamic frameworks linkage (if you are using dynamic frameworks)
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
   use_frameworks! :linkage => linkage.to_sym
 end
 
+# Main target
 target 'iBondMobile' do
+  use_frameworks! :linkage => :static
+  SRNFirebaseAsStaticFramework = true
   config = use_native_modules!
 
   # CodePush plugin dependency
@@ -32,8 +36,9 @@ target 'iBondMobile' do
 
   use_react_native!(
     :path => config[:reactNativePath],
-    # An absolute path to your application root.
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    # Absolute path to your application root
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    :hermes_enabled => true
   )
 
   target 'iBondMobileTests' do
@@ -42,12 +47,27 @@ target 'iBondMobile' do
   end
 
   post_install do |installer|
-    # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
+    # Set mac_catalyst_enabled to false unless you're targeting macOS Catalyst
     react_native_post_install(
       installer,
       config[:reactNativePath],
       :mac_catalyst_enabled => false,
-      # :ccache_enabled => true
+      # :ccache_enabled => true # Uncomment if you want to enable ccache for faster builds
     )
+
+    # Handle build issues related to `Flipper` in newer Xcode versions (if necessary)
+    # Optimize pod installation
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = min_ios_version_supported
+      end
+      
+      # Fix for Xcode 14 warnings
+      if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
+        target.build_configurations.each do |config|
+          config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+        end
+      end
+    end
   end
 end

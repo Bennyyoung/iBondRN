@@ -104,7 +104,7 @@ export const userSlice = createSlice({
       (state, { payload }) => {
         const userData = payload.data;
         state.status = 'register-success';
-        state.isAuthenticated = true;
+        state.isAuthenticated = false;
         state.userData = userData;
         state.token = userData.token;
       },

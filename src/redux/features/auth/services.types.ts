@@ -211,6 +211,14 @@ export type ValidateUsernameResponse = {
   };
 };
 
+export type ConnectUsersRequest = {
+  phoneNumbers: string[];
+  page: number;
+  limit: number;
+  sortBy: string;
+  sortDirection: 'DESC' | 'ASC';
+};
+
 export type ConnectUsersResponse = {
   status: number;
   message: string;
