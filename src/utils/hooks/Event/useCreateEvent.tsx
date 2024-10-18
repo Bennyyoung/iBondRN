@@ -1,4 +1,4 @@
-import { showErrorToast } from '@/utils/helpers/toastHelper';
+import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
 import { CreateEventRequest } from '@/reduxFolder/features/events/service.types';
 import { useCreateEventMutation } from '@/reduxFolder/features/events/service';
 
@@ -9,9 +9,9 @@ const useCreateEvent = () => {
         try {
             const response = await createEvent(data).unwrap();
             console.log('response', JSON.stringify(response, null, 2));
-            
 
             if (response) {
+                showSuccessToast(response.message || 'Successful')
                 return response;
             } else {
                 throw new Error('Creating an Event failed');

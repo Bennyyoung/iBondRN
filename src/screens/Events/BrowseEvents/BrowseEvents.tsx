@@ -52,7 +52,7 @@ const BrowseEvents: React.FC = () => {
     }
   }, [isSearchTriggered, searchTerm, category])
 
-  
+
   const getEvents = async () => {
     const events = await fetchAllEvents()
     const content = events.data.content

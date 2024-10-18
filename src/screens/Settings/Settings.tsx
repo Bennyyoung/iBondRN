@@ -24,7 +24,7 @@ const settingsOptions: Array<{
     id: 1,
     title: 'Account Settings',
     svgName: 'profile',
-    link: 'AccountSettings', // String route names
+    link: 'AccountSettingsScreen', // String route names
   },
   {
     id: 2,

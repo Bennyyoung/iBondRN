@@ -15,7 +15,7 @@ const baseQuery = fetchBaseQuery({
     if (accessToken) {
       headers.set('Authorization', `Bearer ${accessToken}`);
     }
-    // headers.set('Content-Type', 'application/json'); // Avoid setting Content Type for formData
+    headers.set('Content-Type', 'application/json'); // Avoid setting Content Type for formData
     return headers;
   },
   timeout: 30000,
@@ -36,7 +36,7 @@ const baseQueryWithEncryption: BaseQueryFn<
 
   try {
     const result = await baseQuery(encryptedArgs, api, extraOptions);
-    console.log(result, 'result here', api);
+    console.log(JSON.stringify(result, null, 2), 'result here', api);
     // console.log('request', result.meta?.request, 'result type', result);
 
     if (result.error) {

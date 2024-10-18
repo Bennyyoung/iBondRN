@@ -6,3 +6,4 @@ pod install
 In AndroidManifest.xml remember to uncomment line 39-41 when I finally get the React Native Map
 
 Study more about FindFriendsFromContacts
+

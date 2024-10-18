@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Dimensions } from 'react-native';
 import Badmus from '@/assets/svg/badmus.svg'
+import Text from '../Text';
+import { RFValue } from 'react-native-responsive-fontsize';
+
+const { height } = Dimensions.get('window')
 
 const VerificationPayment: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Review verification payment</Text>
-      
+
       <View style={styles.profileContainer}>
         <Badmus
           style={styles.profileImage}
@@ -26,14 +30,14 @@ const VerificationPayment: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
     backgroundColor: '#fff',
+    marginTop: 30
   },
   title: {
-    fontSize: 24,
+    fontSize: RFValue(24, height),
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
@@ -53,15 +57,15 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   name: {
-    fontSize: 16,
+    fontSize: RFValue(16, height),
     fontWeight: 'bold',
   },
   username: {
-    fontSize: 14,
+    fontSize: RFValue(14, height),
     color: 'gray',
   },
   paymentInfo: {
-    fontSize: 16,
+    fontSize: RFValue(16, height),
     textAlign: 'center',
   },
   amount: {

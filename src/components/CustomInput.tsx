@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Platform,
   KeyboardType,
+  Dimensions,
 } from 'react-native';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -16,6 +17,8 @@ import Box from './Box';
 import { SvgIcon } from '@/assets/icons/SvgIcon';
 import { SvgIconPackType } from '@/assets/icons/svgIconPack';
 import { Theme } from '@/constants/theme';
+
+const { height } = Dimensions.get('window')
 
 interface CustomInputProps {
   label: string;
@@ -31,6 +34,7 @@ interface CustomInputProps {
   iconSize?: keyof Theme['iconSizes'];
   placeholder?: string
   max?: number;
+  onPress?: () => void
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -46,7 +50,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
   containerProps,
   iconName,
   iconSize,
-  placeholder
+  placeholder,
+  onPress
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -135,9 +140,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
             </TouchableOpacity>
           )}
           {iconName && iconSize && (
-            <Box position="absolute" right={RFValue(16)}>
+            <TouchableOpacity style={{ position: 'absolute', right: RFValue(16) }} onPress={onPress}>
               <SvgIcon name={iconName} size={iconSize} />
-            </Box>
+            </TouchableOpacity>
           )}
         </View>
         {error && typeof error === 'string' && (
@@ -151,6 +156,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
 const styles = StyleSheet.create({
   container: {
     marginBottom: RFValue(8),
+    width: '100%'
+
   },
   inputContainer: {
     height: Platform.OS === 'ios' ? RFValue(48) : RFValue(56),
@@ -159,6 +166,8 @@ const styles = StyleSheet.create({
     borderRadius: RFValue(12),
     paddingHorizontal: RFValue(6),
     justifyContent: 'center',
+    width: '100%'
+
   },
   inputContainerFocused: {
     borderColor: '#CFB0F5',
@@ -167,12 +176,14 @@ const styles = StyleSheet.create({
     borderColor: '#FF3B30',
   },
   input: {
-    fontSize: RFValue(14),
+    fontSize: RFValue(14, height),
     color: '#151619',
     // Is this needed Adeyemo
     // paddingTop: Platform.OS === 'ios' ? RFValue(24) : RFValue(26),
     // paddingBottom: Platform.OS === 'ios' ? RFValue(8) : RFValue(10),
     height: '100%',
+    // width: '100%'
+
   },
   eyeIcon: {
     position: 'absolute',

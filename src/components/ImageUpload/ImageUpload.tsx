@@ -42,41 +42,43 @@ type ImageUploadProps = {
     error?: string | boolean;
     placeholders: Placeholders
     recommendedText?: string
+    setImageUrl?: React.Dispatch<React.SetStateAction<string>>
 }
 
 
 
 
 
-const ImageUpload = ({ setFieldValue, error, placeholders, recommendedText }: ImageUploadProps) => {
+const ImageUpload = ({ setFieldValue, error, placeholders, recommendedText, setImageUrl }: ImageUploadProps) => {
 
-  const [uploadFiles, { isLoading }] = useUploadFilesMutation();
+    const [uploadFiles, { isLoading }] = useUploadFilesMutation();
 
-  const handleUpload = async (files: File[]) => {
-    console.log('hi');
-    
-    try {
-      const result = await uploadFiles({
-        files,
-        folderName: 'profile-picture',
-      });
+    const handleUpload = async (files: File[]) => {
 
-      console.log('result', result);
-      
+        try {
+            const result = await uploadFiles({
+                files,
+                folderName: 'profile-picture',
+            });
+            console.log('result', result.data?.data);
+            setImageUrl && setImageUrl(result?.data?.data[0]?.fileUrl)
 
-      if (result.data) {
-        console.log('Actually stepped into here');
-        showSuccessToast('File uploaded successfully!');
-      }
-      if (error) {
-        showErrorToast('File upload failed.');
-      }
-    } catch (err) {
-        console.log('err', err);
-        
-      showErrorToast('Error during upload');
-    }
-  };
+
+
+
+            if (result.data) {
+                console.log('Actually stepped into here');
+                showSuccessToast('File uploaded successfully!');
+            }
+            if (error) {
+                showErrorToast('File upload failed.');
+            }
+        } catch (err) {
+            console.log('err', err);
+
+            showErrorToast('Error during upload');
+        }
+    };
 
 
     const [imageUri, setImageUri] = useState<string | null>(null)
@@ -101,8 +103,8 @@ const ImageUpload = ({ setFieldValue, error, placeholders, recommendedText }: Im
                         uri: selectedImage.uri,
                         name: selectedImage.fileName || 'photo.jpg',
                         type: selectedImage.type || 'image/jpeg',
-                      };
-                      handleUpload([file]);
+                    };
+                    handleUpload([file]);
 
                     setFieldValue('eventPhoto', file)
                 }
@@ -134,7 +136,7 @@ const ImageUpload = ({ setFieldValue, error, placeholders, recommendedText }: Im
                         </>
                     )
                 }
-            </TouchableOpacity >
+            </TouchableOpacity>
 
             {recommendedText && <Text style={styles.photoRecommendation}>{recommendedText}</Text>}
             {error && typeof error === 'string' && (

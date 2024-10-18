@@ -55,8 +55,18 @@ import send2 from "@/assets/svg/send2.svg"
 import eyeSlash from "@/assets/svg/eyeSlash.svg"
 import flag from "@/assets/svg/flag.svg"
 import galleryAddPurple from "@/assets/svg/galleryAddPurple.svg"
+import avatar from "@/assets/svg/avatar.svg"
+import giantPlus from "@/assets/svg/giantPlus.svg"
+import plusIcon from "@/assets/svg/plusIcon.svg"
+import sticker from "@/assets/svg/sticker.svg"
+import gift from "@/assets/svg/gift.svg"
+import cameraEdit from "@/assets/svg/cameraEdit.svg"
+import iBondLogo from "@/assets/svg/iBondLogo.svg"
 
 const svgIconPack = {
+  iBondLogo,
+  gift,
+  sticker,
   appleIcon,
   authLine,
   facebookIcon,
@@ -113,7 +123,11 @@ const svgIconPack = {
   send2,
   eyeSlash,
   flag,
-  galleryAddPurple
+  galleryAddPurple,
+  avatar,
+  giantPlus,
+  plusIcon,
+  cameraEdit
 };
 
 export { svgIconPack };

@@ -7,7 +7,7 @@ import TitleBar from '@/components/TitleBar/TitleBar';
 
 const { height } = Dimensions.get('window')
 
-const PrivacyPolicy = () => {
+const PrivacyPolicyScreen = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <TitleBar>
@@ -182,4 +182,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default PrivacyPolicy;
+export default PrivacyPolicyScreen;

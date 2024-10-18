@@ -1,11 +1,14 @@
 
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 // Import your SVG files
 import BadgeIcon from '@/assets/svg/badgeIcon.svg'; // Ensure the path is correct
 import EyeIcon from '@/assets/svg/eyeIcon.svg'; // Ensure the path is correct
 import ChatIcon from '@/assets/svg/chatIcon.svg'; // Ensure the path is correct
+import { RFValue } from 'react-native-responsive-fontsize'
+const { height } = Dimensions.get('window')
+
 
 // Define types for props
 interface VerificationItemProps {
@@ -73,8 +76,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: RFValue(16, height),
+    fontWeight: '400',
     color: '#333',
   },
   itemDescription: {

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { ScrollView, Image, Switch, TouchableOpacity, View, StyleSheet, Platform, Animated, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import Box from '@/components/Box';
@@ -12,11 +12,19 @@ import TitleBar from '@/components/TitleBar/TitleBar';
 import ImageUpload from '@/components/ImageUpload/ImageUpload';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StackParamsList } from '@/navigation/types';
+import SelectInput from '@/components/SelectInput';
+import { useDepartmentOptions } from '@/utils/useDepartmenttOptions';
+import { useFacultyOptions } from '@/utils/useFacultyOptions';
+import { values } from 'lodash';
+import { useSchoolOptions } from '@/utils/hooks/useSchoolOptions';
+import CustomSwitch from '@/components/CustomSwitch/CustomSwitch';
 
 const { height, width } = Dimensions.get('window')
 
 interface ProfileValues {
+    coverPhoto: string;
     profilePicture: string;
+    name: string;
     username: string;
     intro: string;
     dateOfBirth: string;
@@ -43,6 +51,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const initialValues: ProfileValues = {
+    coverPhoto: '',
+    profilePicture: '',
+    name: 'Oluwasegun Badmus',
     username: 'official_segunowo',
     intro: 'Creative Design | UI/UX Design | Brand Identity...',
     dateOfBirth: '16/05/1987',
@@ -51,7 +62,16 @@ const initialValues: ProfileValues = {
 
 const EditProfileScreen: React.FC = () => {
     const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
-    const [isStudent, setIsStudent] = React.useState(true);
+    const [isStudent, setIsStudent] = React.useState(false);
+    const [imageUrl, setImageUrl] = useState('')
+    const [school, setSchool] = useState<string | number>('');
+    const [faculty, setFaculty] = useState<string | number>('');
+    const [department, setDepartment] = useState<string | number>('');
+
+    const { schoolOptions, isLoadingInstitutions } = useSchoolOptions();
+    const { facultyOptions, isLoadingFaculties } = useFacultyOptions();
+    const { departmentOptions, isLoadingFaculties: isLoadingDepartments } = useDepartmentOptions(values.faculty);
+
 
     const handleSubmit = (
         values: ProfileValues,
@@ -99,61 +119,34 @@ const EditProfileScreen: React.FC = () => {
                             <ImageUpload
                                 setFieldValue={setFieldValue}
                                 error={touched.profilePicture && errors.profilePicture}
-                                // imageUri=
-                            />
-
-                            <Box style={styles.profileImageContainer}>
-                                <Image
-                                    source={{ uri: 'https://your-profile-image-url.com' }}
-                                    style={styles.profileImage}
-                                />
-                                <TouchableOpacity style={styles.changeProfileIcon}>
-                                    <SvgIcon name="camera" size={15} />
-                                </TouchableOpacity>
-                            </Box>
-
-                            <TouchableOpacity
-                                style={{
-                                    position: 'absolute',
-                                    top: 60,
-                                    left: '40%',
-                                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                                    padding: 8,
-                                    borderRadius: 20,
+                                placeholders={{
+                                    withImage: {
+                                        title: 'Change Cover',
+                                        icon: <SvgIcon name="cameraEdit" size="sml" />,
+                                    },
+                                    default: {
+                                        title: 'Add Photo',
+                                        icon: <SvgIcon name="galleryAddPurple" size="sml" />,
+                                    }
                                 }}
-                            >
-                                <SvgIcon name="camera" size="md" color="white" />
-                                <Text>Change Cover</Text>
-                            </TouchableOpacity>
-
-                            <Box marginTop="sm" alignItems="center">
-                                <Image
-                                    source={{ uri: 'https://your-profile-image-url.com' }}
-                                    style={{
-                                        width: 80,
-                                        height: 80,
-                                        borderRadius: 40,
-                                        borderWidth: 2,
-                                        borderColor: 'white',
-                                    }}
-                                />
-                                <TouchableOpacity
-                                    style={{
-                                        position: 'absolute',
-                                        bottom: -5,
-                                        right: 5,
-                                        backgroundColor: 'white',
-                                        borderRadius: 20,
-                                        padding: 5,
-                                    }}
-                                >
-                                    <SvgIcon name="camera" size="sm" />
-                                </TouchableOpacity>
-                            </Box>
+                                recommendedText="Add a 16:9 cover photo. 1920x1080 recommended."
+                                setImageUrl={setImageUrl}
+                            />
                         </Box>
 
                         {/* Form Fields using CustomInput */}
                         <Box paddingHorizontal="sm">
+                            <CustomInput
+                                label="Name"
+                                value={values.name}
+                                onChangeText={handleChange('name')}
+                                onBlur={handleBlur('name')}
+                                error={touched.name && errors.name}
+                                placeholder="Enter your name"
+                                iconSize="sm"
+                            />
+                            <Text style={{ color: '#616379', fontWeight: '400', fontSize: RFValue(11, height), marginTop: -10, marginLeft: 10 }}>Once name is changed, you won't be able to change it again for 90 days.</Text>
+
                             <CustomInput
                                 label="Username"
                                 value={values.username}
@@ -185,6 +178,7 @@ const EditProfileScreen: React.FC = () => {
                                 }
                                 iconName="calendar"
                             />
+                            <Text style={{ color: '#616379', fontWeight: '400', fontSize: RFValue(11, height), marginTop: -10, marginLeft: 10 }}>Only month and day is visible to your followers</Text>
 
                             <CustomInput
                                 label="Website URL"
@@ -202,30 +196,70 @@ const EditProfileScreen: React.FC = () => {
                                 alignItems="center"
                                 marginVertical="sm"
                             >
-                                <Text>I am a student</Text>
-                                <Switch
+                                <Text style={styles.iAmAStudent}>I am a student</Text>
+                                {/* <Switch
                                     value={isStudent}
                                     onValueChange={setIsStudent}
                                     thumbColor={isStudent ? 'purple' : 'grey'}
+                                /> */}
+
+                                <CustomSwitch // Use the custom switch here
+                                    value={isStudent}
+                                    onValueChange={setIsStudent}
                                 />
                             </Box>
 
                             {/* Non-editable Fields */}
-                            <CustomInput
-                                label="School"
-                                value="Ladoke Akintola University of Technology"
-                                editable={false}
-                            />
-                            <CustomInput
-                                label="Faculty"
-                                value="Faculty of Engineering"
-                                editable={false}
-                            />
-                            <CustomInput
-                                label="Department"
-                                value="Computer Science"
-                                editable={false}
-                            />
+                            {
+                                isStudent && (
+                                    <SelectInput
+                                        label="School"
+                                        getSelectedValue={setSchool}
+                                        list={schoolOptions}
+                                        placeholder="Select School"
+                                        selectedValue={school}
+                                        modulePalette="primary"
+                                        iconName="chevron_downward"
+                                        iconSize="sml"
+                                        searchable
+                                        showHeader
+                                        useSelectedValue
+                                        isLoading={isLoadingInstitutions}
+                                    />
+                                )
+                            }
+
+
+                            {school && (
+                                <SelectInput
+                                    label="Faculty"
+                                    getSelectedValue={setFaculty}
+                                    list={facultyOptions}
+                                    placeholder="Select Faculty"
+                                    selectedValue={faculty}
+                                    modulePalette="primary"
+                                    iconName="chevron_downward"
+                                    iconSize="sml"
+                                    searchable
+                                    showHeader
+                                    isLoading={isLoadingFaculties}
+                                />
+                            )}
+
+                            {faculty && (
+                                <SelectInput
+                                    label="Department"
+                                    getSelectedValue={setDepartment}
+                                    list={departmentOptions}
+                                    placeholder="Select Department"
+                                    selectedValue={department}
+                                    modulePalette="primary"
+                                    iconName="chevron_downward"
+                                    iconSize="sml"
+                                    searchable
+                                    showHeader
+                                />
+                            )}
                         </Box>
                     </>
                 )}
@@ -288,4 +322,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: RFValue(6),
         justifyContent: 'center',
     },
+    iAmAStudent: {
+        fontSize: RFValue(16, height),
+        fontWeight: '400',
+        color: '#151619'
+    }
 })

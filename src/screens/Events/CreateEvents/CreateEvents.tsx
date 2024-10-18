@@ -34,6 +34,7 @@ import { categoryOptions, eventType, privacyOptions, groupOptions } from '@/util
 import SelectedChannel from '@/components/SelectedChannel/SelectedChannel';
 import { SvgIcon } from '@/assets/icons';
 import { useUploadFilesMutation } from '@/reduxFolder/features/uploads/service';
+import { useAppSelector } from '@/reduxFolder/index';
 
 // Import images from assets
 const customIcon = require('@/assets/svg/group.svg');
@@ -42,6 +43,7 @@ const { height } = Dimensions.get('window');
 
 const initialValues = {
   eventPhoto: null,
+  imageUrl: '',
   eventTitle: '',
   eventCategory: '',
   eventDate: '',
@@ -87,6 +89,9 @@ const CreateEvents = () => {
   const { createAnEvent, isSuccess } = useCreateEvent()
   const { uploadAnImage } = useImageUpload()
   const [openChannel, setOpenChannel] = useState(false)
+  const [imageUrl, setImageUrl] = useState('')
+  const userData = useAppSelector(state => state.user.userData)
+
 
   const navigation = useNavigation()
   const [hosts, setHosts] = useState<User[]>([])
@@ -156,32 +161,22 @@ const CreateEvents = () => {
   const handleTransform = (values: FormValues) => {
 
     const hostName = values.eventHost.map((host: { value: any; }) => host.value)
-    // console.log('hostName', hostName);
-    console.log('values.eventChannel', values.eventChannel);
-    
-    
-
 
     const data = {
       eventTitle: values.eventTitle,
-      date: values.startTime,
-      startDateTime: values.startTime,
-      endDateTime: values.endTime,
+      date: values.eventDate,
+      startTime: values.startTime,
+      endTime: values.endTime,
       location: values.location,
       eventType: values.eventType.toUpperCase(),
       eventPrivacy: values.eventPrivacy.toUpperCase(),
       category: values.eventCategory.toUpperCase(),
       hostName: 'Kelvin' || hostName,
-      eventUrl: "",
-      imageUrl: "",
-      channel: values.eventChannel,
+      eventUrl: "https://www.eventurl.com/",
+      imageUrl: imageUrl,
+      channel: values.eventChannel || 'IBONELIVE',
       otherDetails: values.otherDetails,
-      groupName: values.group || null,
-      createdBy: "allison"
     }
-
-    console.log('data', data);
-    
 
     return data
   }
@@ -237,6 +232,7 @@ const CreateEvents = () => {
                     }
                   }}
                   recommendedText="Add a 16:9 cover photo. 1920x1080 recommended."
+                  setImageUrl={setImageUrl}
                 />
 
                 {/* Event Title */}
@@ -268,7 +264,9 @@ const CreateEvents = () => {
                 <DateInput
                   label={'Date'}
                   getSelectedDate={date => {
-                    const formattedDate = date.toISOString().split('T')[0];
+                    const formattedDate = new Date(date).toISOString();
+                    console.log('formattedDate', formattedDate);
+
                     setFieldValue('eventDate', formattedDate);
                   }}
                   maximumDate={new Date()}
@@ -285,7 +283,7 @@ const CreateEvents = () => {
                     <TimeInput
                       label={'Start Time'}
                       getSelectedTime={time => {
-                        const formattedTime = moment(time).format('HH:mm'); // Format to HH:mm
+                        const formattedTime = moment(time).format('HH:mm:ss'); // Format to HH:mm
                         setFieldValue('startTime', formattedTime);
                       }}
                       errorMessage={touched.startTime && errors.startTime}
@@ -300,7 +298,7 @@ const CreateEvents = () => {
                     <TimeInput
                       label={'End Time (optional)'}
                       getSelectedTime={time => {
-                        const formattedTime = time.toISOString().split('T')[1].slice(0, 5); // Format to HH:mm
+                        const formattedTime = moment(time).format('HH:mm:ss'); // Format to HH:mm
                         setFieldValue('endTime', formattedTime);
                       }}
                       errorMessage={touched.endTime && errors.endTime}
@@ -333,8 +331,6 @@ const CreateEvents = () => {
                       label={'Channel'}
                       list={channelOptions}
                       getSelectedValue={value => {
-                        console.log('value', value);
-                        
                         setFieldValue('eventChannel', value);
                       }}
                       placeholder="Channel"

@@ -95,8 +95,6 @@ const SelectedChannel = ({
 
     const handleItemPress = useCallback(
         (listItem: any) => {
-            // console.log('listItem', listItem);
-            
             if (listItem.id === '') {
                 return;
             }

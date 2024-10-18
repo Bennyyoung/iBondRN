@@ -73,8 +73,8 @@ export type AppNavRoutes = {
   EventDetailScreen: undefined;
   BrowseEvents: undefined;
 
-  // AccountSettings
-  AccountSettings: undefined;
+  // AccountSettingsScreen
+  AccountSettingsScreen: undefined;
 
   ProfileScreen: undefined;
   EditProfileScreen: undefined;
@@ -90,7 +90,7 @@ export type AppNavRoutes = {
   NewFollowersScreen: undefined;
   SharesLikesRepostsScreen: undefined;
   ProfileViewsScreen: undefined;
-  MessagingScreen: undefined;
+  MessagingScreen: undefined; 
   SuggestedPostsScreen: undefined;
   PeopleYouMayKnowScreen: undefined;
   EventsSettingsScreen: undefined;
@@ -99,8 +99,10 @@ export type AppNavRoutes = {
   LifeEventsScreen: undefined;
   NewsletterScreen: undefined;
   PromotionScreen: undefined;
-  PromotionScreen: undefined;
+  AppUpdateScreen: undefined;
   OtherNotificationsScreen: undefined;
+  PaymentSuccessScreen: undefined;
+  DocumentType: undefined;
 };
 
 // Events

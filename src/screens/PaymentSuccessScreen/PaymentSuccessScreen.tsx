@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -13,8 +11,6 @@ import { CustomButton } from '@/components/CustomButton';
 import PaymentIcon from '@/assets/svg/paymenticon.svg'; 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StackParamsList } from '@/navigation/types';
-
-
 
 const { height } = Dimensions.get('window');
 
@@ -44,6 +40,7 @@ const PaymentSuccessScreen = () => {
           label={'Procced to Verification'}
           labelProps={{ color: 'whiteColor' }}
           borderRadius="sm"
+          onPress={() => navigation.navigate('DocumentType')}
         />
       </View>
     </View>

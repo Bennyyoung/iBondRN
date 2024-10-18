@@ -47,7 +47,7 @@ const accountSettingsOptions = [
   },
 ];
 
-const Settings = () => {
+const AccountSettingsScreen = () => {
   const navigation = useNavigation(); // Get the navigation object
 
   return (
@@ -89,7 +89,7 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default AccountSettingsScreen;
 
 const styles = StyleSheet.create({
   container: {

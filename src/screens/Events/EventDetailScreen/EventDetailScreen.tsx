@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions, Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Details from '../Details/Details';
-import Comments from '../EventComments/EventComments';
+import EventComments from '../EventComments/EventComments';
 import Attendees from '../EventAttendees/EventAttendees';
 import TopEventsForYou from '@/components/TopEventsForYou/TopEventsForYou';
 import MoreLikeThis from '@/components/MoreLikeThis/MoreLikeThis';
@@ -21,6 +21,7 @@ import TitleBar from '@/components/TitleBar/TitleBar';
 import { trailingButtonOptions } from '@/utils/eventDetails';
 import SelectFromBottomSheet from '@/components/BottomSheetContent/SelectFromBottomSheet';
 import SelectedEventDetailsOptions from '@/components/SelectedEventDetailsOptions/SelectedEventDetailsOptions';
+import { useAppSelector } from '@/reduxFolder/index';
 
 
 const { height } = Dimensions.get('window')
@@ -29,7 +30,8 @@ type Tabs = 'Details' | 'Comments' | 'Attendees'
 
 
 const EventDetailScreen: React.FC<EventDetailScreenProps> = ({ route }) => {
-  console.log('route', JSON.stringify(route, null, 2));
+
+  const userData = useAppSelector(state => state.user.userData)
 
   const { event } = route.params
 
@@ -57,7 +59,7 @@ const EventDetailScreen: React.FC<EventDetailScreenProps> = ({ route }) => {
       case 'Details':
         return <Details event={event} />
       case 'Comments':
-        return <Comments />
+        return <EventComments eventId={event.id} userId={userData?.id} event={event} />
       case 'Attendees':
         return <Attendees event={event} />
       default:
@@ -66,7 +68,7 @@ const EventDetailScreen: React.FC<EventDetailScreenProps> = ({ route }) => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <TitleBar>
         <Box style={styles.titleContainer}>
           <Text style={styles.eventDetail}>
@@ -170,9 +172,8 @@ const EventDetailScreen: React.FC<EventDetailScreenProps> = ({ route }) => {
         </TouchableOpacity>
       </View>
 
-      <Box>
+      
         {renderContent(activeTab)}
-      </Box>
 
       {/* Organizer */}
       {/* <View style={styles.detailsSection}>
