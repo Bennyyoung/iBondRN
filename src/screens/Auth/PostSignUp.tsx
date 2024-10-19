@@ -28,8 +28,8 @@ const PostSignUpScreen = () => {
   const [faculty, setFaculty] = useState<string | number>('');
   const [department, setDepartment] = useState<string | number>('');
   const [classYear, setClassYear] = useState<string | number>('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [location, setLocation] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [location, setLocation] = useState<string>('');
   const [error, setError] = useState('');
 
   const navigation = useNavigation<StackNavigationProp<any>>();

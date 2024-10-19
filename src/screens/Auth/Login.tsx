@@ -106,7 +106,7 @@ const Login: React.FC = () => {
       password: values.password,
     });
 
-    await AsyncStorage.setItem('@newlyregistered', 'true');
+    // await AsyncStorage.setItem('@newlyregistered', 'true');
     // await AsyncStorage.setItem('@shouldupdateinterests', 'true');
     const shouldConnect = await AsyncStorage.getItem('@newlyregistered');
     const shouldUpdateInterests = await AsyncStorage.getItem(

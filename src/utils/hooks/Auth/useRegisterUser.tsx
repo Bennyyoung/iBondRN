@@ -17,7 +17,7 @@ const useRegisterUser = () => {
       const response = await register(data).unwrap();
       // console.log(response, 'The response did got here');
 
-      if (response && response.status === 201) {
+      if (response && response.status === 200) {
         dispatch(updateNewUser(true));
         await AsyncStorage.setItem('@newlyregistered', 'true');
         await AsyncStorage.setItem('@shouldupdateinterests', 'true');
