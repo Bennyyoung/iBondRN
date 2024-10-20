@@ -16,23 +16,25 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { ChevronLeft } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { IconVector } from '@/assets/icons/IconVector';
 import Contacts from 'react-native-contacts';
 import { useConnectUsersMutation } from '@/redux/features/auth/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { showErrorToast } from '@/utils/helpers/toastHelper';
 import { ConnectUsersRequest } from '@/redux/features/auth/services.types';
+import useUpdateUserFollowers from '@/utils/hooks/Auth/useFollowUser';
+import { IconVector } from '@/assets/icons/IconVector';
 
 const BATCH_SIZE = 100;
 
 const FindFriendsFromContacts = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [contacts, setContacts] = useState([]);
-  const [filteredContacts, setFilteredContacts] = useState([]);
+  const [filteredContacts, setFilteredContacts] = useState<any>([]);
   const [showContacts, setShowContacts] = useState(false);
   const [isPermissionGranted, setIsPermissionGranted] = useState(false);
 
   const [connectUsers, { isLoading }] = useConnectUsersMutation();
+  const { updateFollowers } = useUpdateUserFollowers();
 
   useEffect(() => {
     if (contacts.length > 0) {
@@ -72,11 +74,29 @@ const FindFriendsFromContacts = () => {
       });
   };
 
+  const viewedConnectScreen = async () => {
+    try {
+      await AsyncStorage.removeItem('@newlyregistered');
+    } catch {}
+  };
+
+  const handleContinue = async () => {
+    await viewedConnectScreen();
+    navigation.navigate('SearchInterests');
+  };
+
+  const handleSkip = async () => {
+    await viewedConnectScreen();
+    navigation.navigate('SearchInterests');
+  };
+
   const batchAndSendContacts = async () => {
     try {
       const phoneNumbers = contacts
         .map(contact =>
-          contact.phoneNumbers.map(pn => pn.number.replace(/\s+/g, '')),
+          contact.phoneNumbers.map(
+            pn => '+234' + pn.number.replace(/\s+/g, '').slice(-10),
+          ),
         )
         .flat();
 
@@ -94,7 +114,7 @@ const FindFriendsFromContacts = () => {
         const response = await connectUsers(requestData).unwrap();
 
         if (response.status === 200) {
-          // showSuccessToast('Contacts synced successfully!');
+          setFilteredContacts(response.data);
         } else {
           throw new Error(response.message);
         }
@@ -104,45 +124,42 @@ const FindFriendsFromContacts = () => {
     }
   };
 
-  const viewedConnectScreen = async () => {
-    try {
-      await AsyncStorage.removeItem('@newlyregistered');
-    } catch {}
+  const handleFollowUser = async (id: number) => {
+    await updateFollowers(id);
+
+    return setFilteredContacts((prevContacts: any) =>
+      prevContacts.map((contact: any) =>
+        contact.user.id === id ? { ...contact, iamFollowing: true } : contact,
+      ),
+    );
   };
 
-  const handleContinue = async () => {
-    await viewedConnectScreen();
-    navigation.navigate('SearchInterests');
-  };
+  const renderFollowButton = (item: any) => {
+    let buttonText, buttonColor, textColor, handlePress;
 
-  const handleSkip = async () => {
-    await viewedConnectScreen();
-    navigation.navigate('SearchInterests');
-  };
-
-  const renderFollowButton = status => {
-    let buttonText, buttonColor, textColor;
-
-    switch (status) {
-      case 'following':
-        buttonText = 'Following';
-        buttonColor = '#FBF7FF';
-        textColor = '#6500E0';
-        break;
-      case 'mutual':
-        buttonText = 'Follow back';
-        buttonColor = '#6500E0';
-        textColor = 'white';
-        break;
-      default:
-        buttonText = 'Follow';
-        buttonColor = '#6500E0';
-        textColor = 'white';
+    if (item.iamFollowing) {
+      buttonText = 'Following';
+      buttonColor = 'white';
+      textColor = '#6500E0';
+    } else if (item.following) {
+      buttonText = 'Follow back';
+      buttonColor = 'primary';
+      textColor = 'white';
+      handlePress = async () => {
+        await handleFollowUser(item.user.id);
+      };
+    } else {
+      buttonText = 'Follow';
+      buttonColor = 'primary';
+      textColor = 'white';
+      handlePress = async () => {
+        await handleFollowUser(item.user.id);
+      };
     }
 
     return (
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={handlePress}
         style={{
           backgroundColor: buttonColor,
           paddingHorizontal: RFValue(16),
@@ -156,33 +173,42 @@ const FindFriendsFromContacts = () => {
     );
   };
 
-  const renderContactItem = ({ item }: any) => (
-    <Box
-      flexDirection="row"
-      alignItems="center"
-      justifyContent="space-between"
-      padding="sm"
-      borderBottomWidth={1}
-      borderBottomColor="primaryGrey">
-      <Box flexDirection="row" alignItems="center" flex={1}>
-        <Image
-          source={{
-            uri: item.thumbnailPath || 'https://via.placeholder.com/50',
-          }}
-          style={{ width: 50, height: 50, borderRadius: 25 }}
-        />
-        <Box marginLeft="sm" flex={1}>
-          <Text
-            variant="regular16"
-            numberOfLines={1}>{`${item.givenName} ${item.familyName}`}</Text>
-          <Text variant="regular14" color="black" mt="xs" numberOfLines={1}>
-            {item.phoneNumbers[0]?.number || 'No number'}
-          </Text>
+  const renderContactItem = ({ item }: any) => {
+    if (!item.user) {
+      return null;
+    }
+
+    return (
+      <Box
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+        padding="sm"
+        borderBottomWidth={1}
+        borderBottomColor="primaryGrey">
+        <Box flexDirection="row" alignItems="center" flex={1}>
+          <Image
+            source={{
+              uri:
+                item.user?.profilePicture || 'https://via.placeholder.com/50',
+            }}
+            style={{ width: 50, height: 50, borderRadius: 25 }}
+          />
+          <Box marginLeft="sm" flex={1}>
+            <Text
+              variant="regular16"
+              numberOfLines={
+                1
+              }>{`${item.user?.firstName} ${item.user?.lastName}`}</Text>
+            <Text variant="regular14" color="black" mt="xs" numberOfLines={1}>
+              {item.user?.phoneNumber}
+            </Text>
+          </Box>
         </Box>
+        {renderFollowButton(item)}
       </Box>
-      {renderFollowButton(item.status)}
-    </Box>
-  );
+    );
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -223,7 +249,9 @@ const FindFriendsFromContacts = () => {
           <FlatList
             data={filteredContacts}
             renderItem={renderContactItem}
-            keyExtractor={item => item?.recordID}
+            keyExtractor={(item, index) =>
+              `${index}-${item.user?.id?.toString()}`
+            }
           />
         )}
       </Box>

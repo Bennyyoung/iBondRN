@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-catch-shadow */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
@@ -16,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { maskContactInfo } from '@/utils/helpers/maskInfo';
 
-const EmailConfirmation: React.FC = () => {
+const PhoneNumberConfirmation: React.FC = () => {
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,6 +28,18 @@ const EmailConfirmation: React.FC = () => {
   const { sendOtpRequest } = useSendOtp();
   const { registrationData } = useSelector((state: RootState) => state.user);
 
+  const sendPhoneNumberOtp = async () => {
+    try {
+      await sendOtpRequest(registrationData.phoneNumber as string);
+    } catch (error: any) {
+      showErrorToast(error?.message || 'Failed to send OTP. Please try again.');
+    }
+  };
+
+  useEffect(() => {
+    sendPhoneNumberOtp();
+  }, []);
+
   const handleConfirmation = async () => {
     if (code.length !== 6) {
       setError('Please enter a 6-digit code.');
@@ -35,12 +48,12 @@ const EmailConfirmation: React.FC = () => {
       setIsSubmitting(true);
       try {
         const response = await validateOtpCode({
-          email: registrationData.email!,
+          email: registrationData.phoneNumber!,
           otp: parseInt(code, 10),
         });
 
         if (response) {
-          navigation.navigate('PhoneNumberConfirmation');
+          navigation.navigate('UsernameSelection');
         }
       } catch (error: any) {
         showErrorToast(error?.message || 'Invalid OTP, please try again.');
@@ -51,11 +64,13 @@ const EmailConfirmation: React.FC = () => {
     }
   };
 
-  const maskedContact = maskContactInfo(registrationData.email as string);
+  const maskedPhoneNumber = maskContactInfo(
+    registrationData.phoneNumber as string,
+  );
 
   const handleResend = async () => {
     setIsResending(true);
-    await sendOtpRequest(registrationData.email!);
+    await sendPhoneNumberOtp();
     setIsResending(false);
   };
 
@@ -63,13 +78,11 @@ const EmailConfirmation: React.FC = () => {
     <MainWrapper backgroundImage={background} hasBackButton={true}>
       <Box alignContent="center" justifyContent="center" mb="md">
         <Text variant="medium18" textAlign="center" mb="sml">
-          Sign up to{' '}
-          <Text variant="medium18" color="primary">
-            iBond
-          </Text>
+          Confirm your phone number
         </Text>
         <Text variant="regular12" textAlign="center" color="black" mb="lg">
-          To confirm your email address, enter the code sent to {maskedContact}
+          To confirm your phone number, enter the code sent to{' '}
+          {maskedPhoneNumber}
         </Text>
       </Box>
 
@@ -114,4 +127,4 @@ const EmailConfirmation: React.FC = () => {
   );
 };
 
-export default EmailConfirmation;
+export default PhoneNumberConfirmation;

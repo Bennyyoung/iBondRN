@@ -26,6 +26,8 @@ import { GOOGLE_AUTH_KEY } from '@env';
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { auth } from '@/utils/hooks/auth.config';
 import { RFValue } from 'react-native-responsive-fontsize';
+import useGoogleSignin from '@/utils/hooks/Auth/useGoogleSignin';
+import { GoogleSigninRequest } from '@/redux/features/auth/services.types';
 
 interface LoginFormValues {
   username: string;
@@ -39,6 +41,7 @@ const validationSchema = Yup.object().shape({
 
 const Login: React.FC = () => {
   const { logInUser, isLoading } = useLoginUser();
+  const { googleLogin, isLoading: googleLoading } = useGoogleSignin();
   const navigation = useNavigation<StackNavigationProp<any>>();
 
   React.useEffect(() => {
@@ -55,6 +58,12 @@ const Login: React.FC = () => {
         authData.data?.idToken,
       );
       await signInWithCredential(auth, googleCredentials);
+      const response = await googleLogin(authData as GoogleSigninRequest);
+
+      if (response) {
+        navigation.replace('DashboardTab');
+        return;
+      }
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         Alert.alert('Google Sign-In was cancelled');
@@ -77,18 +86,15 @@ const Login: React.FC = () => {
 
       const { user, email, fullName, identityToken } = appleAuthRequestResponse;
 
-      // Check credential state
       const credentialState = await appleAuth.getCredentialStateForUser(user);
 
       if (credentialState === appleAuth.State.AUTHORIZED) {
-        // User is authenticated, proceed with your login flow
         console.log('Apple Sign-In successful:', {
           email,
           fullName,
           identityToken,
         });
       } else {
-        // Handle other credential states
         Alert.alert('Apple Sign-In failed');
       }
     } catch (error) {
@@ -188,7 +194,8 @@ const Login: React.FC = () => {
               disabled={
                 !(values.username && values.password) ||
                 isLoading ||
-                isSubmitting
+                isSubmitting ||
+                googleLoading
               }
             />
 
@@ -232,7 +239,7 @@ const Login: React.FC = () => {
                     alignContent: 'center',
                     justifyContent: 'center',
                   }}
-                  disabled={isLoading || isSubmitting}
+                  disabled={isLoading || isSubmitting || googleLoading}
                 />
               </Box>
               {Platform.OS === 'ios' && (

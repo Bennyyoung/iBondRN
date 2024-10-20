@@ -23,6 +23,7 @@ interface SignUpFormValues {
   lastName: string;
   gender: string;
   dateOfBirth: string;
+  phoneNumber: string;
   email: string;
   referralCode: string;
 }
@@ -30,6 +31,10 @@ interface SignUpFormValues {
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
   lastName: Yup.string().required('Last Name is required'),
+  phoneNumber: Yup.string()
+    .required('Phone number is required')
+    .matches(/^[0-9]+$/, 'Phone number must only contain digits')
+    .length(11, 'Phone number must be exactly 11 digits'),
   gender: Yup.string().required('Gender is required'),
   dateOfBirth: Yup.string()
     .required('Date of Birth is required')
@@ -59,6 +64,7 @@ const SignUp: React.FC = () => {
       updateRegistrationData({
         firstName: values.firstName,
         lastName: values.lastName,
+        phoneNumber: `+234${values.phoneNumber.slice(-10)}`,
         gender: values.gender.toLowerCase() === 'male' ? 'MALE' : 'FEMALE',
         dob: values.dateOfBirth,
         email: values.email,
@@ -71,8 +77,6 @@ const SignUp: React.FC = () => {
       navigation.navigate('EmailConfirmation');
     }
 
-    // Remove
-    // navigation.navigate('EmailConfirmation');
     setSubmitting(false);
   };
 
@@ -82,6 +86,7 @@ const SignUp: React.FC = () => {
         initialValues={{
           firstName: '',
           lastName: '',
+          phoneNumber: '',
           gender: '',
           dateOfBirth: '',
           email: '',
@@ -175,6 +180,16 @@ const SignUp: React.FC = () => {
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               error={touched.email && errors.email}
+            />
+
+            <CustomInput
+              label="Phone number"
+              value={values.phoneNumber}
+              onChangeText={handleChange('phoneNumber')}
+              onBlur={handleBlur('phoneNumber')}
+              max={11}
+              keyboardType="phone-pad"
+              error={touched.phoneNumber && errors.phoneNumber}
             />
 
             <CustomInput

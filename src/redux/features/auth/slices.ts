@@ -91,6 +91,38 @@ export const userSlice = createSlice({
       state.isAuthenticated = false;
     });
 
+    // Handle google signin process
+    builder.addMatcher(
+      iBondMobileApi.endpoints.googleSignin.matchPending,
+      state => {
+        state.status = 'login';
+      },
+    );
+
+    builder.addMatcher(
+      iBondMobileApi.endpoints.googleSignin.matchFulfilled,
+      (state, { payload }) => {
+        const userData = payload.data;
+        if (userData.token) {
+          state.status = 'login-success';
+          state.isAuthenticated = true;
+          state.userData = userData;
+          state.token = userData.token;
+        } else {
+          state.status = 'login-error';
+          state.isAuthenticated = false;
+        }
+      },
+    );
+
+    builder.addMatcher(
+      iBondMobileApi.endpoints.googleSignin.matchRejected,
+      state => {
+        state.status = 'login-error';
+        state.isAuthenticated = false;
+      },
+    );
+
     // Handle registration process
     builder.addMatcher(
       iBondMobileApi.endpoints.register.matchPending,
@@ -104,7 +136,7 @@ export const userSlice = createSlice({
       (state, { payload }) => {
         const userData = payload.data;
         state.status = 'register-success';
-        state.isAuthenticated = false;
+        state.isAuthenticated = true;
         state.userData = userData;
         state.token = userData.token;
       },
