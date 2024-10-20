@@ -16,7 +16,9 @@ const TitleBar = (props: TitleBarProps) => {
             justifyContent={'space-between'}
             alignItems={'center'}
             paddingHorizontal={'sm'}
-            style={{marginTop: 10}}
+            borderBottomWidth={0.2}
+            style={{ paddingVertical: 10, borderBottomColor: '#c6c6c8'}}
+
         >
             <SvgIcon name="leftArrowIcon" size="sm" onPress={() => navigation.goBack()} />
             {children}

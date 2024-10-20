@@ -28,16 +28,6 @@ type Placeholders = {
 type ImageUploadProps = {
     setFieldValue: (field: string, value: any, shouldValidate?: boolean) => Promise<void | FormikErrors<{
         eventPhoto: string;
-        eventTitle: string;
-        eventCategory: string;
-        eventDate: string;
-        startTime: string;
-        endTime: string;
-        eventType: '',
-        location: '',
-        eventPrivacy: '',
-        group: '',
-        otherDetails: string;
     }>>
     error?: string | boolean;
     placeholders: Placeholders

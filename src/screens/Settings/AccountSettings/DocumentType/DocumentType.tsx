@@ -10,13 +10,14 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import TitleBar from '@/components/TitleBar/TitleBar';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamsList } from '@/navigation/types';
+import { SvgIcon } from '@/assets/icons';
+import VerificationRadioItems from '@/components/VerificationRadioItems/VerificationRadioItems';
 
 const { width, height } = Dimensions.get('window');
 
-interface VerificationItemProps {
-  icon: React.ReactNode;
-  title: string;
-}
+
 
 const slides = [
   {
@@ -25,8 +26,8 @@ const slides = [
     description: 'Please choose the ID document you have on hand.',
     options: [
       {
-        id: 1,
-        icon: <RadioIcon width={45} height={45} marginTop={30} />,
+        id: '1a',
+        icon: <SvgIcon name="card" size="sml" />,
         title: 'School ID'
       }
     ]
@@ -37,53 +38,38 @@ const slides = [
     description: 'Please choose the ID document you have on hand.',
     options: [
       {
-        id: 1,
-        icon: <RadioIcon width={45} height={45} marginTop={30} />,
+        id: '2a',
+        icon: <SvgIcon name="card" size="sml" />,
         title: 'Passport'
       },
       {
-        id: 2,
-        icon: <RadioIcon width={45} height={45} marginTop={30} />,
+        id: '2b',
+        icon: <SvgIcon name="card" size="sml" />,
         title: 'National ID'
       },
       {
-        id: 3,
-        icon: <RadioIcon width={45} height={45} marginTop={30} />,
+        id: '2c',
+        icon: <SvgIcon name="card" size="sml" />,
         title: "Driver's License"
       },
       {
-        id: 4,
-        icon: <RadioIcon width={45} height={45} marginTop={30} />,
+        id: '2d',
+        icon: <SvgIcon name="card" size="sml" />,
         title: "Voter's Card"
       },
     ]
   }
 ]
 
-const VerificationItem: React.FC<VerificationItemProps> = ({ icon, title }) => {
-  const [checked, setChecked] = useState(false);
-
-  return (
-    <Box style={styles.item}>
-      <Box style={styles.iconContainer}>{icon}</Box>
-      <Box style={styles.textContainer}>
-        <Text style={styles.itemTitle}>{title}</Text>
-      </Box>
-      <TouchableOpacity onPress={() => setChecked(!checked)}>
-        {checked ? (
-          <RadioButtonCheckedIcon width={25} height={25} />
-        ) : (
-          <RadioButtonUncheckedIcon width={25} height={25} />
-        )}
-      </TouchableOpacity>
-    </Box>
-  );
-};
-
 const DocumentType = () => {
-  const navigation = useNavigation()
+  const [selectedPreference, setSelectedPreference] = useState<number | string | null>(null)
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>()
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollViewRef = useRef<ScrollView | null>(null); // Reference for ScrollView
+
+  const handlePreferenceChange = (id: string | React.SetStateAction<number | string | null>) => {
+    setSelectedPreference(id)
+  }
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
@@ -136,13 +122,13 @@ const DocumentType = () => {
 
               <Box style={[styles.formContainer, { marginTop: 50 }]}>
                 {slide.options.map((option) => (
-                  <>
-                    <VerificationItem
-                      key={option.id}
-                      icon={option.icon}
-                      title={option.title}
-                    />
-                  </>
+                  <VerificationRadioItems
+                    key={option.id}
+                    icon={option.icon}
+                    title={option.title}
+                    checked={selectedPreference === option.id}
+                    onPress={() => handlePreferenceChange(option.id)}
+                  />
                 ))}
               </Box>
             </Box>
@@ -173,7 +159,7 @@ const DocumentType = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: width,
+    width: width * 0.95,
     backgroundColor: '#fff',
   },
   mainTitleContainer: {
@@ -202,19 +188,25 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
   },
   iconContainer: {
     marginRight: 10,
+    backgroundColor: 'purple'
   },
   textContainer: {
     flex: 1,
   },
   itemTitle: {
-    fontSize: 16,
-    color: '#333',
+    fontSize: RFValue(16, height),
+    color: '#151619',
+    backgroundColor: '#fff',
+    marginLeft: 10,
+    lineHeight: 21,
+    letterSpacing: -0.31
   },
   buttonContainer: {
-    // position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,

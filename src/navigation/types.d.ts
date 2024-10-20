@@ -74,6 +74,7 @@ export type AppNavRoutes = {
   BrowseEvents: undefined;
 
   // AccountSettingsScreen
+  Settings: undefined;
   AccountSettingsScreen: undefined;
 
   ProfileScreen: undefined;
@@ -90,7 +91,7 @@ export type AppNavRoutes = {
   NewFollowersScreen: undefined;
   SharesLikesRepostsScreen: undefined;
   ProfileViewsScreen: undefined;
-  MessagingScreen: undefined; 
+  MessagingScreen: undefined;
   SuggestedPostsScreen: undefined;
   PeopleYouMayKnowScreen: undefined;
   EventsSettingsScreen: undefined;
@@ -103,6 +104,29 @@ export type AppNavRoutes = {
   OtherNotificationsScreen: undefined;
   PaymentSuccessScreen: undefined;
   DocumentType: undefined;
+  SchoolID: undefined;
+  FrontID: {
+    handleConfirmTakePhoto: () => void,
+    handleUpload: (files: File[]) => Promise<void>,
+    pictureData: {
+      path: string;
+      photograph: string;
+    }
+  };
+  UploadHoldIDScreen: undefined;
+  SelfieScreen: undefined;
+  SelfieTaken: {
+    selfie: {
+      path: string;
+      photograph: string;
+    }
+    requestCameraPermission: () => Promise<void>
+  };
+  VerificationRequestSubmitted: undefined
+  FeedPreferencesScreen: undefined
+  AutoPlayScreen: undefined
+  PaymentCardsScreen: undefined
+
 };
 
 // Events

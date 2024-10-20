@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useMemo, useRef, useCallback } from 'react';
 import { StyleSheet, View, Animated, Dimensions, PanResponder } from 'react-native';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';

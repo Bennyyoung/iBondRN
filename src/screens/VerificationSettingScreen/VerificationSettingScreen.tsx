@@ -11,13 +11,15 @@ import Text from '@/components/Text';
 import SimpleBottomSheet from '@/components/SimpleBottomSheet/SimpleBottomSheet';
 import PaymentSummaryCard from '@/components/PaymentSummaryCard/PaymentSummaryCard';
 import PaymentConfirmationCard from '@/components/PaymentConfrimationCard/PaymentConfirmationCard';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamsList } from '@/navigation/types';
 
 const { height } = Dimensions.get('window');
 
 const VerificationSettingScreen = () => {
   const [isSheetVisible, setIsSheetVisible] = useState(false);
   const [isConfirmation, setIsConfirmation] = useState(false); // Track current step
-  const navigation = useNavigation(); // Initialize navigation
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>(); // Initialize navigation
 
   const handleOpenBottomSheet = () => {
     setIsSheetVisible(true);

@@ -62,8 +62,44 @@ import sticker from "@/assets/svg/sticker.svg"
 import gift from "@/assets/svg/gift.svg"
 import cameraEdit from "@/assets/svg/cameraEdit.svg"
 import iBondLogo from "@/assets/svg/iBondLogo.svg"
+import documentUpload from "@/assets/svg/documentUpload.svg"
+import badge from "@/assets/svg/badge.svg"
+import verified from "@/assets/svg/verified.svg"
+import purpleEye from "@/assets/svg/purpleEye.svg"
+import purpleTick from "@/assets/svg/purpleTick.svg"
+import purpleTickOutlined from "@/assets/svg/purpleTickOutlined.svg"
+import purpleChat from "@/assets/svg/purpleChat.svg"
+import purpleMessageQuestion from "@/assets/svg/purpleMessageQuestion.svg"
+import editBadge from "@/assets/svg/editBadge.svg"
+import card from "@/assets/svg/card.svg"
+import payment from "@/assets/svg/payment.svg"
+import radioChecked from "@/assets/svg/radioChecked.svg"
+import radioUnchecked from "@/assets/svg/radioUnchecked.svg"
+import checkmark from "@/assets/svg/checkmark.svg"
+import trash from "@/assets/svg/trash.svg"
+import mastercard from "@/assets/svg/mastercard.svg"
+import visa from "@/assets/svg/visa.svg"
+import add from "@/assets/svg/add.svg"
 
 const svgIconPack = {
+  add,
+  visa,
+  mastercard,
+  trash,
+  checkmark,
+  radioUnchecked,
+  radioChecked,
+  payment,
+  card,
+  editBadge,
+  purpleMessageQuestion,
+  purpleTickOutlined,
+  purpleTick,
+  purpleChat,
+  purpleEye,
+  verified,
+  badge,
+  documentUpload,
   iBondLogo,
   gift,
   sticker,

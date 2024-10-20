@@ -62,6 +62,16 @@ import AppUpdateScreen from '@/screens/Settings/Notifications/AppUpdateScreen/Ap
 import OtherNotificationsScreen from '@/screens/Settings/Notifications/OtherNotificationsScreen/OtherNotificationsScreen';
 import PaymentSuccessScreen from '@/screens/PaymentSuccessScreen/PaymentSuccessScreen';
 import DocumentType from '@/screens/Settings/AccountSettings/DocumentType/DocumentType';
+import SchoolID from '@/screens/Settings/AccountSettings/SchoolID/SchoolID';
+import FrontID from '@/screens/Settings/AccountSettings/SchoolID/FrontID/FrontID';
+import UploadHoldIDScreen from '@/screens/Settings/AccountSettings/SchoolID/UploadHoldIDScreen/UploadHoldIDScreen';
+import SelfieScreen from '@/screens/Settings/AccountSettings/SelfieScreen/SelfieScreen';
+import SelfieTaken from '@/screens/Settings/AccountSettings/SelfieScreen/SelfieTaken/SelfieTaken';
+import Settings from '@/screens/Settings/Settings';
+import VerificationRequestSubmitted from '@/screens/Settings/AccountSettings/VerificationRequestSubmitted/VerificationRequestSubmitted';
+import FeedPreferencesScreen from '@/screens/Settings/AccountSettings/FeedPreferencesScreen/FeedPreferencesScreen';
+import AutoPlayScreen from '@/screens/Settings/AccountSettings/AutoPlayScreen/AutoPlayScreen';
+import PaymentCardsScreen from '@/screens/Settings/AccountSettings/PaymentCardsScreen/PaymentCardsScreen';
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
 
@@ -79,6 +89,7 @@ function AuthenticatedStack() {
       <Stack.Screen component={BrowseEvents} name='BrowseEvents' />
       <Stack.Screen component={CreateEvents} name='CreateEvents' />
       <Stack.Screen component={EventDetailScreen} name='EventDetailScreen' />
+      <Stack.Screen component={Settings} name='Settings' />
       <Stack.Screen component={AccountSettingsScreen} name='AccountSettingsScreen' />
       <Stack.Screen component={ProfileScreen} name='ProfileScreen' />
       <Stack.Screen component={EditProfileScreen} name='EditProfileScreen' />
@@ -106,6 +117,15 @@ function AuthenticatedStack() {
       <Stack.Screen component={OtherNotificationsScreen} name='OtherNotificationsScreen' />
       <Stack.Screen component={PaymentSuccessScreen} name='PaymentSuccessScreen' />
       <Stack.Screen component={DocumentType} name='DocumentType' />
+      <Stack.Screen component={SchoolID} name='SchoolID' />
+      <Stack.Screen component={FrontID} name='FrontID' />
+      <Stack.Screen component={UploadHoldIDScreen} name='UploadHoldIDScreen' />
+      <Stack.Screen component={SelfieScreen} name='SelfieScreen' />
+      <Stack.Screen component={SelfieTaken} name='SelfieTaken' />
+      <Stack.Screen component={VerificationRequestSubmitted} name='VerificationRequestSubmitted' />
+      <Stack.Screen component={FeedPreferencesScreen} name='FeedPreferencesScreen' />
+      <Stack.Screen component={AutoPlayScreen} name='AutoPlayScreen' />
+      <Stack.Screen component={PaymentCardsScreen} name='PaymentCardsScreen' />
       <Stack.Screen
         component={FindFriendsFromContacts}
         name="FindFriendsFromContacts"

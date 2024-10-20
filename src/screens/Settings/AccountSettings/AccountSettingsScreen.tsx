@@ -25,8 +25,8 @@ const accountSettingsOptions = [
     section: 'Content Management',
     options: [
       { id: 4, title: 'Feed preferences', link: 'FeedPreferencesScreen' },
-      { id: 5, title: 'Interests', link: 'InterestsScreen' },
-      { id: 6, title: 'Autoplay', link: 'AutoplayScreen' },
+      { id: 5, title: 'Interests', link: 'SearchInterests' },
+      { id: 6, title: 'Autoplay', link: 'AutoPlayScreen' },
     ],
   },
   {
