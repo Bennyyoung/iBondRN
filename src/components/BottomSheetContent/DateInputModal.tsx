@@ -45,7 +45,7 @@ const DateInputModal: React.FC<DateInputModalProps> = ({
         <DateTimePicker
           value={selectedDate}
           mode="date"
-          display="spinner"
+          display="default"
           onChange={onChange}
           maximumDate={maximumDate}
           minimumDate={minimumDate}
@@ -71,7 +71,9 @@ const DateInputModal: React.FC<DateInputModalProps> = ({
         <Box width="45%">
           <CustomButton
             alignItems="center"
-            backgroundColor="grey"
+            backgroundColor="white"
+            borderWidth={1}
+            borderColor="primary"
             borderRadius="sm"
             justifyContent="center"
             label="CANCEL"

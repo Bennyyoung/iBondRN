@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { TouchableOpacity, Platform } from 'react-native';
+import { TouchableOpacity, Platform, Alert } from 'react-native';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import CustomInput from '@/components/CustomInput';
@@ -14,6 +14,20 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import useLoginUser from '@/utils/hooks/Auth/useLogin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {
+  AppleButton,
+  appleAuth,
+} from '@invertase/react-native-apple-authentication';
+import { GOOGLE_AUTH_KEY } from '@env';
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import { auth } from '@/utils/hooks/auth.config';
+import { RFValue } from 'react-native-responsive-fontsize';
+import useGoogleSignin from '@/utils/hooks/Auth/useGoogleSignin';
+import { GoogleSigninRequest } from '@/redux/features/auth/services.types';
 
 interface LoginFormValues {
   username: string;
@@ -27,7 +41,67 @@ const validationSchema = Yup.object().shape({
 
 const Login: React.FC = () => {
   const { logInUser, isLoading } = useLoginUser();
+  const { googleLogin, isLoading: googleLoading } = useGoogleSignin();
   const navigation = useNavigation<StackNavigationProp<any>>();
+
+  React.useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: GOOGLE_AUTH_KEY,
+    });
+  }, []);
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const authData = await GoogleSignin.signIn();
+      const googleCredentials = GoogleAuthProvider.credential(
+        authData.data?.idToken,
+      );
+      await signInWithCredential(auth, googleCredentials);
+      const response = await googleLogin(authData as GoogleSigninRequest);
+
+      if (response) {
+        navigation.replace('DashboardTab');
+        return;
+      }
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        Alert.alert('Google Sign-In was cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        Alert.alert('Sign-In in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        Alert.alert('Google Play Services not available');
+      } else {
+        // console.error(error);
+      }
+    }
+  };
+
+  const handleAppleSignIn = async () => {
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      const { user, email, fullName, identityToken } = appleAuthRequestResponse;
+
+      const credentialState = await appleAuth.getCredentialStateForUser(user);
+
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        console.log('Apple Sign-In successful:', {
+          email,
+          fullName,
+          identityToken,
+        });
+      } else {
+        Alert.alert('Apple Sign-In failed');
+      }
+    } catch (error) {
+      console.error('Apple Sign-In error:', error);
+      Alert.alert('Apple Sign-In failed');
+    }
+  };
 
   const handleLogin = async (
     values: LoginFormValues,
@@ -120,7 +194,8 @@ const Login: React.FC = () => {
               disabled={
                 !(values.username && values.password) ||
                 isLoading ||
-                isSubmitting
+                isSubmitting ||
+                googleLoading
               }
             />
 
@@ -144,13 +219,16 @@ const Login: React.FC = () => {
               <SvgIcon name="authLine" size="xl" />
             </Box>
 
-            <Box flexDirection="row" justifyContent="space-between">
+            <Box
+              flexDirection="row"
+              justifyContent="space-between"
+              alignContent="center">
               <Box width={Platform.OS === 'ios' ? '48%' : '100%'}>
                 <CustomButton
                   label="Google"
                   iconName="googleIcon"
                   iconSize="sm"
-                  onPress={() => {}}
+                  onPress={handleGoogleSignIn}
                   backgroundColor="white"
                   labelProps={{ color: 'black', variant: 'medium14' }}
                   borderRadius="smm"
@@ -161,27 +239,21 @@ const Login: React.FC = () => {
                     alignContent: 'center',
                     justifyContent: 'center',
                   }}
-                  isLoading={isLoading || isSubmitting}
-                  disabled={isLoading || isSubmitting}
+                  disabled={isLoading || isSubmitting || googleLoading}
                 />
               </Box>
               {Platform.OS === 'ios' && (
                 <Box width="48%">
-                  <CustomButton
-                    label="Apple"
-                    iconName="appleIcon"
-                    iconSize="sm"
-                    onPress={() => {}}
-                    backgroundColor="black"
-                    labelProps={{ color: 'white', variant: 'medium14' }}
-                    borderRadius="smm"
-                    paddingVertical="xs"
+                  <AppleButton
+                    buttonStyle={AppleButton.Style.BLACK}
+                    buttonType={AppleButton.Type.SIGN_IN}
                     style={{
                       alignContent: 'center',
                       justifyContent: 'center',
+                      width: '100%',
+                      height: RFValue(41),
                     }}
-                    isLoading={isLoading || isSubmitting}
-                    disabled={isLoading || isSubmitting}
+                    onPress={handleAppleSignIn}
                   />
                 </Box>
               )}

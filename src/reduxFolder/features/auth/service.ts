@@ -11,6 +11,8 @@ import {
   ValidateUsernameResponse,
   ConnectUsersResponse,
   UpdateUserInterests,
+  ConnectUsersRequest,
+  GoogleSigninRequest,
 } from './services.types';
 
 export const iBondMobileApi = api.injectEndpoints({
@@ -67,17 +69,32 @@ export const iBondMobileApi = api.injectEndpoints({
         method: 'GET',
       }),
     }),
-    connectUsers: build.query<ConnectUsersResponse, null>({
-      query: () => ({
+    connectUsers: build.mutation<ConnectUsersResponse, ConnectUsersRequest>({
+      query: connectRequest => ({
         url: paths.connectUsers,
-        method: 'GET',
+        method: 'POST',
+        body: connectRequest,
       }),
     }),
     updateUserInterests: build.mutation<AuthResponse, UpdateUserInterests>({
       query: interests => ({
         url: paths.updateInterests,
-        method: 'POST',
+        method: 'PUT',
         body: interests,
+      }),
+    }),
+    followUser: build.mutation<GeneralResponseType, number>({
+      query: userId => ({
+        url: paths.followUser(userId),
+        method: 'PUT',
+        body: {},
+      }),
+    }),
+    googleSignin: build.mutation<AuthResponse, GoogleSigninRequest>({
+      query: credentials => ({
+        url: paths.googleSignin,
+        method: 'POST',
+        body: credentials,
       }),
     }),
   }),
@@ -92,6 +109,8 @@ export const {
   useValidateTokenMutation,
   useValidateUsernameMutation,
   useValidateAccountMutation,
-  useConnectUsersQuery,
+  useConnectUsersMutation,
   useUpdateUserInterestsMutation,
+  useFollowUserMutation,
+  useGoogleSigninMutation,
 } = iBondMobileApi;

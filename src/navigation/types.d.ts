@@ -6,6 +6,7 @@ export type AppNavRoutes = {
   Login: undefined;
   ForgotPassword: undefined;
   EmailConfirmation: undefined;
+  PhoneNumberConfirmation: undefined;
   PasswordCreation: undefined;
   UsernameSelection: undefined;
   ForgotPasswordConfirmation: undefined;

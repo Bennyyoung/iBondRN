@@ -12,7 +12,7 @@ export type RegisterRequest = {
   dob: string;
   username: string;
   address: string;
-  phone?: string;
+  phoneNumber: string;
   profilePicture: string;
   location: string;
   closeSchool: string;
@@ -211,12 +211,56 @@ export type ValidateUsernameResponse = {
   };
 };
 
+export type ConnectUsersRequest = {
+  phoneNumbers: string[];
+  page: number;
+  limit: number;
+  sortBy: string;
+  sortDirection: 'DESC' | 'ASC';
+};
+
 export type ConnectUsersResponse = {
   status: number;
   message: string;
-  data: string[];
+  data: {
+    iamFollowing: boolean;
+    user: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      phoneNumber: string;
+      profilePicture: string;
+      username: string;
+      userType: string;
+      closeSchool: string;
+      location: string;
+      department: string;
+      faculty: string;
+      level: string;
+      school: string;
+    };
+    following: boolean;
+    signedUp: boolean;
+  }[];
 };
 
 export type UpdateUserInterests = {
   interests: string[];
+};
+
+export type GoogleSigninRequest = {
+  data: {
+    idToken: string;
+    scopes: string[];
+    serverAuthCode: {};
+    user: {
+      email: string;
+      familyName: string;
+      givenName: string;
+      id: string;
+      name: string;
+      photo: string;
+    };
+  };
+  type: string;
 };

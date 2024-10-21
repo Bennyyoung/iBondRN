@@ -1,16 +1,14 @@
 import { showErrorToast } from '@/utils/helpers/toastHelper';
-import { useConnectUsersQuery } from '@/reduxFolder/features/auth/service';
+import { useConnectUsersMutation } from '@/reduxFolder/features/auth/service';
+import { ConnectUsersRequest } from '@/reduxFolder/features/auth/services.types';
 
 const useConnectUsers = () => {
-  const { data, isLoading, isError } = useConnectUsersQuery(null);
+  const [connectUsers, { isLoading, isError }] = useConnectUsersMutation();
 
-  const fetchConnectedUsers = async () => {
+  const fetchConnectedUsers = async (connectRequest: ConnectUsersRequest) => {
     try {
-      if (data) {
-        return data;
-      } else {
-        throw new Error('Failed to fetch connected users');
-      }
+      const response = await connectUsers(connectRequest).unwrap();
+      return response;
     } catch (err: any) {
       showErrorToast(
         err?.data?.message ||

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "82867885870",
+    "project_id": "ibondelite-b4d13",
+    "storage_bucket": "ibondelite-b4d13.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82867885870:android:3d15d7e366172f262f4cbf",
+        "android_client_info": {
+          "package_name": "com.ibondmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "82867885870-bt7hearkt6ern1a642t1m2hvfitd43qe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ibondmobile",
+            "certificate_hash": "ee0a1cfa0e9b378575f68ef313553c884aecf5bb"
+          }
+        },
+        {
+          "client_id": "82867885870-vn73d62gpofc3agl09pbnsun71vjdh7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQlsy3iT3ylAdq0scMdWV7krY6BMD_6Ts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "82867885870-vn73d62gpofc3agl09pbnsun71vjdh7h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "82867885870-j7iddrg4lnm0651j1ijv8l6hihti6lbe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ibondmobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

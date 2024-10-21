@@ -2,7 +2,7 @@ import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
 import { RegisterRequest } from '@/reduxFolder/features/auth/services.types';
 import { useRegisterMutation } from '@/reduxFolder/features/auth/service';
 import { useDispatch } from 'react-redux';
-import { updateNewUser } from '@/reduxFolder/features/auth/slices';
+import { setUserData } from '@/reduxFolder/features/auth/slices';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,10 +17,12 @@ const useRegisterUser = () => {
       const response = await register(data).unwrap();
       // console.log(response, 'The response did got here');
 
-      if (response && response.status === 201) {
-        dispatch(updateNewUser(true));
+      if (response && response.status === 200) {
+        dispatch(setUserData(response.data));
         await AsyncStorage.setItem('@newlyregistered', 'true');
         await AsyncStorage.setItem('@shouldupdateinterests', 'true');
+        navigation.navigate('FindFriendsFromContacts');
+
         showSuccessToast('Registration successful');
         return true;
       } else {

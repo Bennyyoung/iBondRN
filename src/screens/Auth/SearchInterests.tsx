@@ -12,6 +12,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { SearchBar } from '@/components/SearchBar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useUpdateUserInterests from '@/utils/hooks/Auth/useUpdateUserInterests';
+import InterestDropdown from './components/SearchBarDropdown';
 
 const interestsList = [
   'Politics',
@@ -41,6 +42,7 @@ const SearchInterests = () => {
   const [searchInput, setSearchInput] = useState('');
   const [filteredInterests, setFilteredInterests] = useState(interestsList);
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const { updateInterests, isLoading } = useUpdateUserInterests();
 
@@ -50,8 +52,10 @@ const SearchInterests = () => {
         interest.toLowerCase().includes(searchInput.toLowerCase()),
       );
       setFilteredInterests(filtered);
+      setDropdownVisible(true);
     } else {
       setFilteredInterests(interestsList);
+      setDropdownVisible(false);
     }
   }, [searchInput]);
 
@@ -65,6 +69,8 @@ const SearchInterests = () => {
     } else if (selectedInterests.length < 20) {
       setSelectedInterests([...selectedInterests, interest]);
     }
+    setDropdownVisible(false);
+    setSearchInput('');
   };
 
   const viewedInterestsScreen = async () => {
@@ -161,6 +167,12 @@ const SearchInterests = () => {
           paddingHorizontal={RFValue(16)}
           height={RFValue(50)}
         />
+        {dropdownVisible && filteredInterests.length > 0 && (
+          <InterestDropdown
+            interests={filteredInterests}
+            onInterestSelect={handleInterestSelect}
+          />
+        )}
         <Text variant="medium16" mt="md" mb="sm">
           Your interests
         </Text>

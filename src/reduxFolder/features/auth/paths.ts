@@ -1,5 +1,6 @@
 export default {
   login: 'auth/auth/login',
+  googleSignin: 'auth/auth/google-signin',
   sendOtp: (email: string) => `auth/auth/send-otp?email=${email}`,
   register: 'auth/auth/register',
   forgotPassword: 'auth/auth/forgot-password',
@@ -11,4 +12,5 @@ export default {
     `auth/auth/validate-account?emailOrPhoneNumber=${emailOrPhoneNumber}`,
   connectUsers: 'auth/users/by-phone-numbers',
   updateInterests: 'auth/users/set-interests',
+  followUser: (userId: number) => `auth/users/${userId}/follow`,
 };

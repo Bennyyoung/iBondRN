@@ -16,12 +16,14 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
 import { updateRegistrationData } from '@/reduxFolder/features/auth/slices';
 import useSendOtp from '@/utils/hooks/Auth/useSendOtp';
+import moment from 'moment';
 
 interface SignUpFormValues {
   firstName: string;
   lastName: string;
   gender: string;
   dateOfBirth: string;
+  phoneNumber: string;
   email: string;
   referralCode: string;
 }
@@ -29,8 +31,22 @@ interface SignUpFormValues {
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
   lastName: Yup.string().required('Last Name is required'),
+  phoneNumber: Yup.string()
+    .required('Phone number is required')
+    .matches(/^[0-9]+$/, 'Phone number must only contain digits')
+    .length(11, 'Phone number must be exactly 11 digits'),
   gender: Yup.string().required('Gender is required'),
-  dateOfBirth: Yup.string().required('Date of Birth is required'),
+  dateOfBirth: Yup.string()
+    .required('Date of Birth is required')
+    .test(
+      'is-18-years-old',
+      'You must be at least 18 years old',
+      function (value) {
+        const today = moment();
+        const dateOfBirth = moment(value, 'YYYY-MM-DD');
+        return today.diff(dateOfBirth, 'years') >= 18;
+      },
+    ),
   email: Yup.string().email('Invalid email').required('Email is required'),
   referralCode: Yup.string(),
 });
@@ -48,6 +64,7 @@ const SignUp: React.FC = () => {
       updateRegistrationData({
         firstName: values.firstName,
         lastName: values.lastName,
+        phoneNumber: `+234${values.phoneNumber.slice(-10)}`,
         gender: values.gender.toLowerCase() === 'male' ? 'MALE' : 'FEMALE',
         dob: values.dateOfBirth,
         email: values.email,
@@ -60,8 +77,6 @@ const SignUp: React.FC = () => {
       navigation.navigate('EmailConfirmation');
     }
 
-    // Remove
-    // navigation.navigate('EmailConfirmation');
     setSubmitting(false);
   };
 
@@ -71,6 +86,7 @@ const SignUp: React.FC = () => {
         initialValues={{
           firstName: '',
           lastName: '',
+          phoneNumber: '',
           gender: '',
           dateOfBirth: '',
           email: '',
@@ -164,6 +180,16 @@ const SignUp: React.FC = () => {
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               error={touched.email && errors.email}
+            />
+
+            <CustomInput
+              label="Phone number"
+              value={values.phoneNumber}
+              onChangeText={handleChange('phoneNumber')}
+              onBlur={handleBlur('phoneNumber')}
+              max={11}
+              keyboardType="phone-pad"
+              error={touched.phoneNumber && errors.phoneNumber}
             />
 
             <CustomInput

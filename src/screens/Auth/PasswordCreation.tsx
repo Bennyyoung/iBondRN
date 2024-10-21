@@ -26,7 +26,7 @@ const PasswordCreation: React.FC = () => {
   const handleContinue = () => {
     if (password && !validatePassword(password)) {
       setError(
-        'Password must be at least 8 characters long, include letters, numbers, and special symbols',
+        'Password must be at least 8 characters long and include uppercase and lowercase letters, numbers, and special symbols.',
       );
       return;
     }

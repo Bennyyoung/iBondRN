@@ -73,6 +73,8 @@ import FeedPreferencesScreen from '@/screens/Settings/AccountSettings/FeedPrefer
 import AutoPlayScreen from '@/screens/Settings/AccountSettings/AutoPlayScreen/AutoPlayScreen';
 import PaymentCardsScreen from '@/screens/Settings/AccountSettings/PaymentCardsScreen/PaymentCardsScreen';
 import WithdrawalBankScreen from '@/screens/Settings/AccountSettings/WithdrawalBankScreen/WithdrawalBankScreen';
+import PhoneNumberConfirmation from '@/screens/Auth/PhoneNumberConfirmation';
+
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
 
@@ -185,8 +187,11 @@ function UnauthenticatedStack() {
       )}
       {/* <Stack.Screen component={Login} name="Login" />
       <Stack.Screen component={ForgotPassword} name="ForgotPassword" />
-      <Stack.Screen component={EmailConfirmation} name="EmailConfirmation" />
-      <Stack.Screen component={AuthLanding} name="AuthLanding" /> */}
+      <Stack.Screen component={EmailConfirmation} name="EmailConfirmation" /> */}
+      <Stack.Screen
+        component={PhoneNumberConfirmation}
+        name="PhoneNumberConfirmation"
+      />
       <Stack.Screen component={UsernameSelection} name="UsernameSelection" />
       <Stack.Screen component={PasswordCreation} name="PasswordCreation" />
       <Stack.Screen

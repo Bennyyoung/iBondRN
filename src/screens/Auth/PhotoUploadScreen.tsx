@@ -199,7 +199,6 @@ const PhotoUploadScreen = () => {
       });
 
       if (result.data) {
-        // console.log('Actually stepped into here');
         dispatch(
           updateRegistrationData({
             profilePicture: result.data.data[0].fileUrl,
@@ -292,8 +291,10 @@ const PhotoUploadScreen = () => {
         right={0}
         paddingHorizontal="md">
         <CustomButton
-          label="Add a Photo"
-          onPress={handleRegister}
+          label={
+            pictureData?.photograph ? 'Complete Registration' : 'Add a Photo'
+          }
+          onPress={pictureData?.photograph ? handleRegister : handleAddPhoto}
           backgroundColor="primary"
           labelProps={{ color: 'white', variant: 'regular14' }}
           borderRadius="smm"
