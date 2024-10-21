@@ -72,6 +72,7 @@ import VerificationRequestSubmitted from '@/screens/Settings/AccountSettings/Ver
 import FeedPreferencesScreen from '@/screens/Settings/AccountSettings/FeedPreferencesScreen/FeedPreferencesScreen';
 import AutoPlayScreen from '@/screens/Settings/AccountSettings/AutoPlayScreen/AutoPlayScreen';
 import PaymentCardsScreen from '@/screens/Settings/AccountSettings/PaymentCardsScreen/PaymentCardsScreen';
+import WithdrawalBankScreen from '@/screens/Settings/AccountSettings/WithdrawalBankScreen/WithdrawalBankScreen';
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
 
@@ -126,6 +127,7 @@ function AuthenticatedStack() {
       <Stack.Screen component={FeedPreferencesScreen} name='FeedPreferencesScreen' />
       <Stack.Screen component={AutoPlayScreen} name='AutoPlayScreen' />
       <Stack.Screen component={PaymentCardsScreen} name='PaymentCardsScreen' />
+      <Stack.Screen component={WithdrawalBankScreen} name='WithdrawalBankScreen' />
       <Stack.Screen
         component={FindFriendsFromContacts}
         name="FindFriendsFromContacts"

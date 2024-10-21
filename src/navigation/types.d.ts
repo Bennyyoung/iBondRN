@@ -126,6 +126,7 @@ export type AppNavRoutes = {
   FeedPreferencesScreen: undefined
   AutoPlayScreen: undefined
   PaymentCardsScreen: undefined
+  WithdrawalBankScreen: undefined
 
 };
 

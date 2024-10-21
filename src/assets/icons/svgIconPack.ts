@@ -80,8 +80,10 @@ import trash from "@/assets/svg/trash.svg"
 import mastercard from "@/assets/svg/mastercard.svg"
 import visa from "@/assets/svg/visa.svg"
 import add from "@/assets/svg/add.svg"
+import bank from "@/assets/svg/bank.svg"
 
 const svgIconPack = {
+  bank,
   add,
   visa,
   mastercard,

@@ -7,21 +7,22 @@ import Text from "../Text";
 import Heading from "../Heading/Heading";
 import { RFValue } from "react-native-responsive-fontsize";
 import PaymentAndWithdrawalButton from "../PaymentAndWithdrawalButton/PaymentAndWithdrawalButton";
+import WithdrawalBankItem from "../WithdrawalBankItem/WithdrawalBankItem";
 
 const { height } = Dimensions.get('window')
 
-type PaymentCardsListProps = {
-    cards: {
+type WithdrawalBankListProps = {
+    banks: {
         id: string;
-        type: string;
-        lastFour: string;
+        bankName: string;
+        bankNumber: string;
         icon: React.JSX.Element;
     }[]
     onAddCard: () => void
     onDeleteCard: (cardId: string) => void
 }
 
-const PaymentCardsList = ({ cards, onAddCard, onDeleteCard }: PaymentCardsListProps) => {
+const WithdrawalBankList = ({ banks, onAddCard, onDeleteCard }: WithdrawalBankListProps) => {
     return (
         <Box style={styles.container}>
             <TitleBar>
@@ -32,10 +33,10 @@ const PaymentCardsList = ({ cards, onAddCard, onDeleteCard }: PaymentCardsListPr
             <Box padding="md">
                 <Heading>Payment cards</Heading>
 
-                {cards.map((card, index) => (
-                    <PaymentCardItem
-                        key={card.id}
-                        card={card}
+                {banks.map((bank, index) => (
+                    <WithdrawalBankItem
+                        key={bank.id}
+                        bank={bank}
                         isDefault={index === 0}
                         onDelete={onDeleteCard}
                     />
@@ -49,7 +50,7 @@ const PaymentCardsList = ({ cards, onAddCard, onDeleteCard }: PaymentCardsListPr
     );
 };
 
-export default PaymentCardsList
+export default WithdrawalBankList
 
 const styles = StyleSheet.create({
     container: {

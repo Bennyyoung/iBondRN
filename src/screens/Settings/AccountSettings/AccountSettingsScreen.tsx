@@ -34,7 +34,7 @@ const accountSettingsOptions = [
     section: 'Payments',
     options: [
       { id: 8, title: 'Payment cards', link: 'PaymentCardsScreen' },
-      { id: 9, title: 'Withdrawal Banks', link: 'WithdrawalBanksScreen' },
+      { id: 9, title: 'Withdrawal Banks', link: 'WithdrawalBankScreen' },
     ],
   },
   {
