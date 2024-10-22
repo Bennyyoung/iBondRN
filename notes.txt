@@ -7,3 +7,37 @@ In AndroidManifest.xml remember to uncomment line 39-41 when I finally get the R
 
 Study more about FindFriendsFromContacts
 
+import { useAppSelector } from '@/reduxFolder/index';
+
+  const userData = useAppSelector(state => state.user.userData)
+
+
+ LOG  userData {
+  "id": 2,
+  "firstName": "Joshua",
+  "lastName": "Adeyemo",
+  "email": "jadeyemo002@gmail.com",
+  "token": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb3NodGlja3MwMDIiLCJyb2xlcyI6IiIsImlhdCI6MTcyOTUwOTc0NiwiZXhwIjoxNzI5NTk2MTQ2fQ.pbifKgBK2wIb8EqwnDW80UE2En00JgSEuVrLxT-IyFtHMnFEny1vcgACQ0E7Z3Xs",
+  "dob": "1994-11-15",
+  "phoneNumber": "07067659632",
+  "profilePicture": "http://54.234.185.95:9000/cloud-storage/profile-picture/1000000018.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MT0KcR5qONPecbIXpozb%2F20241018%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241018T053215Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=515099e560e79949317c82afca9fdc3e9733c7d79d957d09e4a85d503de9af69",
+  "gender": "MALE",
+  "username": "joshticks002",
+  "userType": "STUDENT",
+  "school": "",
+  "interests": [],
+  "role": {
+    "id": 3,
+    "name": "STUDENT",
+    "privileges": [
+      {
+        "id": 1,
+        "name": "READ_PRIVILEGE"
+      },
+      {
+        "id": 2,
+        "name": "WRITE_PRIVILEGE"
+      }
+    ]
+  }
+}

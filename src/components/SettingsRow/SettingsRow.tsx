@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderTopColor: '#E5E5E5',
         borderBottomColor: '#E5E5E5',
-        marginTop: 40
+        marginVertical: 20
     },
     subContainer: {
         flexDirection: 'row',

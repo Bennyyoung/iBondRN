@@ -3,6 +3,7 @@ import { StyleSheet, View, Animated, Dimensions, PanResponder } from 'react-nati
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Text from '../Text';
 import Box from '../Box';
+import { SvgIcon } from '@/assets/icons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -72,7 +73,12 @@ const SimpleBottomSheet: React.FC<SimpleBottomSheetProps> = ({
         style={[styles.contentContainer, { transform: [{ translateX }] }]}
         {...panResponder.panHandlers}
       >
-        <Text style={styles.title}>{title}</Text>
+        <Box flexDirection={'row'} justifyContent={"space-between"}>
+          <SvgIcon onPress={onClose} name="closeCircle" size="sml" />
+          <Text style={styles.title}>{title}</Text>
+          <Box />
+        </Box>
+        <Box borderBottomWidth={0.3} style={{ borderBottomColor: '#c6c6c8' }} />
         <Box style={styles.content}>{content}</Box>
       </Animated.View>
     </BottomSheet>

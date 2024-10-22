@@ -1,8 +1,8 @@
 import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
-import { GoogleSigninRequest } from '@/redux/features/auth/services.types';
-import { useGoogleSigninMutation } from '@/redux/features/auth/service';
+import { GoogleSigninRequest } from '@/reduxFolder/features/auth/services.types';
+import { useGoogleSigninMutation } from '@/reduxFolder/features/auth/service';
 import { useDispatch } from 'react-redux';
-import { setUserData } from '@/redux/features/auth/slices';
+import { setUserData } from '@/reduxFolder/features/auth/slices';
 
 const useGoogleSignin = () => {
   const [login, { isLoading, isError }] = useGoogleSigninMutation();

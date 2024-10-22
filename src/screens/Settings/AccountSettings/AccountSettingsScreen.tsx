@@ -6,6 +6,8 @@ import Box from "@/components/Box";
 import { RFValue } from "react-native-responsive-fontsize";
 import SettingsRow from "@/components/SettingsRow/SettingsRow";
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { StackNavigationProp } from "@react-navigation/stack";
+import { StackParamsList } from "@/navigation/types";
 
 const { height } = Dimensions.get('window');
 
@@ -48,7 +50,7 @@ const accountSettingsOptions = [
 ];
 
 const AccountSettingsScreen = () => {
-  const navigation = useNavigation(); // Get the navigation object
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>(); // Get the navigation object
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -69,15 +71,16 @@ const AccountSettingsScreen = () => {
           {/* Render Options inside a section or individual rows */}
           {accountSetting.options
             ? accountSetting.options.map((option) => (
-                <TouchableOpacity 
-                  key={option.id} 
-                  onPress={() => navigation.navigate(option.link)} // Navigate to option.link
-                >
-                  <SettingsRow title={option.title} />
-                </TouchableOpacity>
-              ))
+              <TouchableOpacity
+                key={option.id}
+                onPress={() => navigation.navigate(option.link)} // Navigate to option.link
+              >
+                <SettingsRow title={option.title} />
+              </TouchableOpacity>
+            ))
             : (
-              <TouchableOpacity 
+              <TouchableOpacity
+                key={accountSetting.id}
                 onPress={() => navigation.navigate(accountSetting.link)} // Navigate to accountSetting.link
               >
                 <SettingsRow title={accountSetting.title} />

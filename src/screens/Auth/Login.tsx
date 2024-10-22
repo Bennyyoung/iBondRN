@@ -27,7 +27,7 @@ import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { auth } from '@/utils/hooks/auth.config';
 import { RFValue } from 'react-native-responsive-fontsize';
 import useGoogleSignin from '@/utils/hooks/Auth/useGoogleSignin';
-import { GoogleSigninRequest } from '@/redux/features/auth/services.types';
+import { GoogleSigninRequest } from '@/reduxFolder/features/auth/services.types';
 
 interface LoginFormValues {
   username: string;

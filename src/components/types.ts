@@ -57,3 +57,55 @@ export interface SwitchProps {
   value: boolean;
   onValueChange: (newValue: boolean) => void;
 }
+
+export type SecurityFieldType = 'email' | 'phone' | 'payment';
+
+export type BaseSecurityFieldItem = {
+  id: string;
+  value: string;
+  isDefault?: boolean;
+  isPrimary?: boolean;
+  isVerified?: boolean;
+  label?: string;
+  icon?: React.ReactNode;
+};
+
+export type PaymentCardDetails = BaseSecurityFieldItem & {
+  type: string;
+  lastFour: string;
+  expiryDate: string;
+  cardholderName?: string;
+};
+
+export type EmailDetails = BaseSecurityFieldItem & {
+  email: string;
+};
+
+export type PhoneDetails = BaseSecurityFieldItem & {
+  countryCode?: string;
+  phoneNumber: string;
+};
+
+export type SecurityFieldItem = PaymentCardDetails | EmailDetails | PhoneDetails;
+
+export type SecurityFieldItemProps = {
+  item: SecurityFieldItem;
+  onDelete?: (id: string) => void;
+  onVerify?: (id: string) => void;
+  onChange?: (id: string) => void;
+  onSetDefault?: (id: string) => void;
+  fieldType: SecurityFieldType;
+  showVerificationStatus?: boolean;
+};
+
+export type SecurityFieldManagerProps = {
+  items: SecurityFieldItem[];
+  onAdd?: () => void;
+  addButtonLabel?: string;
+  fieldType: SecurityFieldType;
+  showVerificationStatus?: boolean;
+  onDelete?: (id: string) => void;
+  onVerify?: (id: string) => void;
+  onChange?: (id: string) => void;
+  onSetDefault?: (id: string) => void;
+};

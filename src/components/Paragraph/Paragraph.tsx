@@ -8,23 +8,23 @@ const { height } = Dimensions.get('window')
 
 type ParagraphProps = {
     children: ReactNode
+    marginTop?: number
 }
 
-const Paragraph = ({ children }: ParagraphProps) => {
+const Paragraph = ({ children, marginTop = 10 }: ParagraphProps) => {
+    const styles = StyleSheet.create({
+        paragraph: {
+            fontWeight: '400',
+            fontSize: RFValue(16, height),
+            color: '#3D3F4B',
+            lineHeight: 21,
+            letterSpacing: -0.31,
+            marginTop: marginTop
+        }
+    })
     return (
         <Text style={styles.paragraph}>{children}</Text>
     )
 }
 
 export default Paragraph
-
-const styles = StyleSheet.create({
-    paragraph: {
-        fontWeight: '400',
-        fontSize: RFValue(16, height),
-        color: '#3D3F4B',
-        lineHeight: 21,
-        letterSpacing: -0.31,
-        marginTop: 10
-    }
-})

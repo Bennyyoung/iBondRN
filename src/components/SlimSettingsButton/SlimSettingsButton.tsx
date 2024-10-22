@@ -4,12 +4,12 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { ReactNode } from 'react'
 import { SvgIcon } from '@/assets/icons'
 
-type PaymentAndWithdrawalButtonProps = {
+type SlimSettingsButtonProps = {
     onPress: () => void
     children: ReactNode
 }
 
-const PaymentAndWithdrawalButton = ({ onPress, children }: PaymentAndWithdrawalButtonProps) => {
+const SlimSettingsButton = ({ onPress, children }: SlimSettingsButtonProps) => {
     return (
         <TouchableOpacity onPress={onPress} style={styles.addCardButton}>
             <SvgIcon name="add" size="sm" />
@@ -18,7 +18,7 @@ const PaymentAndWithdrawalButton = ({ onPress, children }: PaymentAndWithdrawalB
     )
 }
 
-export default PaymentAndWithdrawalButton
+export default SlimSettingsButton
 
 const styles = StyleSheet.create({
     addCardButton: {

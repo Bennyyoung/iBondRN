@@ -6,7 +6,7 @@ import TitleBar from "../TitleBar/TitleBar";
 import Text from "../Text";
 import Heading from "../Heading/Heading";
 import { RFValue } from "react-native-responsive-fontsize";
-import PaymentAndWithdrawalButton from "../PaymentAndWithdrawalButton/PaymentAndWithdrawalButton";
+import SlimSettingsButton from "../SlimSettingsButton/SlimSettingsButton";
 import WithdrawalBankItem from "../WithdrawalBankItem/WithdrawalBankItem";
 
 const { height } = Dimensions.get('window')
@@ -25,14 +25,7 @@ type WithdrawalBankListProps = {
 const WithdrawalBankList = ({ banks, onAddCard, onDeleteCard }: WithdrawalBankListProps) => {
     return (
         <Box style={styles.container}>
-            <TitleBar>
-                <Text style={styles.title}>Payment cards</Text>
-                <Box />
-            </TitleBar>
-
             <Box padding="md">
-                <Heading>Payment cards</Heading>
-
                 {banks.map((bank, index) => (
                     <WithdrawalBankItem
                         key={bank.id}
@@ -42,9 +35,9 @@ const WithdrawalBankList = ({ banks, onAddCard, onDeleteCard }: WithdrawalBankLi
                     />
                 ))}
 
-                <PaymentAndWithdrawalButton onPress={onAddCard}>
+                <SlimSettingsButton onPress={onAddCard}>
                     Add payment card
-                </PaymentAndWithdrawalButton>
+                </SlimSettingsButton>
             </Box>
         </Box>
     );

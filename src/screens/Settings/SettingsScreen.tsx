@@ -1,6 +1,3 @@
-
-
-
 import { useNavigation } from '@react-navigation/native';
 import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import SettingsRow from "@/components/SettingsRow/SettingsRow";
@@ -30,13 +27,13 @@ const settingsOptions: Array<{
     id: 2,
     title: 'Security',
     svgName: 'security_lock',
-    link: 'Security',
+    link: 'SecurityScreen',
   },
   {
     id: 3,
     title: 'Privacy and safety',
     svgName: 'security',
-    link: 'PrivacyAndSafety',
+    link: 'PrivacyAndSafetySettingsScreen',
   },
   {
     id: 4,

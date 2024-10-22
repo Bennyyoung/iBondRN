@@ -81,8 +81,16 @@ import mastercard from "@/assets/svg/mastercard.svg"
 import visa from "@/assets/svg/visa.svg"
 import add from "@/assets/svg/add.svg"
 import bank from "@/assets/svg/bank.svg"
+import infoCircle from "@/assets/svg/infoCircle.svg"
+import dangerRed from "@/assets/svg/dangerRed.svg"
+import dangerOrange from "@/assets/svg/dangerOrange.svg"
+import tickCircle from "@/assets/svg/tickCircle.svg"
 
 const svgIconPack = {
+  tickCircle,
+  dangerOrange,
+  dangerRed,
+  infoCircle,
   bank,
   add,
   visa,

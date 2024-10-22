@@ -14,7 +14,6 @@ const PaymentCardsScreen = () => {
     const [isSheetVisible, setIsSheetVisible] = useState(false);
 
     const handleAddCard = () => {
-        // Logic to add a new card
         setIsSheetVisible(true);
     };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -57,7 +57,7 @@ const CreditCardInputContainer = () => {
             onSubmit={handleSubmit}
         >
             {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-                <View style={styles.container}>
+                <Box style={styles.container}>
                     <CustomInput
                         label="Name on card"
                         value={values.cardName}
@@ -127,7 +127,7 @@ const CreditCardInputContainer = () => {
                     <Paragraph>
                         By tapping "Save card", you consent for your card to be securely stored and used for in-app purchase.
                     </Paragraph>
-                </View>
+                </Box>
             )}
         </Formik>
     );

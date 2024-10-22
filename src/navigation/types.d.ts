@@ -128,6 +128,13 @@ export type AppNavRoutes = {
   AutoPlayScreen: undefined
   PaymentCardsScreen: undefined
   WithdrawalBankScreen: undefined
+  AccountStatusScreen: undefined
+  DeactivateDeleteAccountScreen: undefined
+  DeactivateAccountScreen: undefined
+  DeleteAccountScreen: undefined
+  SecurityScreen: undefined
+  EmailAddressesScreen: undefined
+  PhoneNumbersScreen: undefined
 
 };
 

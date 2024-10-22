@@ -7,11 +7,12 @@ import Text from '@/components/Text'
 import TitleBar from '@/components/TitleBar/TitleBar'
 import Paragraph from '@/components/Paragraph/Paragraph'
 import { RFValue } from "react-native-responsive-fontsize";
-import PaymentAndWithdrawalButton from '@/components/PaymentAndWithdrawalButton/PaymentAndWithdrawalButton'
+import SlimSettingsButton from '@/components/SlimSettingsButton/SlimSettingsButton'
 import { SvgIcon } from '@/assets/icons'
 import CreditCardInputContainer from '@/components/CreditCardInputContainer/CreditCardInputContainer'
 import SimpleBottomSheet from '@/components/SimpleBottomSheet/SimpleBottomSheet'
 import WithdrawalBankList from '@/components/WithdrawalBankList/WithdrawalBankList'
+import WidthdrawalBankInputContainer from '@/components/WidthdrawalBankInputContainer/WidthdrawalBankInputContainer'
 
 const { height } = Dimensions.get('window')
 
@@ -54,8 +55,8 @@ const WithdrawalBankScreen = () => {
             />
 
             <SimpleBottomSheet
-                title={"Add payment card"}
-                content={<CreditCardInputContainer />}
+                title={"Add withdrawal bank"}
+                content={<WidthdrawalBankInputContainer />}
                 isVisible={isSheetVisible}
                 onClose={handleCloseBottomSheet}
             />

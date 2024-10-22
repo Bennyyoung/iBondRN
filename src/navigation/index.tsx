@@ -67,13 +67,21 @@ import FrontID from '@/screens/Settings/AccountSettings/SchoolID/FrontID/FrontID
 import UploadHoldIDScreen from '@/screens/Settings/AccountSettings/SchoolID/UploadHoldIDScreen/UploadHoldIDScreen';
 import SelfieScreen from '@/screens/Settings/AccountSettings/SelfieScreen/SelfieScreen';
 import SelfieTaken from '@/screens/Settings/AccountSettings/SelfieScreen/SelfieTaken/SelfieTaken';
-import Settings from '@/screens/Settings/Settings';
+import Settings from '@/screens/Settings/SettingsScreen';
 import VerificationRequestSubmitted from '@/screens/Settings/AccountSettings/VerificationRequestSubmitted/VerificationRequestSubmitted';
 import FeedPreferencesScreen from '@/screens/Settings/AccountSettings/FeedPreferencesScreen/FeedPreferencesScreen';
 import AutoPlayScreen from '@/screens/Settings/AccountSettings/AutoPlayScreen/AutoPlayScreen';
 import PaymentCardsScreen from '@/screens/Settings/AccountSettings/PaymentCardsScreen/PaymentCardsScreen';
 import WithdrawalBankScreen from '@/screens/Settings/AccountSettings/WithdrawalBankScreen/WithdrawalBankScreen';
 import PhoneNumberConfirmation from '@/screens/Auth/PhoneNumberConfirmation';
+import AccountStatusScreen from '@/screens/Settings/AccountSettings/AccountStatusScreen/AccountStatusScreen';
+import DeactivateDeleteAccountScreen from '@/screens/Settings/AccountSettings/DeactivateDeleteAccountScreen/DeactivateDeleteAccountScreen';
+import DeactivateAccountScreen from '@/screens/Settings/AccountSettings/DeactivateDeleteAccountScreen/DeactivateAccountScreen/DeactivateAccountScreen';
+import DeleteAccountScreen from '@/screens/Settings/AccountSettings/DeactivateDeleteAccountScreen/DeleteAccountScreen/DeleteAccountScreen';
+import SecurityScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/SecurityScreen';
+import EmailAddressesScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/EmailAddressesScreen/EmailAddressesScreen';
+import PhoneNumbersScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/PhoneNumbersScreen/PhoneNumbersScreen';
+// import SettingsScreen from '@/screens/Settings/SettingsScreen';
 
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
   StackScreenProps<AppNavRoutes, Screen>;
@@ -130,6 +138,13 @@ function AuthenticatedStack() {
       <Stack.Screen component={AutoPlayScreen} name='AutoPlayScreen' />
       <Stack.Screen component={PaymentCardsScreen} name='PaymentCardsScreen' />
       <Stack.Screen component={WithdrawalBankScreen} name='WithdrawalBankScreen' />
+      <Stack.Screen component={AccountStatusScreen} name='AccountStatusScreen' />
+      <Stack.Screen component={DeactivateDeleteAccountScreen} name='DeactivateDeleteAccountScreen' />
+      <Stack.Screen component={DeactivateAccountScreen} name='DeactivateAccountScreen' />
+      <Stack.Screen component={DeleteAccountScreen} name='DeleteAccountScreen' />
+      <Stack.Screen component={SecurityScreen} name='SecurityScreen' />
+      <Stack.Screen component={EmailAddressesScreen} name='EmailAddressesScreen' />
+      <Stack.Screen component={PhoneNumbersScreen} name='PhoneNumbersScreen' />
       <Stack.Screen
         component={FindFriendsFromContacts}
         name="FindFriendsFromContacts"
@@ -185,9 +200,9 @@ function UnauthenticatedStack() {
       {!viewedOnboarding && (
         <Stack.Screen component={Onboarding} name="Onboarding" />
       )}
-      {/* <Stack.Screen component={Login} name="Login" />
+      <Stack.Screen component={Login} name="Login" />
       <Stack.Screen component={ForgotPassword} name="ForgotPassword" />
-      <Stack.Screen component={EmailConfirmation} name="EmailConfirmation" /> */}
+      <Stack.Screen component={EmailConfirmation} name="EmailConfirmation" />
       <Stack.Screen
         component={PhoneNumberConfirmation}
         name="PhoneNumberConfirmation"
@@ -207,7 +222,7 @@ function UnauthenticatedStack() {
         name="FindFriendsFromContacts"
       />
       <Stack.Screen component={SearchInterests} name="SearchInterests" />
-      {/* <Stack.Screen component={AuthLanding} name="AuthLanding" /> */}
+      <Stack.Screen component={AuthLanding} name="AuthLanding" />
     </Stack.Navigator>
   );
 }
@@ -217,6 +232,8 @@ function Navigation() {
 
   return (
     <NavigationContainer>
+      {/* Test */}
+      {/* <AuthenticatedStack /> */}
       {isAuthenticated ? <AuthenticatedStack /> : <UnauthenticatedStack />}
     </NavigationContainer>
   );

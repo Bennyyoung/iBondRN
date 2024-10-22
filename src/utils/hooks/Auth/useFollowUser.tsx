@@ -1,5 +1,5 @@
 import { showErrorToast, showSuccessToast } from '@/utils/helpers/toastHelper';
-import { useFollowUserMutation } from '@/redux/features/auth/service';
+import { useFollowUserMutation } from '@/reduxFolder/features/auth/service';
 
 const useUpdateUserFollowers = () => {
   const [followUser, { isLoading, isError }] = useFollowUserMutation();

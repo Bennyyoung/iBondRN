@@ -6,7 +6,7 @@ import TitleBar from "../TitleBar/TitleBar";
 import Text from "../Text";
 import Heading from "../Heading/Heading";
 import { RFValue } from "react-native-responsive-fontsize";
-import PaymentAndWithdrawalButton from "../PaymentAndWithdrawalButton/PaymentAndWithdrawalButton";
+import SlimSettingsButton from "../SlimSettingsButton/SlimSettingsButton";
 
 const { height } = Dimensions.get('window')
 
@@ -41,9 +41,9 @@ const PaymentCardsList = ({ cards, onAddCard, onDeleteCard }: PaymentCardsListPr
                     />
                 ))}
 
-                <PaymentAndWithdrawalButton onPress={onAddCard}>
+                <SlimSettingsButton onPress={onAddCard}>
                     Add payment card
-                </PaymentAndWithdrawalButton>
+                </SlimSettingsButton>
             </Box>
         </Box>
     );
