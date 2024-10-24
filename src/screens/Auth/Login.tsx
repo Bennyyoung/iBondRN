@@ -110,7 +110,7 @@ const Login: React.FC = () => {
     const userData = await logInUser({
       email: values.username,
       password: values.password,
-    });    
+    });
 
     // await AsyncStorage.setItem('@newlyregistered', 'true');
     // await AsyncStorage.setItem('@shouldupdateinterests', 'true');

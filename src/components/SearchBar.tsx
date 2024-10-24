@@ -2,7 +2,7 @@
 import React from 'react';
 import { TextInput, View } from 'react-native';
 
-import { SvgIcon, SvgIconProps } from '@/assets/icons';
+import { SvgIcon } from '@/assets/icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 type SearchBarProps = {

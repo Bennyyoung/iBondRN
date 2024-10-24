@@ -40,7 +40,7 @@ const EmailConfirmation: React.FC = () => {
         });
 
         if (response) {
-          navigation.navigate('PhoneNumberConfirmation');
+          navigation.navigate('UsernameSelection');
         }
       } catch (error: any) {
         showErrorToast(error?.message || 'Invalid OTP, please try again.');
