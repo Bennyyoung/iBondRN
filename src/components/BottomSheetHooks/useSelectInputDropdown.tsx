@@ -28,7 +28,7 @@ const useTextInputDropdown = () => {
           dismissBottomSheet={dismissBottomSheet}
         />
       ),
-      _snapPoints: props.list.length < 3 ? ['40%', '40%'] : ['70%', '70%'],
+      _snapPoints: props.list.length < 3 ? ['30%', '30%'] : ['70%', '70%'],
       _title: props.placeholder ? props.placeholder : 'Select Option',
       _showHeader: props?.showHeader,
     });
