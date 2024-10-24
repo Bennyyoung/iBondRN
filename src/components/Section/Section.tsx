@@ -20,14 +20,14 @@ const styles = StyleSheet.create({
         marginBottom: RFValue(24, height),
     },
     heading: {
-        fontSize: RFValue(18, height),
         fontWeight: 'bold',
         color: '#3D3F4B',
         marginBottom: 8,
+        fontSize: RFValue(13, height),
     },
     text: {
-        fontSize: RFValue(16, height),
+        fontSize: RFValue(13, height),
         color: '#3D3F4B',
-        lineHeight: 22,
+        lineHeight: 18,
     },
 })

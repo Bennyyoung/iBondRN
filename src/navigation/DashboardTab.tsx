@@ -7,7 +7,7 @@ import ProfileIcon from "@/assets/svg/profile.svg"
 import { RFValue } from "react-native-responsive-fontsize"
 import CreateEvents from "@/screens/Events/CreateEvents/CreateEvents"
 import BrowseEvents from "@/screens/Events/BrowseEvents/BrowseEvents"
-import Settings from "@/screens/Settings/SettingsScreen"
+import Settings from "@/screens/Settings/Settings"
 
 const Tab = createBottomTabNavigator()
 

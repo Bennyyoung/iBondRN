@@ -4,41 +4,14 @@ import CustomSwitch from '@/components/CustomSwitch/CustomSwitch';
 import Paragraph from '@/components/Paragraph/Paragraph';
 import SmallSizedParagraph from '@/components/SmallSizedParagraph/SmallSizedParagraph';
 import TitleBar from '@/components/TitleBar/TitleBar';
+import { StackParamsList } from '@/navigation/types';
+import { useNavigation } from '@react-navigation/core';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { View, Text, TouchableOpacity, Switch, FlatList, StyleSheet, Dimensions } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 const { height } = Dimensions.get('window')
-
-const privacySettings = [
-    {
-        section: "Visibility",
-        items: [
-            { label: "Account privacy", onPress: () => console.log('Navigate to Account privacy') },
-            { label: "Blocked", onPress: () => console.log('Navigate to Blocked') },
-            { label: "Account suggestion", description: "Allow your account to be suggested to others", toggle: true },
-            { label: "Active status", description: "Show when you are online or last seen", toggle: true },
-        ]
-    },
-    {
-        section: "Activity",
-        items: [
-            { label: "Posts", description: "Control your posts activities", onPress: () => console.log('Navigate to Posts') },
-            { label: "Vibes", description: "Control your vibez activities", onPress: () => console.log('Navigate to Vibes') },
-            { label: "Comments", description: "Manage your comment interactions", onPress: () => console.log('Navigate to Comments') },
-            { label: "Messaging", description: "Manage your chat activities", onPress: () => console.log('Navigate to Messaging') },
-            { label: "Tags and Mentions", description: "Allow others to tag and mention you", toggle: true },
-            { label: "Profile update", description: "Share profile update with your followers", toggle: true },
-        ]
-    },
-    {
-        section: "Ads preferences",
-        items: [
-            { label: "Ads preferences", description: "Manage your ads experience", onPress: () => console.log('Navigate to Ads preferences') },
-            { label: "Location", description: "Allow iBond Elite to access your location", toggle: true },
-        ]
-    }
-];
 
 const PrivacySettingItem = ({ label, description, toggle, onPress }) => (
     <TouchableOpacity onPress={onPress} disabled={!onPress} style={{ paddingVertical: 10 }}>
@@ -47,7 +20,7 @@ const PrivacySettingItem = ({ label, description, toggle, onPress }) => (
                 <Paragraph>{label}</Paragraph>
                 {description && <SmallSizedParagraph>{description}</SmallSizedParagraph>}
             </View>
-           { !toggle && <SvgIcon name="chevron_forward" />}
+            {!toggle && <SvgIcon name="chevron_forward" />}
             {toggle !== undefined && (
                 <CustomSwitch
                     value={toggle}
@@ -59,6 +32,39 @@ const PrivacySettingItem = ({ label, description, toggle, onPress }) => (
 );
 
 const PrivacyAndSafety = () => {
+    const navigation = useNavigation<StackNavigationProp<StackParamsList>>()
+    const privacySettings = [
+        {
+            section: "Visibility",
+            items: [
+                { label: "Account privacy", onPress: () => navigation.navigate('AccountPrivacy') },
+                { label: "Blocked", onPress: () => navigation.navigate('Blocked') },
+                { label: "Account suggestion", description: "Allow your account to be suggested to others", toggle: true },
+                { label: "Active status", description: "Show when you are online or last seen", toggle: true },
+            ]
+        },
+        {
+            section: "Activity",
+            items: [
+                {
+                    label: "Posts", description: "Control your posts activities", onPress:
+                        () => navigation.navigate('Posts')
+                },
+                { label: "Vibes", description: "Control your vibez activities", onPress: () => navigation.navigate('Vibez') },
+                { label: "Comments", description: "Manage your comment interactions", onPress: () => navigation.navigate('Comments') },
+                { label: "Messaging", description: "Manage your chat activities", onPress: () => navigation.navigate('Messaging') },
+                { label: "Tags and Mentions", description: "Allow others to tag and mention you", toggle: true },
+                { label: "Profile update", description: "Share profile update with your followers", toggle: true },
+            ]
+        },
+        {
+            section: "Ads preferences",
+            items: [
+                { label: "Ads preferences", description: "Manage your ads experience", onPress: () => navigation.navigate('AdsPreferences') },
+                { label: "Location", description: "Allow iBond Elite to access your location", toggle: true },
+            ]
+        }
+    ];
     return (
         <Box flex={1} backgroundColor={'white'}>
             <TitleBar>
@@ -69,14 +75,15 @@ const PrivacyAndSafety = () => {
 
                 <FlatList
                     data={privacySettings}
+                    showsVerticalScrollIndicator={false}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
-                        <View>
+                        <Box>
                             {item.section && <SmallSizedParagraph>{item.section}</SmallSizedParagraph>}
                             {item.items.map((setting, idx) => (
                                 <PrivacySettingItem key={idx} {...setting} />
                             ))}
-                        </View>
+                        </Box>
                     )}
                 />
             </Box>

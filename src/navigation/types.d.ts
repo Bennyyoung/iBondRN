@@ -47,7 +47,7 @@ export type AppNavRoutes = {
   Events: undefined;
   EventDetails: undefined;
   // Security Question types
-  SecurityScreen: undefined;
+  Security: undefined;
 
   // AboutUs Screen
   AboutUsScreen: undefined;
@@ -74,35 +74,34 @@ export type AppNavRoutes = {
   EventDetailScreen: undefined;
   BrowseEvents: undefined;
 
-  // AccountSettingsScreen
+  // AccountSettings
   Settings: undefined;
-  AccountSettingsScreen: undefined;
+  AccountSettings: undefined;
 
   ProfileScreen: undefined;
-  EditProfileScreen: undefined;
+  EditProfile: undefined;
 
-  VerificationScreen: undefined;
+  Verification: undefined;
   VerificationSettingScreen: undefined;
-  PrivacyPolicyScreen: undefined;
-  AppearanceSettingsScreen: undefined;
-  TermsOfServiceScreen: undefined;
-  NotificationSettingsScreen: undefined;
-  PostsAndCommentsScreen: undefined;
-  TagsAndMentionsScreen: undefined;
-  NewFollowersScreen: undefined;
-  SharesLikesRepostsScreen: undefined;
-  ProfileViewsScreen: undefined;
-  MessagingScreen: undefined;
-  SuggestedPostsScreen: undefined;
-  PeopleYouMayKnowScreen: undefined;
-  EventsSettingsScreen: undefined;
-  LiveVideoScreen: undefined;
-  MarketPlaceScreen: undefined;
-  LifeEventsScreen: undefined;
-  NewsletterScreen: undefined;
-  PromotionScreen: undefined;
-  AppUpdateScreen: undefined;
-  OtherNotificationsScreen: undefined;
+  PrivacyPolicy: undefined;
+  Appearance: undefined;
+  Notifications: undefined;
+  PostsAndComments: undefined;
+  TagsAndMentions: undefined;
+  NewFollowers: undefined;
+  SharesLikesReposts: undefined;
+  ProfileViews: undefined;
+  MessagingNotification: undefined;
+  SuggestedPosts: undefined;
+  PeopleYouMayKnow: undefined;
+  EventsSettings: undefined;
+  LiveVideo: undefined;
+  MarketPlace: undefined;
+  LifeEvents: undefined;
+  Newsletter: undefined;
+  Promotion: undefined;
+  AppUpdate: undefined;
+  OtherNotifications: undefined;
   PaymentSuccessScreen: undefined;
   DocumentType: undefined;
   SchoolID: undefined;
@@ -114,7 +113,7 @@ export type AppNavRoutes = {
       photograph: string;
     }
   };
-  UploadHoldIDScreen: undefined;
+  UploadHoldID: undefined;
   SelfieScreen: undefined;
   SelfieTaken: {
     selfie: {
@@ -124,31 +123,38 @@ export type AppNavRoutes = {
     requestCameraPermission: () => Promise<void>
   };
   VerificationRequestSubmitted: undefined
-  FeedPreferencesScreen: undefined
-  AutoPlayScreen: undefined
-  PaymentCardsScreen: undefined
-  WithdrawalBankScreen: undefined
-  AccountStatusScreen: undefined
+  FeedPreferences: undefined
+  AutoPlay: undefined
+  PaymentCards: undefined
+  WithdrawalBank: undefined
+  AccountStatus: undefined
   DeactivateDeleteAccountScreen: undefined
   DeactivateAccountScreen: undefined
   DeleteAccountScreen: undefined
-  SecurityScreen: undefined
-  EmailAddressesScreen: undefined
-  PhoneNumbersScreen: undefined
-  ChangePasswordScreen: undefined
+  Security: undefined
+  EmailAddresses: undefined
+  PhoneNumbers: undefined
+  ChangePassword: undefined
   ForgotPasswordScreen: undefined
   ConfirmAccountScreen: undefined
   NewPasswordScreen: undefined
-  ConnectedDevicesScreen: undefined
-  TwoStepAuthenticationScreen: undefined
-  TwoStepAuthenticationOTPScreen: undefined
-  SelectAuthenticationMethodScreen: undefined
-  SelectAuthenticationMethodOTPScreen: undefined
+  ConnectedDevices: undefined
+  TwoStepAuthentication: undefined
+  TwoStepAuthenticationOTP: undefined
+  SelectAuthenticationMethod: undefined
+  SelectAuthenticationMethodOTP: undefined
   TwoStepAuthenticationSetupComplete: undefined
   AuthenticationApp: undefined
   AuthenticationCode: undefined
   PrivacyAndSafety: undefined
   AccountPrivacy: undefined
+  Blocked: undefined
+  Posts: undefined
+  Vibez: undefined
+  Comments: undefined
+  Messaging: undefined
+  AdsPreferences: undefined
+  ChangePasswordSecurity: undefined
 
 };
 

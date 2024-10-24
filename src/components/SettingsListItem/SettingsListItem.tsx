@@ -2,6 +2,9 @@ import { SvgIcon } from "@/assets/icons";
 import { TouchableOpacity, Text, View, StyleSheet, Dimensions, Switch } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import CustomSwitch from "../CustomSwitch/CustomSwitch";
+import Paragraph from "../Paragraph/Paragraph";
+import Box from "../Box";
+import SmallSizedParagraph from "../SmallSizedParagraph/SmallSizedParagraph";
 
 const { height } = Dimensions.get('window')
 
@@ -31,11 +34,11 @@ const SettingsListItem: React.FC<SettingsListItemProps> = ({
             onPress={onPress}
             disabled={!!switchProps} // Disable touch if there's a switch
         >
-            <View style={styles.textContainer}>
-                <Text style={styles.label}>{label}</Text>
-                {sublabel && <Text style={styles.sublabel}>{sublabel}</Text>}
-            </View>
-            <View style={styles.rightContainer}>
+            <Box style={styles.textContainer}>
+                <Paragraph marginTop={0}>{label}</Paragraph>
+                {sublabel && <SmallSizedParagraph marginTop={0}>{sublabel}</SmallSizedParagraph>}
+            </Box>
+            <Box style={styles.rightContainer}>
                 {options && <Text style={styles.options}>{options.join(', ')}</Text>}
                 {showChevron && !switchProps && <SvgIcon name="chevron_forward" />}
                 {switchProps && (
@@ -45,7 +48,7 @@ const SettingsListItem: React.FC<SettingsListItemProps> = ({
                     />
 
                 )}
-            </View>
+            </Box>
         </TouchableOpacity>
     );
 };
@@ -58,8 +61,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: 26,
-        borderBottomWidth: 0.2,
+        paddingVertical: 14,
+        borderBottomWidth: 0.3,
         borderBottomColor: '#c6c6c8',
         backgroundColor: 'white',
         // marginTop: 20

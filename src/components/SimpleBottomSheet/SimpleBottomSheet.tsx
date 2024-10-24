@@ -74,7 +74,7 @@ const SimpleBottomSheet: React.FC<SimpleBottomSheetProps> = ({
         {...panResponder.panHandlers}
       >
         <Box flexDirection={'row'} justifyContent={"space-between"}>
-          <SvgIcon onPress={onClose} name="closeCircle" size="sml" />
+          {title.length > 0 && <SvgIcon onPress={onClose} name="closeCircle" size="sml" />}
           <Text style={styles.title}>{title}</Text>
           <Box />
         </Box>
