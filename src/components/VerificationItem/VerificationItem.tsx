@@ -7,12 +7,13 @@ import React from "react";
 const { height } = Dimensions.get('window')
 
 interface VerificationItemProps {
-    icon: React.ReactNode; // React element for rendering SVG
+    icon?: React.ReactNode; // React element for rendering SVG
     title?: string;
     description: string;
+    marginTop?: number
 }
 
-const VerificationItem: React.FC<VerificationItemProps> = ({ icon, title, description }) => {
+const VerificationItem: React.FC<VerificationItemProps> = ({ icon, title, description, marginTop = 10 }) => {
     return (
         <Box style={styles.item}>
             {icon}
@@ -25,7 +26,7 @@ const VerificationItem: React.FC<VerificationItemProps> = ({ icon, title, descri
                         </>
                     ) : (
                         <>
-                            <Text style={[styles.itemDescription, { marginTop: 10 }]}>{description}</Text>
+                            <Text style={[styles.itemDescription, { marginTop: marginTop }]}>{description}</Text>
                         </>
                     )
                 }

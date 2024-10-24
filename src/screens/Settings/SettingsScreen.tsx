@@ -33,7 +33,7 @@ const settingsOptions: Array<{
     id: 3,
     title: 'Privacy and safety',
     svgName: 'security',
-    link: 'PrivacyAndSafetySettingsScreen',
+    link: 'PrivacyAndSafety',
   },
   {
     id: 4,

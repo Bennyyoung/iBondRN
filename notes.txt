@@ -7,9 +7,43 @@ In AndroidManifest.xml remember to uncomment line 39-41 when I finally get the R
 
 Study more about FindFriendsFromContacts
 
+import Box from '@/components/Box'
+import Text from '@/components/Text'
+import TitleBar from '@/components/TitleBar/TitleBar'
+import React from 'react'
+import { Dimensions, StyleSheet } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
+
+const { height } = Dimensions.get('window')
+
+const TwoStepAuthenticationSetupComplete = () => {
+    return (
+        <Box flex={1} backgroundColor={'whiteColor'}>
+            <TitleBar>
+                <Text style={styles.title}>Connected Devices</Text>
+                <Box />
+            </TitleBar>
+            <Box style={{ paddingHorizontal: 20, marginTop: 40 }}>
+
+            </Box>
+        </Box>
+    )
+}
+
+export default TwoStepAuthenticationSetupComplete
+
+const styles = StyleSheet.create({
+    title: {
+        fontSize: RFValue(17, height),
+        fontWeight: '600',
+    },
+})
+
 import { useAppSelector } from '@/reduxFolder/index';
 
   const userData = useAppSelector(state => state.user.userData)
+
+  const censoredEmail = `${userData?.email.slice(0, 2)} **** ${userData?.email.slice(-5)}`
 
 
  LOG  userData {

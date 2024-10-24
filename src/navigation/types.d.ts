@@ -135,6 +135,20 @@ export type AppNavRoutes = {
   SecurityScreen: undefined
   EmailAddressesScreen: undefined
   PhoneNumbersScreen: undefined
+  ChangePasswordScreen: undefined
+  ForgotPasswordScreen: undefined
+  ConfirmAccountScreen: undefined
+  NewPasswordScreen: undefined
+  ConnectedDevicesScreen: undefined
+  TwoStepAuthenticationScreen: undefined
+  TwoStepAuthenticationOTPScreen: undefined
+  SelectAuthenticationMethodScreen: undefined
+  SelectAuthenticationMethodOTPScreen: undefined
+  TwoStepAuthenticationSetupComplete: undefined
+  AuthenticationApp: undefined
+  AuthenticationCode: undefined
+  PrivacyAndSafety: undefined
+  AccountPrivacy: undefined
 
 };
 

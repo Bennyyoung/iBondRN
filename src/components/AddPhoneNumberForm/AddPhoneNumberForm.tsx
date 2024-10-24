@@ -85,5 +85,5 @@ const styles = StyleSheet.create({
     confirmationText: {
         fontWeight: '400',
         fontSize: RFValue(13, height)
-    }
+    },
 })

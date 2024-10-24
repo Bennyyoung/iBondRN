@@ -85,8 +85,10 @@ import infoCircle from "@/assets/svg/infoCircle.svg"
 import dangerRed from "@/assets/svg/dangerRed.svg"
 import dangerOrange from "@/assets/svg/dangerOrange.svg"
 import tickCircle from "@/assets/svg/tickCircle.svg"
+import contentCopy from "@/assets/svg/contentCopy.svg"
 
 const svgIconPack = {
+  contentCopy,
   tickCircle,
   dangerOrange,
   dangerRed,

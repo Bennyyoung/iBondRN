@@ -81,6 +81,20 @@ import DeleteAccountScreen from '@/screens/Settings/AccountSettings/DeactivateDe
 import SecurityScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/SecurityScreen';
 import EmailAddressesScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/EmailAddressesScreen/EmailAddressesScreen';
 import PhoneNumbersScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/PhoneNumbersScreen/PhoneNumbersScreen';
+import ChangePasswordScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/ChangePasswordScreen/ChangePasswordScreen';
+import ForgotPasswordScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/ForgotPasswordScreen/ForgotPasswordScreen';
+import ConfirmAccountScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/ConfirmAccountScreen/ConfirmAccountScreen';
+import NewPasswordScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/NewPasswordScreen/NewPasswordScreen';
+import ConnectedDevicesScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/ConnectedDevicesScreen/ConnectedDevicesScreen';
+import TwoStepAuthenticationScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/TwoStepAuthenticationScreen/TwoStepAuthenticationScreen';
+import TwoStepAuthenticationOTPScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/TwoStepAuthenticationScreen/TwoStepAuthenticationOTPScreen/TwoStepAuthenticationOTPScreen';
+import SelectAuthenticationMethodScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/TwoStepAuthenticationScreen/SelectAuthenticationMethodScreen/SelectAuthenticationMethodScreen';
+import SelectAuthenticationMethodOTPScreen from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/TwoStepAuthenticationScreen/SelectAuthenticationMethodScreen/SelectAuthenticationMethodOTPScreen/SelectAuthenticationMethodOTPScreen';
+import TwoStepAuthenticationSetupComplete from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/TwoStepAuthenticationScreen/TwoStepAuthenticationSetupComplete/TwoStepAuthenticationSetupComplete';
+import AuthenticationApp from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/TwoStepAuthenticationScreen/AuthenticationApp/AuthenticationApp';
+import AuthenticationCode from '@/screens/Settings/PrivacyAndSafetySettingsScreen/SecurityScreen/TwoStepAuthenticationScreen/AuthenticationCode/AuthenticationCode';
+import PrivacyAndSafety from '@/screens/Settings/PrivacyAndSafetySettingsScreen/PrivacyAndSafety/PrivacyAndSafety';
+import AccountPrivacy from '@/screens/Settings/PrivacyAndSafetySettingsScreen/PrivacyAndSafety/AccountPrivacy';
 // import SettingsScreen from '@/screens/Settings/SettingsScreen';
 
 export type AppNavScreenProps<Screen extends keyof AppNavRoutes> =
@@ -95,8 +109,8 @@ function AuthenticatedStack() {
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerShown: false,
       }}>
-      {/* <Stack.Screen component={DashboardTab} name="DashboardTab" /> */}
-      <Stack.Screen component={BottomTab} name='BottomTab' />
+      <Stack.Screen component={DashboardTab} name="DashboardTab" />
+      {/* <Stack.Screen component={BottomTab} name='BottomTab' /> */}
       <Stack.Screen component={BrowseEvents} name='BrowseEvents' />
       <Stack.Screen component={CreateEvents} name='CreateEvents' />
       <Stack.Screen component={EventDetailScreen} name='EventDetailScreen' />
@@ -145,6 +159,21 @@ function AuthenticatedStack() {
       <Stack.Screen component={SecurityScreen} name='SecurityScreen' />
       <Stack.Screen component={EmailAddressesScreen} name='EmailAddressesScreen' />
       <Stack.Screen component={PhoneNumbersScreen} name='PhoneNumbersScreen' />
+      <Stack.Screen component={ChangePasswordScreen} name='ChangePasswordScreen' />
+      <Stack.Screen component={ForgotPasswordScreen} name='ForgotPasswordScreen' />
+      <Stack.Screen component={ConfirmAccountScreen} name='ConfirmAccountScreen' />
+      <Stack.Screen component={NewPasswordScreen} name='NewPasswordScreen' />
+      <Stack.Screen component={ConnectedDevicesScreen} name='ConnectedDevicesScreen' />
+      <Stack.Screen component={TwoStepAuthenticationScreen} name='TwoStepAuthenticationScreen' />
+      <Stack.Screen component={TwoStepAuthenticationOTPScreen} name='TwoStepAuthenticationOTPScreen' />
+      <Stack.Screen component={SelectAuthenticationMethodScreen} name='SelectAuthenticationMethodScreen' />
+      <Stack.Screen component={SelectAuthenticationMethodOTPScreen} name='SelectAuthenticationMethodOTPScreen' />
+      <Stack.Screen component={TwoStepAuthenticationSetupComplete} name='TwoStepAuthenticationSetupComplete' />
+      <Stack.Screen component={AuthenticationApp} name='AuthenticationApp' />
+      <Stack.Screen component={AuthenticationCode} name='AuthenticationCode' />
+      <Stack.Screen component={PrivacyAndSafety} name='PrivacyAndSafety' />
+      <Stack.Screen component={AccountPrivacy} name='AccountPrivacy' />
+      
       <Stack.Screen
         component={FindFriendsFromContacts}
         name="FindFriendsFromContacts"
@@ -232,8 +261,6 @@ function Navigation() {
 
   return (
     <NavigationContainer>
-      {/* Test */}
-      {/* <AuthenticatedStack /> */}
       {isAuthenticated ? <AuthenticatedStack /> : <UnauthenticatedStack />}
     </NavigationContainer>
   );
