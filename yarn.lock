@@ -3158,7 +3158,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-firebase/app@npm:^21.2.0":
+"@react-native-firebase/app@npm:^21.0.0":
   version: 21.2.0
   resolution: "@react-native-firebase/app@npm:21.2.0"
   dependencies:
@@ -3175,7 +3175,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-firebase/auth@npm:^21.2.0":
+"@react-native-firebase/auth@npm:^21.0.0":
   version: 21.2.0
   resolution: "@react-native-firebase/auth@npm:21.2.0"
   dependencies:
@@ -4286,8 +4286,8 @@ __metadata:
     "@react-native-community/blur": ^4.4.1
     "@react-native-community/datetimepicker": ^8.2.0
     "@react-native-community/netinfo": ^11.3.2
-    "@react-native-firebase/app": ^21.2.0
-    "@react-native-firebase/auth": ^21.2.0
+    "@react-native-firebase/app": ^21.0.0
+    "@react-native-firebase/auth": ^21.0.0
     "@react-native-google-signin/google-signin": ^13.1.0
     "@react-native-picker/picker": ^2.8.1
     "@react-native/babel-preset": 0.74.85
@@ -4334,7 +4334,7 @@ __metadata:
     react-native-date-picker: ^5.0.7
     react-native-dotenv: ^3.4.11
     react-native-flash-message: ^0.4.2
-    react-native-gesture-handler: 2.3.0
+    react-native-gesture-handler: 2.9.0
     react-native-image-picker: 7.1.2
     react-native-keyboard-aware-scroll-view: ^0.9.5
     react-native-maps: ^1.18.0
@@ -7248,11 +7248,11 @@ __metadata:
   linkType: hard
 
 "i18next@npm:^23.14.0":
-  version: 23.16.2
-  resolution: "i18next@npm:23.16.2"
+  version: 23.16.3
+  resolution: "i18next@npm:23.16.3"
   dependencies:
     "@babel/runtime": ^7.23.2
-  checksum: 335e71737e0ff933941ab5a65ee324cfc650aecfe2516153fd2d3a4b08d77f2c79904e634ace339e4a47e50f649b4b486dac24e5dbc0ba303eba05b39b1bb8d6
+  checksum: 078c1fca8369a6f24370db8048f866ac78a1bff7e59372cbf877691f176707c6788fd9958afc3ba3e9e3969cfe6a137111b799e3ebf0b7a440b10bf311709c72
   languageName: node
   linkType: hard
 
@@ -10380,9 +10380,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:2.3.0":
-  version: 2.3.0
-  resolution: "react-native-gesture-handler@npm:2.3.0"
+"react-native-gesture-handler@npm:2.9.0":
+  version: 2.9.0
+  resolution: "react-native-gesture-handler@npm:2.9.0"
   dependencies:
     "@egjs/hammerjs": ^2.0.17
     hoist-non-react-statics: ^3.3.0
@@ -10392,7 +10392,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: cf9bda6c9865518932671049a71644f04d8ada812efeeada6588bb336889c17f3a4eb0e52a6407ddb88615c00fa14589d1cb96852f77fd8e88dbccb7349d9c9b
+  checksum: 6bfdd9d23486193424dcfb0073dd821a216c2783dde746d73a3441e920602343f09efa10261c6f09fcbcb645d029a95305c86f61997053c01ad89751c8c6d236
   languageName: node
   linkType: hard
 
